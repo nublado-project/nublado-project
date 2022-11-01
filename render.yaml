@@ -17,17 +17,11 @@ services:
       fromDatabase:
         name: nubladoproject
         property: connectionString
-    - key: DJANGO_SECRET_KEY
-      fromGroup: nubladoproject
-    - key: DJANGO_SETTINGS_MODULE
-      fromGroup: nubladoproject
-    - key: NUBLADO_BOT_TOKEN
-      fromGroup: nubladoproject
-    - key: NUBLADO_GROUP_ID
-      fromGroup: nubladoproject
-    - key: NUBLADO_GROUP_OWNER_ID
-      fromGroup: nubladoproject
-    - key: NUBLADO_REPO_ID
-      fromGroup: nubladoproject
-    - key: PORT
-      fromGroup: nubladoproject
+    # - key: DJANGO_SECRET_KEY
+    # - key: DJANGO_SETTINGS_MODULE
+    # - key: NUBLADO_BOT_TOKEN
+    # - key: NUBLADO_GROUP_ID
+    # - key: NUBLADO_GROUP_OWNER_ID
+    # - key: NUBLADO_REPO_ID
+    # - key: PORT
+    - fromGroup: nubladoproject
