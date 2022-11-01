@@ -43,6 +43,7 @@ DJANGO_APPS = [
 ]
 LOCAL_APPS = [
     'core.apps.CoreConfig',
+    'users.apps.UserConfig',
     'django_telegram.apps.DjangoTelegramConfig',
     'group_points.apps.GroupPointsConfig',
     'language_days.apps.LanguageDaysConfig',
@@ -50,8 +51,12 @@ LOCAL_APPS = [
     'nublado_bot.apps.NubladoBotConfig',
     'project_app.apps.ProjectAppConfig'
 ]
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'import_export',
+]
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
