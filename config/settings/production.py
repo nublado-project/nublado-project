@@ -1,12 +1,13 @@
 import dj_database_url
-import django_heroku
 
 from .base import *
 
 PROJECT_DOMAIN = "https://nubladoproject.herokuapp.com"
 
-DEBUG = True
-MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
+DEBUG = False
+MIDDLEWARE +=  [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
 
 ALLOWED_HOSTS = ['*']
 
@@ -30,5 +31,3 @@ EMAIL_USE_TLS = True
 # Bot
 DJANGO_TELEGRAM['mode'] = BOT_MODE_WEBHOOK
 
-# Heroku settings
-django_heroku.settings(locals())
