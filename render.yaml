@@ -2,7 +2,6 @@ services:
 - type: web
   name: nublado-project
   env: python
-  plan: starter
   buildCommand: ./build.sh
   startCommand: gunicorn config.wsgi:application
   autoDeploy: false
