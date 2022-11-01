@@ -10,7 +10,7 @@ services:
   env: python
   buildCommand: "./build.sh"
   startCommand: "gunicorn config.wsgi:application"
-  autoDeploy: false
+  autoDeploy: true
   envVars:
     - key: WEB_CONCURRENCY
       value: 4
