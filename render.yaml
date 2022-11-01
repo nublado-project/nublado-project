@@ -6,6 +6,7 @@ databases:
 services:
 - type: web
   name: nubladoproject
+  plan: free
   env: python
   buildCommand: "./build.sh"
   startCommand: "gunicorn config.wsgi:application"
