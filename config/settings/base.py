@@ -205,17 +205,17 @@ NUBLADO_REPO_ID = int(get_env_variable('NUBLADO_REPO_ID'))
 NUBLADO_GROUP_OWNER_ID = int(get_env_variable('NUBLADO_GROUP_OWNER_ID'))
 NUBLADO_SUDO_LIST = [NUBLADO_GROUP_OWNER_ID, ]
 
-# DJANGO_TELEGRAM = {
-#     'mode': BOT_MODE_WEBHOOK,
-#     'webhook_port': int(os.environ.get('PORT', 5000)),
-#     'webhook_site' : "https://nubladoproject.onrender.com",
-# 	'webhook_path' : "bot/webhook",
-#     'bots': {
-#         NUBLADO_BOT: {
-#             'token': NUBLADO_BOT_TOKEN,
-#             'group_id': NUBLADO_GROUP_ID,
-#             'repo_id': NUBLADO_REPO_ID,
-#             'sudo_list': NUBLADO_SUDO_LIST
-#         }
-#     }
-# }
+DJANGO_TELEGRAM = {
+    'mode': BOT_MODE_WEBHOOK,
+    'webhook_port': int(os.environ.get('PORT', 5000)),
+    'webhook_site' : "https://nubladoproject.onrender.com",
+	'webhook_path' : "bot/webhook",
+    'bots': {
+        NUBLADO_BOT: {
+            'token': NUBLADO_BOT_TOKEN,
+            'group_id': NUBLADO_GROUP_ID,
+            'repo_id': NUBLADO_REPO_ID,
+            'sudo_list': NUBLADO_SUDO_LIST
+        }
+    }
+}
