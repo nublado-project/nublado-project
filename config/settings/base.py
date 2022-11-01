@@ -207,7 +207,7 @@ NUBLADO_SUDO_LIST = [NUBLADO_GROUP_OWNER_ID, ]
 DJANGO_TELEGRAM = {
     'mode': BOT_MODE_WEBHOOK,
     'webhook_port': int(os.environ.get('PORT', 5000)),
-    'webhook_site' : "https://nubladoproject.herokuapp.com",
+    'webhook_site' : "https://nubladoproject.onrender.com",
 	'webhook_path' : "bot/webhook",
     'bots': {
         NUBLADO_BOT: {
