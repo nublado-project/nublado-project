@@ -1,9 +1,14 @@
+databases:
+- name: nubladoproject
+  databaseName: nubladoproject
+  user: nubladoproject
+
 services:
 - type: web
-  name: nublado-project
+  name: nubladoproject
   env: python
-  buildCommand: ./build.sh
-  startCommand: gunicorn config.wsgi:application
+  buildCommand: "./build.sh"
+  startCommand: "gunicorn config.wsgi:application"
   autoDeploy: false
   envVars:
     - key: WEB_CONCURRENCY
@@ -26,8 +31,3 @@ services:
       fromGroup: nubladoproject
     - key: PORT
       fromGroup: nubladoproject
-
-databases:
-- name: nubladoproject
-  databaseName: nubladoproject
-  user: nubladoproject
