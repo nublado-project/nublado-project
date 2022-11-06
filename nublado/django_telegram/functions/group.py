@@ -6,7 +6,7 @@ from telegram import Update, Bot
 from telegram.utils.helpers import escape_markdown
 from telegram.constants import (
     CHATMEMBER_CREATOR, CHATMEMBER_ADMINISTRATOR, CHATMEMBER_MEMBER,
-    CHAT_PRIVATE, CHAT_GROUP, CHAT_SUPERGROUP
+    CHAT_GROUP, CHAT_SUPERGROUP
 )
 from telegram.ext import CallbackContext
 
@@ -16,6 +16,7 @@ from ..models import GroupMember
 
 logger = logging.getLogger('django')
 
+# Member status is in ascending order.
 GROUP_MEMBERS = {
     CHATMEMBER_MEMBER: 1,
     CHATMEMBER_ADMINISTRATOR: 2,

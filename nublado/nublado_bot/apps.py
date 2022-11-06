@@ -25,7 +25,8 @@ class NubladoBotConfig(AppConfig):
             get_non_members,
             member_join_handler,
             member_exit_handler,
-            welcome_button_handler
+            welcome_button_handler,
+            set_language
         )
         from .bot_commands.misc import (
             start, echo, reverse_text, hello, roll,
@@ -46,6 +47,7 @@ class NubladoBotConfig(AppConfig):
         # group_admin
         bot.add_command_handler('update_group_admins', update_group_admins)
         bot.add_command_handler('get_non_members', get_non_members)
+        bot.add_command_handler('set_language', set_language)
         bot.add_handler(member_join_handler, handler_group=2)
         bot.add_handler(member_exit_handler, handler_group=2)
         bot.add_handler(welcome_button_handler, handler_group=2)

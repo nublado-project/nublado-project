@@ -4,17 +4,8 @@ from django.utils.translation import activate, gettext as _
 
 from language_days.models import LanguageDay
 
+
 # Make decorator for language day translations.
-
-def set_language_day_locale():
-    """Activate the locale that corresponds to the current language day."""
-    language_day = get_language_day()
-    if language_day in settings.LANGUAGES_DICT.keys():
-        activate(language_day)
-    else:
-        activate(settings.LANGUAGE_CODE)
-
-
 def get_language_day() -> str:
     """Get the language day key based on an integer weekday value (Monday = 0)."""
     weekday = timezone.now().weekday()
@@ -29,6 +20,15 @@ def get_language_day() -> str:
         raise ValueError("Weekday must be between 0 and 6, inclusive.")
 
     return language_day
+
+
+def set_language_day_locale():
+    """Activate the locale that corresponds to the current language day."""
+    language_day = get_language_day()
+    if language_day in settings.LANGUAGES_DICT.keys():
+        activate(language_day)
+    else:
+        activate(settings.LANGUAGE_CODE)
 
 
 def get_language_day_schedule() -> str:

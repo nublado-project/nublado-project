@@ -2,9 +2,20 @@ import logging
 
 from telegram import Bot
 
+from django.conf import settings
+from django.utils.translation import activate, gettext as _
+
 from ..models import GroupMember
 
 logger = logging.getLogger('django')
+
+
+def set_bot_language(lang: str):
+    if lang in settings.LANGUAGES_DICT.keys():
+        activate('es')
+        return True
+    else:
+        return False
 
 
 def update_group_members_from_admins(bot: Bot, group_id: int):

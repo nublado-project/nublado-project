@@ -1,6 +1,6 @@
 import logging
 
-from telegram import Bot, Message
+from telegram import Message
 
 from ..models import GroupMember
 
@@ -11,7 +11,7 @@ def parse_command_last_arg_text(
     message: Message,
     maxsplit: int = 1
 ):
-    """Returns the text for commands that receive text as its last arg"""
+    """Returns the text for a command that receive text as its last arg"""
     # Message text is the command and given arguments (e.g., /command arg some text)
     message_text = message.text
     if maxsplit >= 1:

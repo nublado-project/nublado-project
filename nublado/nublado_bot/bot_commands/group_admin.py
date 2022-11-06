@@ -24,7 +24,8 @@ from django_telegram.functions.group import (
 )
 from django_telegram.functions.admin import (
     update_group_members_from_admins,
-    get_non_group_members
+    get_non_group_members,
+    set_bot_language
 )
 from django_telegram.models import GroupMember
 from language_days.functions import set_language_day_locale
@@ -51,6 +52,27 @@ msg_welcome_agreed = _(
     "This helps us filter out fake accounts, trolls, etc.\n\n" \
     "We look forward to hearing from you."
 )
+
+
+@send_typing_action
+@restricted_group_member(
+    group_id=GROUP_ID,
+    member_status=CHATMEMBER_CREATOR,
+    group_chat=True,
+    private_chat=False
+)
+def set_language(update: Update, context: CallbackContext) -> None:
+    if len(context.args) >= 1:
+        lang = str(context.args[0])
+        if set_bot_language(lang):
+            message = _("Bot language has been set.")
+        else:
+            message = _("Error setting bot language.")
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=message
+    )
 
 
 @send_typing_action
