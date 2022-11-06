@@ -1,4 +1,4 @@
 -r base.txt
 dj-database-url
-django-postgrespool
+django-postgrespool2
 whitenoise[brotli]
