@@ -11,21 +11,19 @@ from telegram.ext import (
 )
 from telegram.constants import CHATMEMBER_CREATOR
 
+from django.utils.translation import activate, gettext as _
 from django.conf import settings
-from django.utils.translation import gettext as _
 
-from django_telegram.models import GroupMember
+from django_telegram.models import GroupMember, BotConfig
 from django_telegram.functions.chat_actions import (
     send_typing_action
 )
-from django_telegram.functions.user import get_username_or_name
 from django_telegram.functions.group import (
     restricted_group_member
 )
 from django_telegram.functions.admin import (
     update_group_members_from_admins,
     get_non_group_members,
-    set_bot_language
 )
 from django_telegram.models import GroupMember
 from language_days.functions import set_language_day_locale
@@ -61,10 +59,17 @@ msg_welcome_agreed = _(
     group_chat=True,
     private_chat=False
 )
-def set_language(update: Update, context: CallbackContext) -> None:
+def set_bot_language(update: Update, context: CallbackContext) -> None:
     if len(context.args) >= 1:
         lang = str(context.args[0])
-        if set_bot_language(lang):
+        if lang in settings.LANGUAGES_DICT.keys():
+            bot_config, bot_config_created = BotConfig.objects.get_or_create(
+                id=settings.NUBLADO_BOT_TOKEN
+            )
+            if bot_config.language != lang:
+                bot_config.language = lang
+                bot_config.save()
+            activate(lang)
             message = _("Bot language has been set.")
         else:
             message = _("Error setting bot language.")

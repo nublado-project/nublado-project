@@ -5,17 +5,14 @@ from telegram.ext import (
     CallbackContext, MessageHandler, Filters
 )
 
+from django.utils.translation import get_language, gettext as _
 from django.conf import settings
-from django.utils.translation import gettext as _
 
 from django_telegram.functions.user import get_username_or_name
 from django_telegram.functions.group import (
     get_chat_member
 )
 from django_telegram.models import GroupMember
-from language_days.functions import (
-    set_language_day_locale,
-)
 from .models import GroupMemberPoints
 
 logger = logging.getLogger('django')
@@ -100,7 +97,6 @@ def add_points(update: Update, context: CallbackContext, group_id: int = None) -
     if group_id:
         # Check if the message is a reply to another message.
         if update.message.reply_to_message:
-            set_language_day_locale()
             sender = update.effective_user
             sender_name = get_username_or_name(sender)
             receiver = update.message.reply_to_message.from_user
@@ -147,7 +143,6 @@ def add_points(update: Update, context: CallbackContext, group_id: int = None) -
 def remove_points(update: Update, context: CallbackContext, group_id: int = None) -> None:
     if group_id:
         if update.message.reply_to_message:
-            set_language_day_locale()
             sender = update.effective_user
             sender_name = get_username_or_name(sender)
             receiver = update.message.reply_to_message.from_user

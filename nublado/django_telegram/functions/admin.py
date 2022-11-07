@@ -5,17 +5,20 @@ from telegram import Bot
 from django.conf import settings
 from django.utils.translation import activate, gettext as _
 
-from ..models import GroupMember
+from ..models import GroupMember, BotConfig
 
 logger = logging.getLogger('django')
 
 
-def set_bot_language(lang: str):
-    if lang in settings.LANGUAGES_DICT.keys():
-        activate('es')
-        return True
-    else:
-        return False
+def set_language(token):
+    try:
+        bot_config = BotConfig.objects.get(id=token)
+        if bot_config.language in settings.LANGUAGES_DICT.keys():
+            activate(bot_config.language)
+        else:
+            activate(settings.LANGUAGE_CODE)
+    except BotConfig.DoesNotExist:
+        activate(settings.LANGUAGE_CODE)
 
 
 def update_group_members_from_admins(bot: Bot, group_id: int):
@@ -36,7 +39,6 @@ def update_group_members_from_admins(bot: Bot, group_id: int):
 
 def get_non_group_members(bot: Bot, group_id: int):
     """Returns "stragglers" that aren't currently part of a a group."""
-    logger.info("SHIT")
     group_members = GroupMember.objects.filter(group_id=group_id).all()
     non_members = []
     if group_members:

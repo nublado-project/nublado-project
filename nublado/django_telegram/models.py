@@ -1,11 +1,33 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 from core.models import TimestampModel, UUIDModel
 from .managers import (
+    BotConfigManager,
     GroupMemberManager,
     TmpMessageManager
 )
+
+
+class BotConfig(TimestampModel):
+    LANGUAGE_CHOICES = settings.LANGUAGES
+
+    id = models.TextField(
+        primary_key=True,
+        editable=False
+    )
+
+    language = models.CharField(
+        max_length=2,
+        choices=LANGUAGE_CHOICES,
+        default=settings.EN,
+    )
+
+    objects = BotConfigManager()
+
+    class Meta:
+        verbose_name = _("Bot configuration")
 
 
 class GroupMember(TimestampModel, UUIDModel):

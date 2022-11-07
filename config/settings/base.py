@@ -107,10 +107,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization and localization
-LANGUAGE_CODE = 'en'
+EN = 'en'
+ES = 'es'
+FREE = 'free'
+LANGUAGE_CODE = EN
 LANGUAGES = [
-    ('en', _("English")),
-    ('es', _("Spanish")),
+    (EN, _("English")),
+    (ES, _("Spanish")),
 ]
 LANGUAGES_DICT = dict(LANGUAGES)
 
@@ -172,9 +175,6 @@ LOGGING = {
 }
 
 # Language day schedule
-EN = 'en'
-ES = 'es'
-FREE = 'free'
 MON, TUE, WED, THU, FRI, SAT, SUN = range(7)
 LANGUAGE_DAYS = {
     EN: _("English"),

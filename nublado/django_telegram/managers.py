@@ -6,6 +6,10 @@ from django.utils.translation import gettext_lazy as _
 logger = logging.getLogger('django')
 
 
+class BotConfigManager(models.Manager):
+    pass
+
+
 class GroupMemberManager(models.Manager):
     def create_group_member(self, group_id=None, user_id=None, **kwargs):
         if not group_id:
