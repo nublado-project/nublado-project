@@ -30,7 +30,7 @@ class NubladoBotConfig(AppConfig):
         )
         from .bot_commands.misc import (
             start, echo, reverse_text, hello, roll,
-            roll_sum
+            roll_sum, get_time
         )
         from .bot_commands.language_days import (
             schedule, language_day, initiate_language_day_c,
@@ -58,6 +58,7 @@ class NubladoBotConfig(AppConfig):
         bot.add_command_handler('hello', hello)
         bot.add_command_handler('roll', roll)
         bot.add_command_handler('roll_sum', roll_sum)
+        bot.add_command_handler('get_time', get_time)
         # language_days
         bot.add_command_handler('schedule', schedule)
         bot.add_command_handler('language_day', language_day)

@@ -6,6 +6,7 @@ from telegram.ext import CallbackContext
 from telegram.constants import CHATMEMBER_CREATOR
 
 from django.conf import settings
+from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from django_telegram.functions.chat_actions import send_typing_action
@@ -70,6 +71,22 @@ def echo(update: Update, context: CallbackContext) -> None:
             chat_id=GROUP_ID,
             text=message
         )
+
+
+@restricted_group_member(group_id=GROUP_ID)
+@send_typing_action
+def get_time(update: Update, context: CallbackContext) -> None:
+    """Display the current time."""
+    weekday = timezone.now().weekday()
+    message = _("It's {weekday}, {time} {timezone}.").format(
+        weekday=_(settings.WEEKDAYS[weekday]),
+        time=timezone.now().strftime('%H:%M'),
+        timezone=settings.TIME_ZONE
+    )
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=message
+    )
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
