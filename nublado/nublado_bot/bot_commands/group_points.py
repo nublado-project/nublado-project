@@ -23,10 +23,10 @@ from group_points.bot_commands import (
 logger = logging.getLogger('django')
 
 BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
-ADD_POINTS_CHAR = '+'
-ADD_POINTS_REGEX = '^[' + ADD_POINTS_CHAR + '][\s\S]*$'
-REMOVE_POINTS_CHAR = '-'
-REMOVE_POINTS_REGEX = '^[' + REMOVE_POINTS_CHAR + '][\s\S]*$'
+ADD_POINTS_TRIGGER = '\+'
+ADD_POINTS_REGEX = '^' + ADD_POINTS_TRIGGER + '{2}[\s\S]*$'
+REMOVE_POINTS_TRIGGER = '\-'
+REMOVE_POINTS_REGEX = '^' + REMOVE_POINTS_TRIGGER + '{2}[\s\S]*$'
 GROUP_ID = settings.NUBLADO_GROUP_ID
 
 # Command handlers 
