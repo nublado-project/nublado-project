@@ -6,7 +6,6 @@ from core.models import TimestampModel, UUIDModel
 from .managers import (
     BotConfigManager,
     GroupMemberManager,
-    TmpMessageManager
 )
 
 
@@ -33,12 +32,16 @@ class BotConfig(TimestampModel):
 class GroupMember(TimestampModel, UUIDModel):
     user_id = models.PositiveBigIntegerField()
     group_id = models.BigIntegerField()
+    points = models.PositiveBigIntegerField(
+        default=0
+    )
+    point_increment = models.PositiveBigIntegerField(
+        default=1
+    )
 
     objects = GroupMemberManager()
 
     class Meta:
-        verbose_name = _("Group member")
-        verbose_name_plural = _("Group members")
         unique_together = ('user_id', 'group_id')
 
     def __str__(self):
@@ -48,16 +51,16 @@ class GroupMember(TimestampModel, UUIDModel):
         )
 
 
-class TmpMessage(TimestampModel):
-    message_id = models.BigIntegerField()
-    chat_id = models.BigIntegerField()
+# class TmpMessage(TimestampModel):
+#     message_id = models.BigIntegerField()
+#     chat_id = models.BigIntegerField()
 
-    objects = TmpMessageManager()
+#     objects = TmpMessageManager()
 
-    class Meta:
-        verbose_name = _("tmp message")
-        verbose_name_plural = _("tmp messages")
-        unique_together = ('message_id', 'chat_id')
+#     class Meta:
+#         verbose_name = _("tmp message")
+#         verbose_name_plural = _("tmp messages")
+#         unique_together = ('message_id', 'chat_id')
 
-    def __str__(self):
-        return "message_id: {}".format(self.message_id)
+#     def __str__(self):
+#         return "message_id: {}".format(self.message_id)

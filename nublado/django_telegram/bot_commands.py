@@ -5,15 +5,11 @@ from telegram.ext import (
     CallbackContext, MessageHandler, Filters
 )
 
-from django.utils.translation import get_language, gettext as _
 from django.conf import settings
+from django.utils.translation import gettext as _
 
 from django_telegram.functions.user import get_username_or_name
-from django_telegram.functions.group import (
-    get_chat_member
-)
-from django_telegram.models import GroupMember
-from .models import GroupMemberPoints
+from .models import GroupMember
 
 logger = logging.getLogger('django')
 
@@ -31,32 +27,31 @@ msg_no_take_points_bot = _("You can't take {points_name} from a bot.")
 msg_no_give_points_self = _("You can't give {points_name} to yourself.")
 msg_no_take_points_self = _("You can't take {points_name} from yourself.")
 msg_give_points = _(
-    "*{sender_name} ({sender_points})* has given some " + \
+    "*{sender_name} ({member_sender})* has given some " + \
     "{points_name} to *{receiver_name} ({receiver_points})*."
 )
 msg_give_point = _(
-    "*{sender_name} ({sender_points})* has given a " + \
+    "*{sender_name} ({member_sender})* has given a " + \
     "{points_name} to *{receiver_name} ({receiver_points})*."
 )
 msg_take_points = _(
-    "*{sender_name} ({sender_points})* has taken some " + \
+    "*{sender_name} ({member_sender})* has taken some " + \
     "{points_name} from *{receiver_name} ({receiver_points})*."
 )
 msg_take_point = _(
-    "*{sender_name} ({sender_points})* has taken a " + \
+    "*{sender_name} ({member_sender})* has taken a " + \
     "{points_name} from *{receiver_name} ({receiver_points})*."
 )
 
 
-def get_group_member_points(user_id, group_id):
+def get_group_member(user_id, group_id):
     """Get user's total points in group."""
     group_member, group_member_created = GroupMember.objects.get_or_create(
         group_id=group_id,
         user_id=user_id
     )
-    member_points = group_member.points
 
-    return member_points
+    return group_member
 
 
 # def group_top_points(update: Update, context: CallbackContext, group_id: int = None) -> None:
@@ -69,7 +64,7 @@ def get_group_member_points(user_id, group_id):
 #             top_points = []
 
 #             for member in member_points:
-#                 points = member.point_total
+#                 points = member.points
 #                 user_id = member.group_member.user_id
 #                 chat_member = get_chat_member(context, user_id, GROUP_ID)
 
@@ -93,7 +88,11 @@ def get_group_member_points(user_id, group_id):
 #             )
 
 
-def add_points(update: Update, context: CallbackContext, group_id: int = None) -> None:
+def add_points(
+    update: Update,
+    context: CallbackContext,
+    group_id: int = None,
+) -> None:
     if group_id:
         # Check if the message is a reply to another message.
         if update.message.reply_to_message:
@@ -104,26 +103,26 @@ def add_points(update: Update, context: CallbackContext, group_id: int = None) -
 
             # Check if the reply is to another member and not a bot or oneself.
             if not receiver.is_bot and sender != receiver:
-                sender_points = get_group_member_points(sender.id, group_id)
-                receiver_points = get_group_member_points(receiver.id, group_id)
-                receiver_points.point_total += sender_points.point_increment
-                receiver_points.save()
+                member_sender = get_group_member(sender.id, group_id)
+                member_receiver = get_group_member(receiver.id, group_id)
+                member_receiver.points += member_sender.point_increment
+                member_receiver.save()
 
-                if sender_points.point_increment > 1:
+                if member_sender.point_increment > 1:
                     message = _(msg_give_points).format(
                         sender_name=sender_name,
-                        sender_points=sender_points.point_total,
+                        member_sender=member_sender.points,
                         points_name=_(POINTS_NAME),
                         receiver_name=receiver_name,
-                        receiver_points=receiver_points.point_total
+                        receiver_points=member_receiver.points
                     )
                 else:
                     message = _(msg_give_point).format(
                         sender_name=sender_name,
-                        sender_points=sender_points.point_total,
+                        member_sender=member_sender.points,
                         points_name=_(POINT_NAME),
                         receiver_name=receiver_name,
-                        receiver_points=receiver_points.point_total
+                        receiver_points=member_receiver.points
                     )
             elif receiver.is_bot:
                 message = _(msg_no_give_points_bot).format(
@@ -149,27 +148,27 @@ def remove_points(update: Update, context: CallbackContext, group_id: int = None
             receiver_name = get_username_or_name(receiver)
 
             if not receiver.is_bot and sender != receiver:
-                sender_points = get_group_member_points(sender.id, group_id)
-                receiver_points = get_group_member_points(receiver.id, group_id)
-                points = receiver_points.point_total - sender_points.point_increment
-                receiver_points.point_total = points if points >= 0 else 0
+                member_sender = get_group_member(sender.id, group_id)
+                receiver_points = get_group_member(receiver.id, group_id)
+                points = receiver_points.points - member_sender.point_increment
+                receiver_points.points = points if points >= 0 else 0
                 receiver_points.save()
 
-                if sender_points.point_increment > 1:
+                if member_sender.point_increment > 1:
                     message = _(msg_take_points).format(
                         sender_name=sender_name,
-                        sender_points=sender_points.point_total,
+                        member_sender=member_sender.points,
                         points_name=_(POINTS_NAME),
                         receiver_name=receiver_name,
-                        receiver_points=receiver_points.point_total
+                        receiver_points=receiver_points.points
                     )
                 else:
                     message = _(msg_take_point).format(
                         sender_name=sender_name,
-                        sender_points=sender_points.point_total,
+                        member_sender=member_sender.points,
                         points_name=_(POINT_NAME),
                         receiver_name=receiver_name,
-                        receiver_points=receiver_points.point_total
+                        receiver_points=receiver_points.points
                     )
             elif receiver.is_bot:
                 message = _(msg_no_take_points_bot).format(

@@ -19,5 +19,4 @@ class DjangoTelegramConfig(AppConfig):
     bot_registry = None
 
     def ready(self):
-        from . import signals
         DjangoTelegramConfig.bot_registry = BotRegistry()

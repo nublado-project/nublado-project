@@ -26,7 +26,6 @@ from django_telegram.functions.admin import (
     get_non_group_members,
 )
 from django_telegram.models import GroupMember
-from language_days.functions import set_language_day_locale
 
 logger = logging.getLogger('django')
 
@@ -168,7 +167,6 @@ def unrestrict_chat_member(bot: Bot, user_id: int, chat_id: int, interval_minute
 
 def member_join(update: Update, context: CallbackContext) -> None:
     if update.message.new_chat_members:
-        set_language_day_locale()
         for user in update.message.new_chat_members:
             # Add user to db
             add_member(user.id, GROUP_ID)

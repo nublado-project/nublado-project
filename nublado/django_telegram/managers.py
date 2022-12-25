@@ -35,32 +35,32 @@ class GroupMemberManager(models.Manager):
         )
 
     def get_queryset(self):
-        return super(GroupMemberManager, self).get_queryset().select_related('points')
+        return super(GroupMemberManager, self).get_queryset()
 
 
-class TmpMessageManager(models.Manager):
-    def create_tmp_message(self, message_id=None, chat_id=None, **kwargs):
-        if not message_id:
-            raise ValueError(_("Message id is required."))
-        if not chat_id:
-            raise ValueError(_("Chat id is required."))
+# class TmpMessageManager(models.Manager):
+#     def create_tmp_message(self, message_id=None, chat_id=None, **kwargs):
+#         if not message_id:
+#             raise ValueError(_("Message id is required."))
+#         if not chat_id:
+#             raise ValueError(_("Chat id is required."))
 
-        tmp_message = self.model(
-            message_id=message_id,
-            chat_id=chat_id,
-            **kwargs
-        )
-        tmp_message.clean()
-        tmp_message.save(using=self._db)
+#         tmp_message = self.model(
+#             message_id=message_id,
+#             chat_id=chat_id,
+#             **kwargs
+#         )
+#         tmp_message.clean()
+#         tmp_message.save(using=self._db)
 
-        return tmp_message
+#         return tmp_message
 
-    def create(self, message_id=None, chat_id=None, **kwargs):
-        return self.create_tmp_message(
-            message_id=message_id,
-            chat_id=chat_id,
-            **kwargs
-        )
+#     def create(self, message_id=None, chat_id=None, **kwargs):
+#         return self.create_tmp_message(
+#             message_id=message_id,
+#             chat_id=chat_id,
+#             **kwargs
+#         )
 
-    def get_queryset(self):
-        return super(TmpMessageManager, self).get_queryset()
+#     def get_queryset(self):
+#         return super(TmpMessageManager, self).get_queryset()

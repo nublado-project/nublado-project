@@ -6,7 +6,7 @@ from telegram.ext import (
 )
 
 from django.conf import settings
-from django.utils.translation import get_language, gettext as _
+from django.utils.translation import gettext as _
 
 from django_telegram.functions.chat_actions import (
     send_typing_action
@@ -15,7 +15,7 @@ from django_telegram.functions.group import (
     restricted_group_member
 )
 from django_telegram.functions.admin import set_language
-from group_points.bot_commands import (
+from django_telegram.bot_commands import (
     add_points as cmd_add_points,
     remove_points as cmd_remove_points
 )

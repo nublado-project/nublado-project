@@ -32,10 +32,6 @@ class NubladoBotConfig(AppConfig):
             start, echo, reverse_text, hello, roll,
             roll_sum, get_time
         )
-        from .bot_commands.language_days import (
-            schedule, language_day, initiate_language_day_c,
-            initiate_language_day
-        )
         from .bot_commands.group_points import (
             add_points_handler, remove_points_handler
         )
@@ -59,16 +55,6 @@ class NubladoBotConfig(AppConfig):
         bot.add_command_handler('roll', roll)
         bot.add_command_handler('roll_sum', roll_sum)
         bot.add_command_handler('get_time', get_time)
-        # language_days
-        bot.add_command_handler('schedule', schedule)
-        bot.add_command_handler('language_day', language_day)
-        bot.add_command_handler('initiate_language_day', initiate_language_day)
-        # bot.schedule_daily_task(
-        #     initiate_language_day_c,
-        #     hour=settings.LANGUAGE_DAY_HOUR_CHANGE,
-        #     minute=settings.LANGUAGE_DAY_MINUTE_CHANGE,
-        #     name="Initiate language day"         
-        # )
         # group_points
         bot.add_handler(add_points_handler, handler_group=2)
         bot.add_handler(remove_points_handler, handler_group=2)
