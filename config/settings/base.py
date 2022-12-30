@@ -47,6 +47,7 @@ LOCAL_APPS = [
     'django_telegram.apps.DjangoTelegramConfig',
     'bot_notes.apps.BotNotesConfig',
     'nublado_bot.apps.NubladoBotConfig',
+    'proto_bot.apps.ProtoBotConfig',
     'project_app.apps.ProjectAppConfig'
 ]
 THIRD_PARTY_APPS = [
@@ -172,19 +173,18 @@ LOGGING = {
     },
 }
 
-# Language day schedule
 MON, TUE, WED, THU, FRI, SAT, SUN = range(7)
-LANGUAGE_DAYS = {
-    EN: _("English"),
-    ES: _("Spanish"),
-    FREE: _("Free")
-}
-LANGUAGE_DAY_HOUR_CHANGE = 0
-LANGUAGE_DAY_MINUTE_CHANGE = 1
-LANGUAGE_DAY_TIME_CHANGE = dt.time(
-    hour=LANGUAGE_DAY_HOUR_CHANGE,
-    minute=LANGUAGE_DAY_MINUTE_CHANGE
-).strftime('%H:%M')
+# LANGUAGE_DAYS = {
+#     EN: _("English"),
+#     ES: _("Spanish"),
+#     FREE: _("Free")
+# }
+# LANGUAGE_DAY_HOUR_CHANGE = 0
+# LANGUAGE_DAY_MINUTE_CHANGE = 1
+# LANGUAGE_DAY_TIME_CHANGE = dt.time(
+#     hour=LANGUAGE_DAY_HOUR_CHANGE,
+#     minute=LANGUAGE_DAY_MINUTE_CHANGE
+# ).strftime('%H:%M')
 WEEKDAYS = [
     _("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"),
     _("Friday"), _("Saturday"), _("Sunday")
@@ -208,6 +208,17 @@ NUBLADO_REPO_ID = int(get_env_variable('NUBLADO_REPO_ID'))
 NUBLADO_GROUP_OWNER_ID = int(get_env_variable('NUBLADO_GROUP_OWNER_ID'))
 NUBLADO_SUDO_LIST = [NUBLADO_GROUP_OWNER_ID, ]
 
+PROTO_BOT = 'protobot'
+
+PROTO_BOT_TOKEN = get_env_variable('PROTO_BOT_TOKEN')
+PROTO_GROUP_ID = int(get_env_variable('PROTO_GROUP_ID'))
+PROTO_REPO_ID = int(get_env_variable('PROTO_REPO_ID'))
+PROTO_GROUP_OWNER_ID = int(get_env_variable('PROTO_GROUP_OWNER_ID'))
+PROTO_SUDO_LIST = [
+    PROTO_GROUP_OWNER_ID,
+    NUBLADO_GROUP_OWNER_ID, 
+]
+
 DJANGO_TELEGRAM = {
     'mode': BOT_MODE_WEBHOOK,
     'webhook_port': int(os.environ.get('PORT', 5000)),
@@ -219,6 +230,12 @@ DJANGO_TELEGRAM = {
             'group_id': NUBLADO_GROUP_ID,
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST
-        }
+        },
+        PROTO_BOT: {
+            'token': PROTO_BOT_TOKEN,
+            'group_id': PROTO_GROUP_ID,
+            'repo_id': PROTO_REPO_ID,
+            'sudo_list': PROTO_SUDO_LIST
+        },
     }
 }
