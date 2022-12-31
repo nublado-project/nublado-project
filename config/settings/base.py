@@ -201,22 +201,22 @@ BOT_MODE_POLLING = "polling"
 #NubladoBot
 # Command line arg to run this bot
 NUBLADO_BOT = 'nubladobot'
-
 NUBLADO_BOT_TOKEN = get_env_variable('NUBLADO_BOT_TOKEN')
 NUBLADO_GROUP_ID = int(get_env_variable('NUBLADO_GROUP_ID'))
 NUBLADO_REPO_ID = int(get_env_variable('NUBLADO_REPO_ID'))
 NUBLADO_GROUP_OWNER_ID = int(get_env_variable('NUBLADO_GROUP_OWNER_ID'))
-NUBLADO_SUDO_LIST = [NUBLADO_GROUP_OWNER_ID, ]
+NUBLADO_SUDO_LIST = [
+    NUBLADO_GROUP_OWNER_ID,
+]
 
+# Command line arg to run this bot
 PROTO_BOT = 'protobot'
-
 PROTO_BOT_TOKEN = get_env_variable('PROTO_BOT_TOKEN')
 PROTO_GROUP_ID = int(get_env_variable('PROTO_GROUP_ID'))
-PROTO_REPO_ID = int(get_env_variable('PROTO_REPO_ID'))
-PROTO_GROUP_OWNER_ID = int(get_env_variable('PROTO_GROUP_OWNER_ID'))
+PROTO_REPO_ID = NUBLADO_REPO_ID
+PROTO_GROUP_OWNER_ID = NUBLADO_GROUP_OWNER_ID
 PROTO_SUDO_LIST = [
-    PROTO_GROUP_OWNER_ID,
-    NUBLADO_GROUP_OWNER_ID, 
+    PROTO_GROUP_OWNER_ID, 
 ]
 
 DJANGO_TELEGRAM = {

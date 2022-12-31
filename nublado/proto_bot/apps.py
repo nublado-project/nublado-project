@@ -30,7 +30,7 @@ class ProtoBotConfig(AppConfig):
         # )
         from .bot_commands.misc import (
             start, echo, roll,
-            roll_sum, get_time
+            roll_sum, get_time, reverse_text
         )
         # from .bot_commands.group_points import (
         #     add_points_handler, remove_points_handler
@@ -53,6 +53,8 @@ class ProtoBotConfig(AppConfig):
         bot.add_command_handler('roll', roll)
         bot.add_command_handler('roll_sum', roll_sum)
         bot.add_command_handler('get_time', get_time)
+        bot.add_command_handler('reverse', reverse_text)
+
         # group_points
         # bot.add_handler(add_points_handler, handler_group=2)
         # bot.add_handler(remove_points_handler, handler_group=2)
