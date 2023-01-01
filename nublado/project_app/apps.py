@@ -15,7 +15,6 @@ class ProjectAppConfig(AppConfig):
             from django_telegram.apps import DjangoTelegramConfig
             for bot, conf in settings.DJANGO_TELEGRAM['bots'].items():
                 try:
-                    #bot_token = settings.DJANGO_TELEGRAM['bots'][settings.NUBLADO_BOT]['token']
                     bot_token = conf['token']
                     bot = DjangoTelegramConfig.bot_registry.get_bot(bot_token)
                     if bot:
