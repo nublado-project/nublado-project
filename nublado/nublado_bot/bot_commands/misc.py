@@ -10,10 +10,8 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from django_telegram.functions.chat_actions import send_typing_action
-from django_telegram.functions.group import (
-    restricted_group_member,
-    get_random_group_member
-)
+from django_telegram.functions.decorators import restricted_group_member
+from django_telegram.functions.group import get_random_group_member
 from django_telegram.functions.functions import parse_command_last_arg_text
 
 logger = logging.getLogger('django')

@@ -18,7 +18,7 @@ from django_telegram.models import GroupMember, BotConfig
 from django_telegram.functions.chat_actions import (
     send_typing_action
 )
-from django_telegram.functions.group import (
+from django_telegram.functions.decorators import (
     restricted_group_member
 )
 from django_telegram.functions.admin import (
