@@ -46,6 +46,7 @@ LOCAL_APPS = [
     'users.apps.UserConfig',
     'django_telegram.apps.DjangoTelegramConfig',
     'bot_misc.apps.BotMiscConfig',
+    'group_admin.apps.GroupAdminConfig',
     'group_notes.apps.GroupNotesConfig',
     'group_points.apps.GroupPointsConfig',
     'nublado_bot.apps.NubladoBotConfig',
