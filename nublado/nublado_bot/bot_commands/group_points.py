@@ -15,7 +15,7 @@ from django_telegram.functions.decorators import (
     restricted_group_member
 )
 from django_telegram.functions.admin import set_language
-from django_telegram.bot_commands import (
+from group_points.bot_commands.group_points import (
     add_points as cmd_add_points,
     remove_points as cmd_remove_points
 )

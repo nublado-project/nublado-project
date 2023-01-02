@@ -6,7 +6,7 @@ from telegram.constants import CHATMEMBER_MEMBER
 
 from functools import wraps
 
-from .functions import (
+from .group import (
     is_group_chat, is_member_status,
     is_group
 )

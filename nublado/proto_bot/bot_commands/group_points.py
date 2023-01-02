@@ -15,19 +15,19 @@ from django_telegram.functions.decorators import (
     restricted_group_member
 )
 from django_telegram.functions.admin import set_language
-from django_telegram.bot_commands import (
+from group_points.bot_commands.group_points import (
     add_points as cmd_add_points,
     remove_points as cmd_remove_points
 )
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
+BOT_TOKEN = settings.PROTO_BOT_TOKEN
 ADD_POINTS_TRIGGER = '\+'
 ADD_POINTS_REGEX = '^' + ADD_POINTS_TRIGGER + '{2}[\s\S]*$'
 REMOVE_POINTS_TRIGGER = '\-'
 REMOVE_POINTS_REGEX = '^' + REMOVE_POINTS_TRIGGER + '{2}[\s\S]*$'
-GROUP_ID = settings.NUBLADO_GROUP_ID
+GROUP_ID = settings.PROTO_GROUP_ID
 
 # Command handlers 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)

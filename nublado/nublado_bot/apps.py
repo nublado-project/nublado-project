@@ -14,6 +14,9 @@ class NubladoBotConfig(AppConfig):
     bot_key = settings.NUBLADO_BOT_TOKEN
 
     def ready(self):
+        from .bot_commands.group_points import (
+            add_points_handler, remove_points_handler
+        )
         from .bot_commands.group_notes import (
             group_notes,
             save_group_note,
@@ -31,9 +34,6 @@ class NubladoBotConfig(AppConfig):
         from .bot_commands.misc import (
             start, echo, reverse_text, hello, roll,
             roll_sum, get_time
-        )
-        from .bot_commands.group_points import (
-            add_points_handler, remove_points_handler
         )
 
         bot_registry = DjangoTelegramConfig.bot_registry

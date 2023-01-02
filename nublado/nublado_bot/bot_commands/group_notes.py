@@ -15,7 +15,7 @@ from django_telegram.functions.decorators import (
 )
 from django_telegram.functions.admin import set_language
 
-from bot_notes.bot_commands import (
+from group_notes.bot_commands.group_notes import (
     group_notes as cmd_group_notes,
     save_group_note as cmd_save_group_note,
     remove_group_note as cmd_remove_group_note,
