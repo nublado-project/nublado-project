@@ -233,14 +233,12 @@ DJANGO_TELEGRAM = {
         NUBLADO_BOT_TOKEN: {
             'token': NUBLADO_BOT_TOKEN,
             'group_id': NUBLADO_GROUP_ID,
-            'groups': [NUBLADO_GROUP_ID],
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST
         },
         PROTO_BOT_TOKEN: {
             'token': PROTO_BOT_TOKEN,
             'group_id': PROTO_GROUP_ID,
-            'groups': [PROTO_GROUP_ID, PROTO_GROUP_2_ID],
             'repo_id': PROTO_REPO_ID,
             'sudo_list': PROTO_SUDO_LIST
         },

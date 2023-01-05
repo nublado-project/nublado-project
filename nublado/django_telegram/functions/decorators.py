@@ -1,10 +1,11 @@
 import logging
+from functools import wraps
 
 from telegram import Update, Bot
 from telegram.ext import CallbackContext
 from telegram.constants import CHATMEMBER_MEMBER
 
-from functools import wraps
+from django.conf import settings
 
 from .group import (
     is_group_chat, is_member_status,
