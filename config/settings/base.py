@@ -216,6 +216,8 @@ NUBLADO_SUDO_LIST = [
 PROTO_BOT = 'protobot'
 PROTO_BOT_TOKEN = get_env_variable('PROTO_BOT_TOKEN')
 PROTO_GROUP_ID = int(get_env_variable('PROTO_GROUP_ID'))
+PROTO_GROUP_2_ID = int(get_env_variable('PROTO_GROUP_2_ID'))
+
 PROTO_REPO_ID = NUBLADO_REPO_ID
 PROTO_GROUP_OWNER_ID = NUBLADO_GROUP_OWNER_ID
 PROTO_SUDO_LIST = [
@@ -228,17 +230,24 @@ DJANGO_TELEGRAM = {
     'webhook_site' : "https://nubladoproject.onrender.com",
 	'webhook_path' : "bot/webhook",
     'bots': {
-        NUBLADO_BOT: {
+        NUBLADO_BOT_TOKEN: {
             'token': NUBLADO_BOT_TOKEN,
             'group_id': NUBLADO_GROUP_ID,
+            'groups': [NUBLADO_GROUP_ID],
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST
         },
-        PROTO_BOT: {
+        PROTO_BOT_TOKEN: {
             'token': PROTO_BOT_TOKEN,
             'group_id': PROTO_GROUP_ID,
+            'groups': [PROTO_GROUP_ID, PROTO_GROUP_2_ID],
             'repo_id': PROTO_REPO_ID,
             'sudo_list': PROTO_SUDO_LIST
         },
     }
+}
+
+BOT_CLI = {
+    NUBLADO_BOT: DJANGO_TELEGRAM['bots'][NUBLADO_BOT_TOKEN],
+    PROTO_BOT: DJANGO_TELEGRAM['bots'][PROTO_BOT_TOKEN]
 }

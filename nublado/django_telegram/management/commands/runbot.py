@@ -14,7 +14,7 @@ class Command(BaseCommand):
         if options['bot_ids']:
             for bot_id in options['bot_ids']:
                 try:
-                    bot_token = settings.DJANGO_TELEGRAM['bots'][bot_id]['token']
+                    bot_token = settings.BOT_CLI[bot_id]['token']
                 except:
                     error = "Bot id {} doesn't exist or is improperly configured.".format(bot_id)
                     raise CommandError(error)
