@@ -13,9 +13,8 @@ class ProjectAppConfig(AppConfig):
         dt = settings.DJANGO_TELEGRAM
         if dt['mode'] == settings.BOT_MODE_WEBHOOK:
             from django_telegram.apps import DjangoTelegramConfig
-            for bot, conf in settings.DJANGO_TELEGRAM['bots'].items():
+            for bot_token, conf in settings.DJANGO_TELEGRAM['bots'].items():
                 try:
-                    bot_token = conf['token']
                     bot = DjangoTelegramConfig.bot_registry.get_bot(bot_token)
                     if bot:
                         bot.start()
