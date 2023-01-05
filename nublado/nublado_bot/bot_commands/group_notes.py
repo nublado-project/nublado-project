@@ -6,15 +6,14 @@ from telegram.ext import (
 )
 from telegram.constants import CHATMEMBER_CREATOR
 
-from django.utils.translation import gettext as _
 from django.conf import settings
+from django.utils.translation import gettext as _
 
 from django_telegram.functions.chat_actions import send_typing_action
 from django_telegram.functions.decorators import (
     restricted_group_member
 )
 from django_telegram.functions.admin import set_language
-
 from group_notes.bot_commands.group_notes import (
     group_notes as cmd_group_notes,
     save_group_note as cmd_save_group_note,

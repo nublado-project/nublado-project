@@ -24,8 +24,8 @@ class NubladoBotConfig(AppConfig):
             get_group_note_handler
         )
         from .bot_commands.group_admin import(
-            update_group_admins,
-            get_non_members,
+            # update_group_admins,
+            # get_non_members,
             member_join_handler,
             member_exit_handler,
             welcome_button_handler,
@@ -41,8 +41,8 @@ class NubladoBotConfig(AppConfig):
 
         # Register handlers
         # group_admin
-        bot.add_command_handler('update_group_admins', update_group_admins)
-        bot.add_command_handler('get_non_members', get_non_members)
+        # bot.add_command_handler('update_group_admins', update_group_admins)
+        # bot.add_command_handler('get_non_members', get_non_members)
         bot.add_command_handler('set_bot_language', set_bot_language)
         bot.add_handler(member_join_handler, handler_group=2)
         bot.add_handler(member_exit_handler, handler_group=2)

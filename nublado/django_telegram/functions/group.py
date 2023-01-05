@@ -55,7 +55,7 @@ def is_group_chat(bot: Bot, chat_id: int) -> bool:
         return False
 
 
-def is_group(bot: Bot, chat_id: int, group_id: int) -> bool:
+def is_group_id(bot: Bot, chat_id: int, group_id: int) -> bool:
     """Returns whether chat is a specific group chat by id"""
     return is_group_chat(bot, chat_id) and chat_id == group_id
 

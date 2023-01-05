@@ -25,8 +25,8 @@ from group_admin.bot_commands.group_admin import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
-GROUP_ID = settings.NUBLADO_GROUP_ID
+BOT_TOKEN = settings.PROTO_BOT_TOKEN
+GROUP_ID = settings.PROTO_GROUP_ID
 
 
 @send_typing_action

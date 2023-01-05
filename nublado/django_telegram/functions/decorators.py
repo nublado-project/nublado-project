@@ -9,13 +9,27 @@ from django.conf import settings
 
 from .group import (
     is_group_chat, is_member_status,
-    is_group
+    is_group_id
 )
 
 logger = logging.getLogger('django')
 
 
 # Decorators for command handlers
+def restricted_group_id(group_id: int):
+    def callable(func):
+        @wraps(func)
+        def wrapped(update: Update, context: CallbackContext):
+            chat_id = update.effective_chat.id
+            bot = context.bot
+            if is_group_id(bot, chat_id, group_id):
+                return func(update, context)
+            else:
+                return
+        return wrapped
+    return callable         
+
+
 def restricted_group_chat(func):
     """Restrict access to messages coming from a group chat the bot belongs to."""
     @wraps(func)
@@ -46,13 +60,13 @@ def restricted_group_member(
             if is_member_status(bot, user.id, group_id, member_status):
                 if group_chat and private_chat:
                     # The command can be executed in the group or in a private message with the bot.
-                    if is_group(bot, chat_id, group_id) or chat_id == user.id:
+                    if is_group_id(bot, chat_id, group_id) or chat_id == user.id:
                         return func(update, context)
                     else:
                         return
                 elif group_chat:
                     # The command can only be executed in the group chat.
-                    if is_group(bot, chat_id, group_id):
+                    if is_group_id(bot, chat_id, group_id):
                         return func(update, context)
                     else:
                         return
