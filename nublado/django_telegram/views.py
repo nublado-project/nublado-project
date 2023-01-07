@@ -20,25 +20,18 @@ class BotWebhookView(View):
         if bot is not None:
             try:
                 data = json.loads(request.body.decode('utf-8'))
-            except:
-                logger.warn("Telegram bot <{}> invalid request : {}".format(
-                    bot.telegram_bot.username,
-                    repr(request))
-                )
+            except Exception as e:
+                error = "Error in decoding update: {e}".format(e)
+                logger.error(error)
+
                 raise Http404
 
             try:
                 update = Update.de_json(data, bot.telegram_bot)
                 bot.dispatcher.process_update(update)
-                logger.debug("Bot <{}> : Processed update {}".format(
-                    bot.telegram_bot.username,
-                    update
-                ))
-            except TelegramError as te:
-                logger.warn("Bot <{}> : Error was raised while processing Update.".format(
-                    bot.telegram_bot.username
-                ))
-                bot.dispatcher.dispatch_error(update, te)
+            except Exception as e:
+                error = "Error in processing update: {e}".format(e)
+                logger.error(error)
 
             return JsonResponse({})
         else:
