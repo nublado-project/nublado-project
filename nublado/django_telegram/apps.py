@@ -15,7 +15,7 @@ class BotRegistry:
 
 
 class DjangoTelegramConfig(AppConfig):
-    name = 'django_telegram'
+    name = "django_telegram"
     bot_registry = None
 
     def ready(self):

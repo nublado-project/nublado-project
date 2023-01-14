@@ -16,10 +16,10 @@ class Command(BaseCommand):
                 try:
                     bot_token = settings.BOT_CLI[bot_id]['token']
                 except:
-                    error = "Bot id {} doesn't exist or is improperly configured.".format(bot_id)
+                    error = f"Bot id {bot_id} doesn't exist or is improperly configured."
                     raise CommandError(error)
 
                 bot = DjangoTelegramConfig.bot_registry.get_bot(bot_token)
                 if bot:
-                    bot.start()
+                    bot.start_polling()
         return

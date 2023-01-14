@@ -2,9 +2,9 @@ import logging
 
 from telegram import Update
 from telegram.ext import (
-    CallbackContext, MessageHandler, Filters
+    ContextTypes, MessageHandler, filters
 )
-from telegram.constants import CHATMEMBER_ADMINISTRATOR
+from telegram.constants import ChatMemberStatus
 
 from django.utils.translation import gettext as _
 from django.conf import settings
@@ -34,30 +34,42 @@ GET_GROUP_NOTE_REGEX = '^[' + TAG_CHAR + '][a-zA-Z0-9_-]+$'
 
 @restricted_group_member(group_id=GROUP_ID)
 @send_typing_action
-def group_notes(update: Update, context: CallbackContext) -> None:
-    set_language(BOT_TOKEN)
-    cmd_group_notes(update, context, group_id=GROUP_ID)
+async def group_notes(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    await set_language(BOT_TOKEN)
+    await cmd_group_notes(update, context, group_id=GROUP_ID)
 
 
-@restricted_group_member(group_id=GROUP_ID, member_status=CHATMEMBER_ADMINISTRATOR)
+@restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.OWNER)
 @send_typing_action
-def save_group_note(update: Update, context: CallbackContext) -> None:
-    set_language(BOT_TOKEN)
-    cmd_save_group_note(update, context, group_id=GROUP_ID, repo_id=REPO_ID)
+async def save_group_note(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    await set_language(BOT_TOKEN)
+    await cmd_save_group_note(update, context, group_id=GROUP_ID, repo_id=REPO_ID)
 
 
-@restricted_group_member(group_id=GROUP_ID, member_status=CHATMEMBER_ADMINISTRATOR)
+@restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.OWNER)
 @send_typing_action
-def remove_group_note(update: Update, context: CallbackContext) -> None:
-    set_language(BOT_TOKEN)
-    cmd_remove_group_note(update, context, group_id=GROUP_ID)
+async def remove_group_note(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    await set_language(BOT_TOKEN)
+    await cmd_remove_group_note(update, context, group_id=GROUP_ID)
 
 
 @restricted_group_member(group_id=GROUP_ID)
 @send_typing_action
-def get_group_note(update: Update, context: CallbackContext) -> None:
-    set_language(BOT_TOKEN)
-    cmd_get_group_note(
+async def get_group_note(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    await set_language(BOT_TOKEN)
+    await cmd_get_group_note(
         update,
         context,
         group_id=GROUP_ID,
@@ -67,6 +79,6 @@ def get_group_note(update: Update, context: CallbackContext) -> None:
 
 
 get_group_note_handler = MessageHandler(
-    Filters.regex(GET_GROUP_NOTE_REGEX),
+    filters.Regex(GET_GROUP_NOTE_REGEX),
     get_group_note
 )

@@ -1,5 +1,6 @@
 import logging
 
+from asgiref.sync import sync_to_async
 from telegram import Bot
 
 from django.conf import settings
@@ -10,6 +11,7 @@ from ..models import GroupMember, BotConfig
 logger = logging.getLogger('django')
 
 
+@sync_to_async
 def set_language(token):
     try:
         bot_config = BotConfig.objects.get(id=token)

@@ -2,7 +2,7 @@ import logging
 
 from telegram import Update
 from telegram.ext import (
-    CallbackContext, MessageHandler, Filters
+    ContextTypes, MessageHandler, filters
 )
 
 from django.conf import settings
@@ -32,26 +32,26 @@ GROUP_ID = settings.NUBLADO_GROUP_ID
 # Command handlers 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
-def add_points(update: Update, context: CallbackContext) -> None:
-    set_language(BOT_TOKEN)
-    cmd_add_points(update, context, GROUP_ID)
+async def add_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await set_language(BOT_TOKEN)
+    await cmd_add_points(update, context, GROUP_ID)
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
-def remove_points(update: Update, context: CallbackContext) -> None:
-    set_language(BOT_TOKEN)
-    cmd_remove_points(update, context, GROUP_ID)
+async def remove_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await set_language(BOT_TOKEN)
+    await cmd_remove_points(update, context, GROUP_ID)
 
 
 # Message handlers to listen for triggers to add or remove points.
 add_points_handler = MessageHandler(
-    (Filters.regex(ADD_POINTS_REGEX) & Filters.reply),
+    (filters.Regex(ADD_POINTS_REGEX) & filters.REPLY),
     add_points
 )
 
 
 remove_points_handler = MessageHandler(
-    (Filters.regex(REMOVE_POINTS_REGEX) & Filters.reply),
+    (filters.Regex(REMOVE_POINTS_REGEX) & filters.REPLY),
     remove_points
 )

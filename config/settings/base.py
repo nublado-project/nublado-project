@@ -162,7 +162,7 @@ LOGGING = {
         },
         'console': {
             'level': 'INFO',
-            'filters': ['require_debug_true'],
+            # 'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         }
@@ -177,17 +177,6 @@ LOGGING = {
 }
 
 MON, TUE, WED, THU, FRI, SAT, SUN = range(7)
-# LANGUAGE_DAYS = {
-#     EN: _("English"),
-#     ES: _("Spanish"),
-#     FREE: _("Free")
-# }
-# LANGUAGE_DAY_HOUR_CHANGE = 0
-# LANGUAGE_DAY_MINUTE_CHANGE = 1
-# LANGUAGE_DAY_TIME_CHANGE = dt.time(
-#     hour=LANGUAGE_DAY_HOUR_CHANGE,
-#     minute=LANGUAGE_DAY_MINUTE_CHANGE
-# ).strftime('%H:%M')
 WEEKDAYS = [
     _("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"),
     _("Friday"), _("Saturday"), _("Sunday")
@@ -228,6 +217,7 @@ DJANGO_TELEGRAM = {
     'webhook_port': int(os.environ.get('PORT', 5000)),
     'webhook_site' : "https://nubladoproject.onrender.com",
 	'webhook_path' : "bot/webhook",
+    'set_webhook_path': "bot/setwebhook",
     'bots': {
         NUBLADO_BOT_TOKEN: {
             'token': NUBLADO_BOT_TOKEN,

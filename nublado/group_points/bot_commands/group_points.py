@@ -1,8 +1,10 @@
 import logging
 
+from asgiref.sync import sync_to_async
+
 from telegram import Update
 from telegram.ext import (
-    CallbackContext, MessageHandler, Filters
+    ContextTypes, MessageHandler, filters
 )
 
 from django.conf import settings
@@ -44,6 +46,7 @@ msg_take_point = _(
 )
 
 
+@sync_to_async
 def get_group_member(user_id, group_id):
     """Get user's total points in group."""
     group_member, group_member_created = GroupMember.objects.get_or_create(
@@ -54,7 +57,7 @@ def get_group_member(user_id, group_id):
     return group_member
 
 
-# def group_top_points(update: Update, context: CallbackContext, group_id: int = None) -> None:
+# def group_top_points(update: Update, context: ContextTypes.DEFAULT_TYPE, group_id: int = None) -> None:
 #     if group_id:
 #         member_points = GroupMemberPoints.objects.get_group_top_points(
 #             group_id, TOP_POINTS_LIMIT
@@ -82,15 +85,15 @@ def get_group_member(user_id, group_id):
 #                 point_name=_(POINT_NAME),
 #                 rankings_list="\n".join(top_points)
 #             )
-#             context.bot.send_message(
+#             await context.bot.send_message(
 #                 chat_id=group_id,
 #                 text=message
 #             )
 
 
-def add_points(
+async def add_points(
     update: Update,
-    context: CallbackContext,
+    context: ContextTypes.DEFAULT_TYPE,
     group_id: int = None,
 ) -> None:
     if group_id:
@@ -103,10 +106,10 @@ def add_points(
 
             # Check if the reply is to another member and not a bot or oneself.
             if not receiver.is_bot and sender != receiver:
-                member_sender = get_group_member(sender.id, group_id)
-                member_receiver = get_group_member(receiver.id, group_id)
+                member_sender = await get_group_member(sender.id, group_id)
+                member_receiver = await get_group_member(receiver.id, group_id)
                 member_receiver.points += member_sender.point_increment
-                member_receiver.save()
+                await sync_to_async(member_receiver.save)()
 
                 if member_sender.point_increment > 1:
                     message = _(msg_give_points).format(
@@ -133,13 +136,17 @@ def add_points(
                     points_name=_(POINTS_NAME)
                 )
 
-            context.bot.send_message(
+            await context.bot.send_message(
                 chat_id=group_id,
                 text=message
             )
 
 
-def remove_points(update: Update, context: CallbackContext, group_id: int = None) -> None:
+async def remove_points(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    group_id: int = None
+) -> None:
     if group_id:
         if update.message.reply_to_message:
             sender = update.effective_user
@@ -148,11 +155,11 @@ def remove_points(update: Update, context: CallbackContext, group_id: int = None
             receiver_name = get_username_or_name(receiver)
 
             if not receiver.is_bot and sender != receiver:
-                member_sender = get_group_member(sender.id, group_id)
-                receiver_points = get_group_member(receiver.id, group_id)
-                points = receiver_points.points - member_sender.point_increment
-                receiver_points.points = points if points >= 0 else 0
-                receiver_points.save()
+                member_sender = await get_group_member(sender.id, group_id)
+                member_receiver = await get_group_member(receiver.id, group_id)
+                points = member_receiver.points - member_sender.point_increment
+                member_receiver.points = points if points >= 0 else 0
+                await sync_to_async(member_receiver.save)()
 
                 if member_sender.point_increment > 1:
                     message = _(msg_take_points).format(
@@ -160,7 +167,7 @@ def remove_points(update: Update, context: CallbackContext, group_id: int = None
                         member_sender=member_sender.points,
                         points_name=_(POINTS_NAME),
                         receiver_name=receiver_name,
-                        receiver_points=receiver_points.points
+                        receiver_points=member_receiver.points
                     )
                 else:
                     message = _(msg_take_point).format(
@@ -168,7 +175,7 @@ def remove_points(update: Update, context: CallbackContext, group_id: int = None
                         member_sender=member_sender.points,
                         points_name=_(POINT_NAME),
                         receiver_name=receiver_name,
-                        receiver_points=receiver_points.points
+                        receiver_points=member_receiver.points
                     )
             elif receiver.is_bot:
                 message = _(msg_no_take_points_bot).format(
@@ -178,7 +185,7 @@ def remove_points(update: Update, context: CallbackContext, group_id: int = None
                 message = _(msg_no_take_points_self).format(
                     points_name=_(POINTS_NAME)
                 )        
-            context.bot.send_message(
+            await context.bot.send_message(
                 chat_id=group_id,
                 text=message
             )
@@ -186,12 +193,12 @@ def remove_points(update: Update, context: CallbackContext, group_id: int = None
 
 # Message handlers to listen for triggers to add or remove points.
 add_points_handler = MessageHandler(
-    (Filters.regex(ADD_POINTS_REGEX) & Filters.reply),
+    (filters.Regex(ADD_POINTS_REGEX) & filters.REPLY),
     add_points
 )
 
 
 remove_points_handler = MessageHandler(
-    (Filters.regex(REMOVE_POINTS_REGEX) & Filters.reply),
+    (filters.Regex(REMOVE_POINTS_REGEX) & filters.REPLY),
     remove_points
 )

@@ -1,12 +1,11 @@
 import logging
 import random
 
+from asgiref.sync import sync_to_async
 from telegram import Update, Bot
-from telegram.utils.helpers import escape_markdown
-from telegram.constants import (
-    CHATMEMBER_CREATOR, CHATMEMBER_ADMINISTRATOR, CHATMEMBER_MEMBER,
-    CHAT_GROUP, CHAT_SUPERGROUP
-)
+from telegram.helpers import escape_markdown
+from telegram.constants import ChatMemberStatus
+from telegram.constants import ChatType
 
 from django.conf import settings
 
@@ -16,63 +15,66 @@ logger = logging.getLogger('django')
 
 # Member status is in ascending order.
 GROUP_MEMBERS = {
-    CHATMEMBER_MEMBER: 1,
-    CHATMEMBER_ADMINISTRATOR: 2,
-    CHATMEMBER_CREATOR: 3
+    ChatMemberStatus.MEMBER: 1,
+    ChatMemberStatus.ADMINISTRATOR: 2,
+    ChatMemberStatus.OWNER: 3
 }
 GROUP_TYPES = [
-    CHAT_GROUP,
-    CHAT_SUPERGROUP
+    ChatType.GROUP,
+    ChatType.SUPERGROUP
 ]
 
-
+@sync_to_async
 def get_random_group_member(group_id: int):
     members = GroupMember.objects.filter(group_id=group_id)
-    if len(members) > 0:
+    if members.count() > 0:
         index = random.randint(0, len(members) - 1)
         return members[index]
     else:
         return None
 
 
-def get_chat_member(bot: Bot, user_id: int, chat_id: int):
+async def get_chat_member(bot: Bot, user_id: int, chat_id: int):
     try:
-        chat_member = bot.get_chat_member(
+        chat_member = await bot.get_chat_member(
             chat_id, user_id
         )
         return chat_member
-    except:
+    except Exception as e:
+        logger.error(e)
         return None
 
 
-def is_group_chat(bot: Bot, chat_id: int) -> bool:
+async def is_group_chat(bot: Bot, chat_id: int) -> bool:
     """Return whether chat is a group chat."""
     try:
-        chat = bot.get_chat(chat_id)
+        chat = await bot.get_chat(chat_id)
         return chat.type in GROUP_TYPES
-    except:
+    except Exception as e:
+        logger.error(e)
         logger.warn(f"Chat {chat_id} isn't a group.")
         return False
 
 
-def is_group_id(bot: Bot, chat_id: int, group_id: int) -> bool:
+async def is_group_id(bot: Bot, chat_id: int, group_id: int) -> bool:
     """Returns whether chat is a specific group chat by id"""
-    return is_group_chat(bot, chat_id) and chat_id == group_id
+    return await is_group_chat(bot, chat_id) and chat_id == group_id
 
 
-def is_member_status(
+
+async def is_member_status(
         bot: Bot,
         user_id: int,
         group_id: int,
-        member_status: str = CHATMEMBER_MEMBER
+        member_status: str = ChatMemberStatus.MEMBER
 ):
     if member_status in GROUP_MEMBERS.keys():
-        chat_member = get_chat_member(bot, user_id, group_id)
+        chat_member = await get_chat_member(bot, user_id, group_id)
         if chat_member:
             if chat_member.status in GROUP_MEMBERS.keys():
                 return GROUP_MEMBERS[chat_member.status] >= GROUP_MEMBERS[member_status]
             else:
-                logger.warn("Chat member status not in GROUP_MEMBERS.")
+                logger.warn(f"Chat member status {chat_member.status} not in GROUP_MEMBERS.")
                 return False
         else:
             logger.warn("Non chat member.")
@@ -92,5 +94,6 @@ def send_non_member_message(update: Update, bot: Bot, group_id: int) -> None:
             chat_id=update.effective_chat.id,
             text=message
         )
-    except:
+    except Exception as e:
+        logger.error(e)
         return

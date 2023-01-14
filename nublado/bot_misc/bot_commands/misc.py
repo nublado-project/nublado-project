@@ -2,7 +2,7 @@ import random
 import logging
 
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from django.conf import settings
 from django.utils import timezone
@@ -18,7 +18,7 @@ from django_telegram.functions.group import (
 logger = logging.getLogger('django')
 
 
-def start(update: Update, context: CallbackContext) -> None:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send a message and prompt a reply on start."""
     user = update.effective_user
     bot_name = context.bot.first_name
@@ -26,13 +26,13 @@ def start(update: Update, context: CallbackContext) -> None:
         user.mention_markdown(),
         bot_name
     )
-    context.bot.send_message(
+    await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=message
     )
 
 
-def get_time(update: Update, context: CallbackContext) -> None:
+async def get_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Display the current time."""
     weekday = timezone.now().weekday()
     message = _("It's {weekday}, {time} {timezone}.").format(
@@ -40,38 +40,38 @@ def get_time(update: Update, context: CallbackContext) -> None:
         time=timezone.now().strftime('%H:%M'),
         timezone=settings.TIME_ZONE
     )
-    context.bot.send_message(
+    await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=message
     )
 
 
-def reverse_text(update: Update, context: CallbackContext) -> None:
+async def reverse_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Reverse the text provided as an argument and display it."""
     if len(context.args) >= 1:
         message = parse_command_last_arg_text(
             update.effective_message,
             maxsplit=1
         )
-        context.bot.send_message(
+        await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=message[::-1]
         )
     else:
         message = _("The command requires some text to be reversed.")
-        context.bot.send_message(
+        await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=message
         )
 
 
-def hello(
+async def hello(
     update: Update,
-    context: CallbackContext,
+    context: ContextTypes.DEFAULT_TYPE,
     group_id: int = None
 ) -> None:
     if group_id:
-        member = get_random_group_member(group_id)
+        member = await get_random_group_member(group_id)
         if member:
             try:
                 user = update.effective_user
@@ -80,7 +80,7 @@ def hello(
                     chat_member.user.mention_markdown(),
                     user.mention_markdown()
                 )
-                context.bot.send_message(
+                await context.bot.send_message(
                     chat_id=group_id,
                     text=message
                 )
@@ -88,9 +88,9 @@ def hello(
                 pass
 
 
-def echo(
+async def echo(
     update: Update,
-    context: CallbackContext,
+    context: ContextTypes.DEFAULT_TYPE,
     group_id: int = None
 ) -> None:
     """Echo a message to the group."""
@@ -100,15 +100,15 @@ def echo(
                 update.effective_message,
                 maxsplit=1
             )
-            context.bot.send_message(
+            await context.bot.send_message(
                 chat_id=group_id,
                 text=message
             )
 
 
-def roll_dice_c(
+async def roll_dice_c(
     update: Update,
-    context: CallbackContext,
+    context: ContextTypes.DEFAULT_TYPE,
     min_dice=1,
     max_dice=10,
     dice_min_val=1,
@@ -136,7 +136,7 @@ def roll_dice_c(
                     user.mention_markdown(),
                     results
                 )
-            context.bot.send_message(
+            await context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 text=message 
             )
@@ -145,16 +145,16 @@ def roll_dice_c(
             min_dice,
             max_dice
         )
-        context.bot.send_message(
+        await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=message
         )
 
-def roll(update: Update, context: CallbackContext) -> None:
+async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Roll specified number of dice and show results as text."""
-    roll_dice_c(update, context, dice_sum=False)
+    await roll_dice_c(update, context, dice_sum=False)
 
 
-def roll_sum(update: Update, context: CallbackContext) -> None:
+async def roll_sum(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Roll specified number of dice and show results as text."""
-    roll_dice_c(update, context, dice_sum=True)
+    await roll_dice_c(update, context, dice_sum=True)
