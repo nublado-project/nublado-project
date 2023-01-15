@@ -21,7 +21,9 @@ BOT_MESSAGES = {
     'dice_roll': _("{member} has rolled {dice}."),
     'dice_roll_total': _("{member} has rolled {dice}.\n\n Total: {total}"),
     'dice_specify_num': _("Please specify the number of dice ({min_dice} - {max_dice})."),
-    'get_time': _("It's {weekday}, {time} {timezone}.")
+    'get_time': _("It's {weekday}, {time} {timezone}."),
+    'start_bot': _("Hello, {member}. {bot_name} has started."),
+    'hello': _("Hey, {member_receive}.\n{member_send} says hello.")
 }
 
 
@@ -29,9 +31,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send a message and prompt a reply on start."""
     user = update.effective_user
     bot_name = context.bot.first_name
-    message = "Hello, {}. {} has started.".format(
-        user.mention_markdown(),
-        bot_name
+    message = _(BOT_MESSAGES['start_bot']).format(
+        member=user.mention_markdown(),
+        bot_name=bot_name
     )
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -82,10 +84,10 @@ async def hello(
         if member:
             try:
                 user = update.effective_user
-                chat_member = context.bot.get_chat_member(group_id, member.user_id)
-                message = _("Hey {}.\n{} says hello.").format(
-                    chat_member.user.mention_markdown(),
-                    user.mention_markdown()
+                chat_member = await context.bot.get_chat_member(group_id, member.user_id)
+                message = _(BOT_MESSAGES['hello']).format(
+                    member_receive=chat_member.user.mention_markdown(),
+                    member_send=user.mention_markdown()
                 )
                 await context.bot.send_message(
                     chat_id=group_id,

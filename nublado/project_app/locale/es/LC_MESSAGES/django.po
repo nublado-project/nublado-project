@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 22:52+0000\n"
-"PO-Revision-Date: 2023-01-15 14:59-0800\n"
+"POT-Creation-Date: 2023-01-15 23:30+0000\n"
+"PO-Revision-Date: 2023-01-15 15:33-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -108,17 +108,23 @@ msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
 msgid "It's {weekday}, {time} {timezone}."
 msgstr "Es {weekday}, {time} {timezone}."
 
-#: nublado/bot_misc/bot_commands/misc.py:68
-msgid "The command requires some text to be reversed."
+#: nublado/bot_misc/bot_commands/misc.py:25
+#, python-brace-format
+msgid "Hello, {member}. {bot_name} has started."
 msgstr ""
 
-#: nublado/bot_misc/bot_commands/misc.py:86
+#: nublado/bot_misc/bot_commands/misc.py:26
+#, python-brace-format
 msgid ""
-"Hey {}.\n"
-"{} says hello."
+"Hey, {member_receive}.\n"
+"{member_send} says hello."
 msgstr ""
-"Oye {}.\n"
-"{} te dice hola."
+"Oye, {member_receive}.\n"
+"{member_send} te dice hola."
+
+#: nublado/bot_misc/bot_commands/misc.py:70
+msgid "The command requires some text to be reversed."
+msgstr ""
 
 #: nublado/core/models.py:10
 msgid "date created"
@@ -222,8 +228,7 @@ msgstr "Una nota necesita una etiqueta y contenido."
 #, python-brace-format
 msgid "The content for the note *{note_tag}* was not found in the repo."
 msgstr ""
-"El contenido para la nota *{note_tag}* no fue encontrado en el "
-"repositorio."
+"El contenido para la nota *{note_tag}* no fue encontrado en el repositorio."
 
 #: nublado/group_notes/managers.py:14
 msgid "Note tag is required."
