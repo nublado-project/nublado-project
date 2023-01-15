@@ -23,28 +23,29 @@ POINT_NAME = _("raindrop")
 POINTS_NAME = _("raindrops")
 TOP_POINTS_LIMIT = 10
 
-# Translated messages
-msg_no_give_points_bot = _("You can't give {points_name} to a bot.")
-msg_no_take_points_bot = _("You can't take {points_name} from a bot.")
-msg_no_give_points_self = _("You can't give {points_name} to yourself.")
-msg_no_take_points_self = _("You can't take {points_name} from yourself.")
-msg_give_points = _(
-    "*{sender_name} ({member_sender})* has given some " + \
-    "{points_name} to *{receiver_name} ({receiver_points})*."
-)
-msg_give_point = _(
-    "*{sender_name} ({member_sender})* has given a " + \
-    "{points_name} to *{receiver_name} ({receiver_points})*."
-)
-msg_take_points = _(
-    "*{sender_name} ({member_sender})* has taken some " + \
-    "{points_name} from *{receiver_name} ({receiver_points})*."
-)
-msg_take_point = _(
-    "*{sender_name} ({member_sender})* has taken a " + \
-    "{points_name} from *{receiver_name} ({receiver_points})*."
-)
-
+# Translated bot messages
+BOT_MESSAGES = {
+    'no_give_bot': _("You can't give {points_name} to a bot."),
+    'no_take_bot': _("You can't take {points_name} from a bot."),
+    'no_give_self': _("You can't give {points_name} to yourself."),
+    'no_take_self': _("You can't take {points_name} from yourself."),
+    'give_point': _(
+        "*{sender_name} ({member_sender})* has given a " + \
+        "{points_name} to *{receiver_name} ({receiver_points})*."
+    ),
+    'give_points': (
+        "*{sender_name} ({member_sender})* has given some " + \
+        "{points_name} to *{receiver_name} ({receiver_points})*."
+    ),
+    'take_point': _(
+        "*{sender_name} ({member_sender})* has taken a " + \
+        "{points_name} from *{receiver_name} ({receiver_points})*."
+    ),
+    'take_points': _(
+        "*{sender_name} ({member_sender})* has taken some " + \
+        "{points_name} from *{receiver_name} ({receiver_points})*."
+    ),
+}
 
 @sync_to_async
 def get_group_member(user_id, group_id):
@@ -112,7 +113,7 @@ async def add_points(
                 await sync_to_async(member_receiver.save)()
 
                 if member_sender.point_increment > 1:
-                    message = _(msg_give_points).format(
+                    message = _(BOT_MESSAGES['give_points']).format(
                         sender_name=sender_name,
                         member_sender=member_sender.points,
                         points_name=_(POINTS_NAME),
@@ -120,7 +121,7 @@ async def add_points(
                         receiver_points=member_receiver.points
                     )
                 else:
-                    message = _(msg_give_point).format(
+                    message = _(BOT_MESSAGES['give_point']).format(
                         sender_name=sender_name,
                         member_sender=member_sender.points,
                         points_name=_(POINT_NAME),
@@ -128,11 +129,11 @@ async def add_points(
                         receiver_points=member_receiver.points
                     )
             elif receiver.is_bot:
-                message = _(msg_no_give_points_bot).format(
+                message = _(BOT_MESSAGES['no_give_bot']).format(
                     points_name=_(POINTS_NAME)
                 )
             elif receiver == sender:
-                message = _(msg_no_give_points_self).format(
+                message = _(BOT_MESSAGES['no_give_self']).format(
                     points_name=_(POINTS_NAME)
                 )
 
@@ -162,7 +163,7 @@ async def remove_points(
                 await sync_to_async(member_receiver.save)()
 
                 if member_sender.point_increment > 1:
-                    message = _(msg_take_points).format(
+                    message = _(BOT_MESSAGES['take_points']).format(
                         sender_name=sender_name,
                         member_sender=member_sender.points,
                         points_name=_(POINTS_NAME),
@@ -170,7 +171,7 @@ async def remove_points(
                         receiver_points=member_receiver.points
                     )
                 else:
-                    message = _(msg_take_point).format(
+                    message = _(BOT_MESSAGES['take_point']).format(
                         sender_name=sender_name,
                         member_sender=member_sender.points,
                         points_name=_(POINT_NAME),
@@ -178,11 +179,11 @@ async def remove_points(
                         receiver_points=member_receiver.points
                     )
             elif receiver.is_bot:
-                message = _(msg_no_take_points_bot).format(
+                message = _(BOT_MESSAGES['no_take_bot']).format(
                     points_name=_(POINTS_NAME)
                 )
             elif receiver == sender:
-                message = _(msg_no_take_points_self).format(
+                message = _(BOT_MESSAGES['no_take_self']).format(
                     points_name=_(POINTS_NAME)
                 )        
             await context.bot.send_message(

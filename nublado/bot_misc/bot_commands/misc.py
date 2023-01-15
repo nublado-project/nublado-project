@@ -17,6 +17,13 @@ from django_telegram.functions.group import (
 
 logger = logging.getLogger('django')
 
+BOT_MESSAGES = {
+    'dice_roll': _("{member} has rolled {dice}."),
+    'dice_roll_total': _("{member} has rolled {dice}.\n\n Total: {total}"),
+    'dice_specify_num': _("Please specify the number of dice ({min_dice} - {max_dice})."),
+    'get_time': _("It's {weekday}, {time} {timezone}.")
+}
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send a message and prompt a reply on start."""
@@ -35,7 +42,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Display the current time."""
     weekday = timezone.now().weekday()
-    message = _("It's {weekday}, {time} {timezone}.").format(
+    message = _(BOT_MESSAGES['get_time']).format(
         weekday=_(settings.WEEKDAYS[weekday]),
         time=timezone.now().strftime('%H:%M'),
         timezone=settings.TIME_ZONE
@@ -126,24 +133,24 @@ async def roll_dice_c(
                 results.append(result)
             if dice_sum:
                 total = sum(results)
-                message = _("{} has rolled {}.\n\n Sum: {}").format(
-                    user.mention_markdown(),
-                    results,
-                    total
+                message = _(BOT_MESSAGES['dice_roll_total']).format(
+                    member=user.mention_markdown(),
+                    dice=results,
+                    total=total
                 )
             else:
-                message = _("{} has rolled {}.").format(
-                    user.mention_markdown(),
-                    results
+                message = _(BOT_MESSAGES['dice_roll']).format(
+                    member=user.mention_markdown(),
+                    dice=results
                 )
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 text=message 
             )
     else:
-        message = _("Please specify the number of dice to be rolled ({} - {}).").format(
-            min_dice,
-            max_dice
+        message = _(BOT_MESSAGES['dice_specify_num']).format(
+            min_dice=min_dice,
+            max_dice=max_dice
         )
         await context.bot.send_message(
             chat_id=update.effective_chat.id,

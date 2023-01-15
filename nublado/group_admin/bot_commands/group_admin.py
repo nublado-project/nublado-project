@@ -26,20 +26,24 @@ from django_telegram.models import GroupMember
 logger = logging.getLogger('django')
 
 # Translated strings.
-msg_agree = _("I agree.")
-msg_welcome = _(
-    "Welcome to the group, {name}.\n\n" \
-    "Please read the following rules and click the \"I agree\" button to participate.\n\n" \
-    "*Rules*\n" \
-    "- Communicate in only English and Spanish.\n" \
-    "- Be a good example. Help others out with corrections."
-)
-msg_welcome_agreed = _(
-    "Welcome to the group, {name}.\n\n" \
-    "We require new members to introduce themselves with a voice message. " \
-    "This helps us filter out fake accounts, trolls, etc.\n\n" \
-    "We look forward to hearing from you."
-)
+BOT_MESSAGES = {
+    'agree': _("I agree."),
+    'welcome': _(
+        "Welcome to the group, {name}.\n\n" \
+        "Please read the following rules and click the \"I agree\" button to participate.\n\n" \
+        "*Rules*\n" \
+        "- Communicate in only English and Spanish.\n" \
+        "- Be a good example. Help others out with corrections."
+    ),
+    'welcome_agreed': _(
+        "Welcome to the group, {name}.\n\n" \
+        "We require new members to introduce themselves with a voice message. " \
+        "This helps us filter out fake accounts, trolls, etc.\n\n" \
+        "We look forward to hearing from you."
+    ),
+    'bot_language_set': _("The bot's language has been changed to {language}."),
+    'error_invalid_language_key': _("Error: The possible language keys are [{language_keys}].")
+}
 
 # Callback data
 AGREE_BTN_CALLBACK_DATA = "chat_member_welcome_agree"
@@ -61,12 +65,17 @@ async def set_bot_language(
                     bot_config.language = lang
                     await sync_to_async(bot_config.save)()
                 activate(lang)
-                message = _("Bot language has been set.")
+                message = _(BOT_MESSAGES['bot_language_set']).format(
+                    language=_(settings.LANGUAGES_DICT[lang])
+                )
             else:
-                message = _("Bot not found in the configuration.")
+                logger.error(f"Bot {token} not found in the configuration.")
         else:
-            message = _("Error setting bot language.")
-
+            keys = list(settings.LANGUAGES_DICT.keys())
+            logger.info(keys)
+            message = _(BOT_MESSAGES['error_invalid_language_key']).format(
+                language_keys=keys
+            )
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=message
@@ -179,13 +188,13 @@ async def member_join(
             keyboard = [
                 [
                     InlineKeyboardButton(
-                        _(msg_agree),
+                        _(BOT_MESSAGES['agree']),
                         callback_data=callback_data
                     ),
                 ],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            message = _(msg_welcome).format(
+            message = _(BOT_MESSAGES['welcome']).format(
                 name=user.mention_markdown()
             )
             await context.bot.send_message(
@@ -250,7 +259,7 @@ async def chat_member_welcome_agree(
             logger.error(f"Error tring to delete  welcome message {welcome_message_id}.")
     try:
         member = await bot.get_chat_member(chat_id, user_id)
-        message = _(msg_welcome_agreed).format(
+        message = _(BOT_MESSAGES['welcome_agreed']).format(
             name=member.user.mention_markdown()
         )
         await bot.send_message(

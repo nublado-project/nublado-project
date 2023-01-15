@@ -7,104 +7,118 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-09 14:09+0000\n"
-"PO-Revision-Date: 2022-11-05 21:33-0700\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2023-01-15 12:27+0000\n"
+"PO-Revision-Date: 2023-01-15 04:48-0800\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "X-Generator: Poedit 2.4.2\n"
 
-#: config/settings/base.py:104 config/settings/base.py:176
+#: config/settings/base.py:117
 msgid "English"
 msgstr "inglés"
 
-#: config/settings/base.py:105 config/settings/base.py:177
+#: config/settings/base.py:118
 msgid "Spanish"
 msgstr "español"
 
-#: config/settings/base.py:178
-msgid "Free"
-msgstr "libre"
-
-#: config/settings/base.py:187
+#: config/settings/base.py:181
 msgid "Monday"
 msgstr "lunes"
 
-#: config/settings/base.py:187
+#: config/settings/base.py:181
 msgid "Tuesday"
 msgstr "martes"
 
-#: config/settings/base.py:187
+#: config/settings/base.py:181
 msgid "Wednesday"
 msgstr "miércoles"
 
-#: config/settings/base.py:187
+#: config/settings/base.py:181
 msgid "Thursday"
 msgstr "jueves"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:182
 msgid "Friday"
 msgstr "viernes"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:182
 msgid "Saturday"
 msgstr "sábado"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:182
 msgid "Sunday"
 msgstr "domingo"
 
-#: config/settings/base.py:191
+#: config/settings/base.py:185
 msgid "Mon."
-msgstr "Lun"
+msgstr ""
 
-#: config/settings/base.py:191
+#: config/settings/base.py:185
 msgid "Tue."
-msgstr "Mar"
+msgstr ""
 
-#: config/settings/base.py:191
+#: config/settings/base.py:185
 msgid "Wed."
-msgstr "Mié"
+msgstr ""
 
-#: config/settings/base.py:191
+#: config/settings/base.py:185
 msgid "Thu."
-msgstr "Jue"
+msgstr ""
 
-#: config/settings/base.py:192
+#: config/settings/base.py:186
 msgid "Fri."
-msgstr "Vie"
+msgstr ""
 
-#: config/settings/base.py:192
+#: config/settings/base.py:186
 msgid "Sat."
-msgstr "Sáb"
+msgstr ""
 
-#: config/settings/base.py:192
+#: config/settings/base.py:186
 msgid "Sun."
-msgstr "Dom"
-
-#: nublado/bot_notes/managers.py:14
-msgid "Note tag is required."
 msgstr ""
 
-#: nublado/bot_notes/managers.py:16 nublado/django_telegram/managers.py:12
-msgid "Group id is required."
+#: nublado/bot_misc/bot_commands/misc.py:21
+#, python-brace-format
+msgid "{member} has rolled {dice}."
+msgstr "{member} ha tirado {dice}."
+
+#: nublado/bot_misc/bot_commands/misc.py:22
+#, python-brace-format
+msgid ""
+"{member} has rolled {dice}.\n"
+"\n"
+" Total: {total}"
+msgstr ""
+"{member} ha tirado {dice}.\n"
+"\n"
+" Total: {total}"
+
+#: nublado/bot_misc/bot_commands/misc.py:23
+#, python-brace-format
+msgid "Please specify the number of dice ({min_dice} - {max_dice})."
+msgstr "Por favor, específica el número de dados ({min_dice} - {max_dice})."
+
+#: nublado/bot_misc/bot_commands/misc.py:24
+#, python-brace-format
+msgid "It's {weekday}, {time} {timezone}."
+msgstr "Es {weekday}, {time} {timezone}."
+
+#: nublado/bot_misc/bot_commands/misc.py:68
+msgid "The command requires some text to be reversed."
 msgstr ""
 
-#: nublado/bot_notes/managers.py:41
-msgid "Message id or content is required."
+#: nublado/bot_misc/bot_commands/misc.py:86
+msgid ""
+"Hey {}.\n"
+"{} says hello."
 msgstr ""
-
-#: nublado/bot_notes/models.py:25
-msgid "Bot note"
-msgstr ""
-
-#: nublado/bot_notes/models.py:26
-msgid "Bot notes"
-msgstr ""
+"Oye {}.\n"
+"{} te dice hola."
 
 #: nublado/core/models.py:10
 msgid "date created"
@@ -114,64 +128,23 @@ msgstr ""
 msgid "date updated"
 msgstr ""
 
-#: nublado/django_telegram/managers.py:14
+#: nublado/django_telegram/managers.py:16 nublado/group_notes/managers.py:16
+msgid "Group id is required."
+msgstr ""
+
+#: nublado/django_telegram/managers.py:18
 msgid "User id is required."
 msgstr ""
 
-#: nublado/django_telegram/managers.py:37
-msgid "Message id is required."
+#: nublado/django_telegram/models.py:29
+msgid "Bot configuration"
 msgstr ""
 
-#: nublado/django_telegram/managers.py:39
-msgid "Chat id is required."
-msgstr ""
+#: nublado/group_admin/bot_commands/group_admin.py:30
+msgid "I agree."
+msgstr "Estoy de acuerdo."
 
-#: nublado/django_telegram/models.py:18
-msgid "Telegram group member"
-msgstr ""
-
-#: nublado/django_telegram/models.py:19
-msgid "Telegram group members"
-msgstr ""
-
-#: nublado/django_telegram/models.py:36
-msgid "tmp message"
-msgstr ""
-
-#: nublado/django_telegram/models.py:37
-msgid "tmp messages"
-msgstr ""
-
-#: nublado/group_points/models.py:29
-msgid "group member points"
-msgstr ""
-
-#: nublado/language_days/functions.py:37
-#, python-brace-format
-msgid ""
-"*Schedule:*\n"
-"The day changes at {time_change} {timezone}."
-msgstr ""
-"*Horario:*\n"
-"El día cambia a las {time_change} {timezone}."
-
-#: nublado/language_days/models.py:24
-msgid "language day"
-msgstr ""
-
-#: nublado/language_days/models.py:25
-msgid "language days"
-msgstr ""
-
-#: nublado/language_days/models.py:47
-msgid "language day message"
-msgstr ""
-
-#: nublado/language_days/models.py:48
-msgid "language day messages"
-msgstr ""
-
-#: nublado/nublado_bot/bot_commands/group_admin.py:31
+#: nublado/group_admin/bot_commands/group_admin.py:32
 #, python-brace-format
 msgid ""
 "Welcome to the group, {name}.\n"
@@ -179,198 +152,200 @@ msgid ""
 "Please read the following rules and click the \"I agree\" button to "
 "participate.\n"
 "\n"
-"*Rules (tentative)*\n"
+"*Rules*\n"
 "- Communicate in only English and Spanish.\n"
-"- Don't harass other group members.\n"
-"- Don't send private messages to other group members without their "
-"permission.\n"
-"- Be a good example. There are people here learning your language. Help them "
-"out with corrections."
+"- Be a good example. Help others out with corrections."
 msgstr ""
-"Bienvenido/a al grupo, {name}.\n"
+
+#: nublado/group_admin/bot_commands/group_admin.py:39
+#, python-brace-format
+msgid ""
+"Welcome to the group, {name}.\n"
 "\n"
-"Por favor, lee las siguientes reglas y pulsa el botón de \"Estoy de acuerdo"
-"\" para participar.\n"
+"We require new members to introduce themselves with a voice message. This "
+"helps us filter out fake accounts, trolls, etc.\n"
 "\n"
-"*Reglas (tentativas)*\n"
-"- Comunícate solo en inglés y español.\n"
-"- No acoses a otros miembros del grupo.\n"
-"- No envíes mensajes privados a otros miembros del grupo sin su permiso.\n"
-"- Sé un buen ejemplo. Hay personas aquí que aprenden tu idioma. Ayúdalas con "
-"las correcciones."
-
-#: nublado/nublado_bot/bot_commands/group_admin.py:40
-msgid "I agree."
-msgstr "Estoy de acuerdo."
-
-#: nublado/nublado_bot/bot_commands/group_admin.py:61
-#, python-brace-format
-msgid ""
-"*Members*\n"
-"{member_list}"
+"We look forward to hearing from you."
 msgstr ""
 
-#: nublado/nublado_bot/bot_commands/group_points.py:28
-msgid "raindrop"
-msgstr "gota de lluvia"
-
-#: nublado/nublado_bot/bot_commands/group_points.py:29
-msgid "raindrops"
-msgstr "gotas de lluvia"
-
-#: nublado/nublado_bot/bot_commands/group_points.py:74
+#: nublado/group_admin/bot_commands/group_admin.py:44
 #, python-brace-format
-msgid ""
-"*Top {point_name} rankings*\n"
-"{rankings_list}"
-msgstr ""
+msgid "The bot's language has been changed to {language}."
+msgstr "El idioma del bot ha sido cambiado al {language}."
 
-#: nublado/nublado_bot/bot_commands/group_points.py:102
+#: nublado/group_admin/bot_commands/group_admin.py:45
 #, python-brace-format
-msgid ""
-"*{sender_name} ({sender_points})* has given some {points_name} to "
-"*{receiver_name} ({receiver_points})*."
-msgstr ""
-"*{sender_name} ({sender_points})* le ha regalado unas {points_name} a "
-"*{receiver_name} ({receiver_points})*."
+msgid "Error: The possible language keys are [{language_keys}]."
+msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
 
-#: nublado/nublado_bot/bot_commands/group_points.py:111
-#, python-brace-format
-msgid ""
-"*{sender_name} ({sender_points})* has given a {points_name} to "
-"*{receiver_name} ({receiver_points})*."
-msgstr ""
-"*{sender_name} ({sender_points})* le ha regalado una {points_name} a "
-"*{receiver_name} ({receiver_points})*."
-
-#: nublado/nublado_bot/bot_commands/group_points.py:120
-#, python-brace-format
-msgid "You can't give {points_name} to a bot."
-msgstr "No puedes regalarle {points_name} a un bot."
-
-#: nublado/nublado_bot/bot_commands/group_points.py:124
-#, python-brace-format
-msgid "You can't give {points_name} to yourself."
-msgstr "No puedes regalarte {points_name} ."
-
-#: nublado/nublado_bot/bot_commands/group_points.py:151
-#, python-brace-format
-msgid ""
-"*{sender_name} ({sender_points})* has taken some {points_name} from "
-"*{receiver_name} ({receiver_points})*."
-msgstr ""
-"*{sender_name} ({sender_points})* le ha quitado unas {points_name} a  "
-"*{receiver_name} ({receiver_points})*."
-
-#: nublado/nublado_bot/bot_commands/group_points.py:160
-#, python-brace-format
-msgid ""
-"*{sender_name} ({sender_points})* has taken a {points_name} from "
-"*{receiver_name} ({receiver_points})*."
-msgstr ""
-"*{sender_name} ({sender_points})* le ha quitado una {points_name} a  "
-"*{receiver_name} ({receiver_points})*."
-
-#: nublado/nublado_bot/bot_commands/group_points.py:169
-#, python-brace-format
-msgid "You can't take {points_name} from a bot."
-msgstr "No puedes quitarle {points_name} a un bot."
-
-#: nublado/nublado_bot/bot_commands/group_points.py:173
-#, python-brace-format
-msgid "You can't take {points_name} from yourself."
-msgstr "No puedes quitarte {points_name} ."
-
-#: nublado/nublado_bot/bot_commands/language_days.py:64
-#, python-brace-format
-msgid ""
-"It's {weekday}, {time} {timezone}.\n"
-"It's {language_day} day."
-msgstr ""
-"Es {weekday}, {time} {timezone}.\n"
-"Es día de {language_day}."
-
-#: nublado/nublado_bot/bot_commands/language_days.py:82
-#, python-brace-format
-msgid ""
-"Welcome, friends. It's {language_day} day.\n"
-"\n"
-"{schedule}"
-msgstr ""
-"Bienvenidos, amigos. Es día de {language_day} .\n"
-"\n"
-"{schedule}"
-
-#: nublado/nublado_bot/bot_commands/notes.py:30
+#: nublado/group_notes/bot_commands/group_notes.py:31
 msgid ""
 "*Group notes*\n"
 "{}"
 msgstr ""
 
-#: nublado/nublado_bot/bot_commands/notes.py:44
+#: nublado/group_notes/bot_commands/group_notes.py:35
+msgid "There are currently no group notes."
+msgstr ""
+
+#: nublado/group_notes/bot_commands/group_notes.py:52
 #, python-brace-format
 msgid "Group note *{note_tag}* has been saved."
 msgstr ""
 
-#: nublado/nublado_bot/bot_commands/notes.py:77
+#: nublado/group_notes/bot_commands/group_notes.py:100
+#: nublado/group_notes/bot_commands/group_notes.py:107
 msgid "A group note needs content."
 msgstr ""
 
-#: nublado/nublado_bot/bot_commands/notes.py:84
+#: nublado/group_notes/bot_commands/group_notes.py:114
+#: nublado/group_notes/bot_commands/group_notes.py:154
 msgid "A group note must have a tag."
 msgstr ""
 
-#~ msgid "strawberry"
-#~ msgstr "fresa"
-
-#~ msgid "strawberries"
-#~ msgstr "fresas"
-
-#~ msgid "polished pebble"
-#~ msgstr "guijarro pulido"
-
-#~ msgid "polished pebbles"
-#~ msgstr "guijarros pulidos"
-
-#~ msgid "chocolate coin"
-#~ msgstr "moneda de chocolate"
-
-#~ msgid "chocolate coins"
-#~ msgstr "monedas de chocolate"
-
-#~ msgid "potato"
-#~ msgstr "papa"
-
-#~ msgid "potatoes"
-#~ msgstr "papas"
-
-#~ msgid "coffee bean"
-#~ msgstr "grano de café"
-
-#~ msgid "coffee beans"
-#~ msgstr "granos de café"
-
-#~ msgid "pistachio"
-#~ msgstr "pistacho"
-
-#~ msgid "pistachios"
-#~ msgstr "pistachos"
-
-#~ msgid "magic pebble"
-#~ msgstr "guijarro mágico"
-
-#~ msgid "marble"
-#~ msgstr "canica"
-
-#~ msgid "pumpkin seed"
-#~ msgstr "semilla de calabaza"
-
-#~ msgid "pumpkin seeds"
-#~ msgstr "semillas de calabaza"
-
-#~ msgid "nublado points"
-#~ msgstr "puntos de nublado"
-
+#: nublado/group_notes/bot_commands/group_notes.py:136
 #, python-brace-format
-#~ msgid "You can't give {POINTS_NAME} to yourself."
-#~ msgstr "No puedes regalarte {points_name} ."
+msgid "The group note *{note_tag}* has been removed."
+msgstr ""
+
+#: nublado/group_notes/bot_commands/group_notes.py:145
+#, python-brace-format
+msgid "The group note *{note_tag}* doesn't exist."
+msgstr ""
+
+#: nublado/group_notes/bot_commands/group_notes.py:203
+#, python-brace-format
+msgid ""
+"The content for the group note *{note_tag}* was not found in the group repo."
+msgstr ""
+
+#: nublado/group_notes/managers.py:14
+msgid "Note tag is required."
+msgstr ""
+
+#: nublado/group_notes/managers.py:41
+msgid "Message id or content is required."
+msgstr ""
+
+#: nublado/group_notes/models.py:25
+msgid "Bot note"
+msgstr ""
+
+#: nublado/group_notes/models.py:26
+msgid "Bot notes"
+msgstr ""
+
+#: nublado/group_points/bot_commands/group_points.py:22
+msgid "raindrop"
+msgstr "gota de lluvia"
+
+#: nublado/group_points/bot_commands/group_points.py:23
+msgid "raindrops"
+msgstr "gotas de lluvia"
+
+#: nublado/group_points/bot_commands/group_points.py:28
+#, python-brace-format
+msgid "You can't give {points_name} to a bot."
+msgstr "No puedes regalarle {points_name} a un bot."
+
+#: nublado/group_points/bot_commands/group_points.py:29
+#, python-brace-format
+msgid "You can't take {points_name} from a bot."
+msgstr "No puedes quitarle {points_name} a un bot."
+
+#: nublado/group_points/bot_commands/group_points.py:30
+#, python-brace-format
+msgid "You can't give {points_name} to yourself."
+msgstr "No puedes regalarte {points_name} a ti mism@."
+
+#: nublado/group_points/bot_commands/group_points.py:31
+#, python-brace-format
+msgid "You can't take {points_name} from yourself."
+msgstr "No puedes quitarte {points_name} a ti mism@."
+
+#: nublado/group_points/bot_commands/group_points.py:33
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has given a {points_name} to "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha regalado una {points_name} a "
+"*{receiver_name} ({receiver_points})*."
+
+#: nublado/group_points/bot_commands/group_points.py:41
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has taken a {points_name} from "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha quitado una {points_name} a "
+"*{receiver_name} ({receiver_points})*."
+
+#: nublado/group_points/bot_commands/group_points.py:45
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has taken some {points_name} from "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha quitado unas {points_name} a "
+"*{receiver_name} ({receiver_points})*."
+
+#: nublado/users/apps.py:7
+msgid "label_user_config"
+msgstr ""
+
+#: nublado/users/managers.py:9 nublado/users/managers.py:33
+msgid "validation_username_required"
+msgstr ""
+
+#: nublado/users/managers.py:11 nublado/users/managers.py:35
+msgid "validation_email_required"
+msgstr ""
+
+#: nublado/users/models.py:15
+msgid "label_username"
+msgstr ""
+
+#: nublado/users/models.py:20
+msgid "label_email"
+msgstr ""
+
+#: nublado/users/models.py:25
+msgid "label_first_name"
+msgstr ""
+
+#: nublado/users/models.py:29
+msgid "label_last_name"
+msgstr ""
+
+#: nublado/users/models.py:33
+msgid "label_is_active"
+msgstr ""
+
+#: nublado/users/models.py:37
+msgid "label_is_admin"
+msgstr ""
+
+#: nublado/project_app/templates/home.html:4
+msgid "Home"
+msgstr ""
+
+#: nublado/project_app/templates/home.html:11
+msgid "Django async prototype."
+msgstr ""
+
+#: nublado/project_app/templates/home.html:12
+msgid "Testing testing 123..."
+msgstr ""
+
+#: nublado/project_app/templates/includes/_user_nav.html:8
+msgid "label_login"
+msgstr ""
+
+#: nublado/project_app/templates/includes/_user_nav.html:39
+msgid "label_edit_profile"
+msgstr ""
+
+#: nublado/project_app/templates/includes/_user_nav.html:48
+msgid "label_logout"
+msgstr ""

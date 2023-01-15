@@ -30,9 +30,7 @@ class ProjectAppConfig(AppConfig):
                             set_webhook_url = f"{set_webhook_site}/{set_webhook_path}/{bot.token}/"
                             logger.info(set_webhook_url)
                             r = httpx.post(set_webhook_url, data={})
-                            if r.status_code == httpx.codes.OK:
-                                logger.info(f"Bot {bot.token} webhook started with post request")
-                            else:
+                            if r.status_code != httpx.codes.OK:
                                 logger.error(f"Error starting bot {bot.token} webhook with post request.")
                     except Exception as e:
                         logger.error(f"Bot {bot_name} doesn't exist or is improperly configured.")
