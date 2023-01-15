@@ -17,6 +17,20 @@ logger = logging.getLogger('django')
 TAG_CHAR = '#'
 GET_GROUP_NOTE_REGEX = '^[' + TAG_CHAR + '][a-zA-Z0-9_-]+$'
 
+BOT_MESSAGES = {
+    'no_notes': _("There are no saved notes."),
+    'notes_list': _("*Notes*\n{notes}"),
+    'note_saved': _("The note *{note_tag}* has been saved."),
+    'note_removed': _("The note *{note_tag}* has been removed."),
+    'note_no_exist': _("The note *{note_tag}* doesn't exist."),
+    'note_no_content': _("A note needs content."),
+    'note_no_tag': _("A note must have a tag."),
+    'note_no_args': _("A note needs a tag and content."),
+    'note_not_in_repo': _(
+        "The content for the note *{note_tag}* was not found in the repo."
+    )
+}
+
 
 async def group_notes(
     update: Update,
@@ -28,11 +42,11 @@ async def group_notes(
 
         if await sync_to_async(group_notes.count)():
             group_notes_list = [f"*- {note.note_tag}*" async for note in group_notes]
-            message = _("*Group notes*\n{}").format(
-                "\n".join(group_notes_list)
+            message = _(BOT_MESSAGES['notes_list']).format(
+                notes="\n".join(group_notes_list)
             )
         else:
-            message = _("There are currently no group notes.")
+            message = _(BOT_MESSAGES['no_notes'])
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -49,7 +63,7 @@ async def save_group_note(
     if group_id is not None and repo_id is not None:
         if context.args:
             note_tag = context.args[0]
-            saved_message = _("Group note *{note_tag}* has been saved.").format(
+            saved_message = _(BOT_MESSAGES['note_saved']).format(
                 note_tag=note_tag
             )
             if update.message.reply_to_message:
@@ -97,21 +111,21 @@ async def save_group_note(
                             text=saved_message
                         )
                     else:
-                        message = _("A group note needs content.")
+                        message = _(BOT_MESSAGES['note_no_content'])
                         await context.bot.send_message(
                             chat_id=update.effective_chat.id,
                             reply_to_message_id=update.message.message_id,
                             text=message
                         )
                 else:
-                    message = _("A group note needs content.")
+                    message = _(BOT_MESSAGES['note_no_content'])
                     await context.bot.send_message(
                         chat_id=update.effective_chat.id,
                         reply_to_message_id=update.message.message_id,
                         text=message
                     )
         else:
-            message = _("A group note must have a tag.")
+            message = _(BOT_MESSAGES['note_no_args'])
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.message_id,
@@ -133,7 +147,7 @@ async def remove_group_note(
                 group_id=group_id
             ).adelete()
             if num_removed > 0:
-                removed_message = _("The group note *{note_tag}* has been removed.").format(
+                removed_message = _(BOT_MESSAGES['note_removed']).format(
                     note_tag=note_tag
                 )
                 await context.bot.send_message(
@@ -142,7 +156,7 @@ async def remove_group_note(
                     text=removed_message
                 )
             else:
-                not_found_message = _("The group note *{note_tag}* doesn't exist.").format(
+                not_found_message = _(BOT_MESSAGES['note_no_exist']).format(
                     note_tag=note_tag
                 )
                 await context.bot.send_message(
@@ -151,7 +165,7 @@ async def remove_group_note(
                     text=not_found_message
                 )
         else:
-            message = _("A group note must have a tag.")
+            message = _(BOT_MESSAGES['note_no_tag'])
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.message_id,
@@ -199,9 +213,7 @@ async def get_group_note(
                             reply_to_message_id=update.message.message_id
                         )
                     except:
-                        not_found_message = _(
-                            "The content for the group note *{note_tag}* was not found in the group repo."
-                        ).format(
+                        not_found_message = _(BOT_MESSAGES['note_not_in_repo']).format(
                             note_tag=note_tag
                         )
                         await context.bot.send_message(

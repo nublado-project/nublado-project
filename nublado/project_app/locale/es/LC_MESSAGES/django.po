@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 12:27+0000\n"
-"PO-Revision-Date: 2023-01-15 04:48-0800\n"
+"POT-Creation-Date: 2023-01-15 22:52+0000\n"
+"PO-Revision-Date: 2023-01-15 14:59-0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 2.4.2\n"
 
 #: config/settings/base.py:117
@@ -101,7 +101,7 @@ msgstr ""
 #: nublado/bot_misc/bot_commands/misc.py:23
 #, python-brace-format
 msgid "Please specify the number of dice ({min_dice} - {max_dice})."
-msgstr "Por favor, específica el número de dados ({min_dice} - {max_dice})."
+msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
 
 #: nublado/bot_misc/bot_commands/misc.py:24
 #, python-brace-format
@@ -178,46 +178,52 @@ msgstr "El idioma del bot ha sido cambiado al {language}."
 msgid "Error: The possible language keys are [{language_keys}]."
 msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
 
-#: nublado/group_notes/bot_commands/group_notes.py:31
-msgid ""
-"*Group notes*\n"
-"{}"
-msgstr ""
+#: nublado/group_notes/bot_commands/group_notes.py:21
+msgid "There are no saved notes."
+msgstr "No hay notas."
 
-#: nublado/group_notes/bot_commands/group_notes.py:35
-msgid "There are currently no group notes."
-msgstr ""
-
-#: nublado/group_notes/bot_commands/group_notes.py:52
-#, python-brace-format
-msgid "Group note *{note_tag}* has been saved."
-msgstr ""
-
-#: nublado/group_notes/bot_commands/group_notes.py:100
-#: nublado/group_notes/bot_commands/group_notes.py:107
-msgid "A group note needs content."
-msgstr ""
-
-#: nublado/group_notes/bot_commands/group_notes.py:114
-#: nublado/group_notes/bot_commands/group_notes.py:154
-msgid "A group note must have a tag."
-msgstr ""
-
-#: nublado/group_notes/bot_commands/group_notes.py:136
-#, python-brace-format
-msgid "The group note *{note_tag}* has been removed."
-msgstr ""
-
-#: nublado/group_notes/bot_commands/group_notes.py:145
-#, python-brace-format
-msgid "The group note *{note_tag}* doesn't exist."
-msgstr ""
-
-#: nublado/group_notes/bot_commands/group_notes.py:203
+#: nublado/group_notes/bot_commands/group_notes.py:22
 #, python-brace-format
 msgid ""
-"The content for the group note *{note_tag}* was not found in the group repo."
+"*Notes*\n"
+"{notes}"
 msgstr ""
+"*Notas*\n"
+"{notes}"
+
+#: nublado/group_notes/bot_commands/group_notes.py:23
+#, python-brace-format
+msgid "The note *{note_tag}* has been saved."
+msgstr "La nota *{note_tag}* ha sido guardada."
+
+#: nublado/group_notes/bot_commands/group_notes.py:24
+#, python-brace-format
+msgid "The note *{note_tag}* has been removed."
+msgstr "La nota *{note_tag}* ha sido eliminada."
+
+#: nublado/group_notes/bot_commands/group_notes.py:25
+#, python-brace-format
+msgid "The note *{note_tag}* doesn't exist."
+msgstr "La nota *{note_tag}* no existe."
+
+#: nublado/group_notes/bot_commands/group_notes.py:26
+msgid "A note needs content."
+msgstr "Una nota necesita contenido."
+
+#: nublado/group_notes/bot_commands/group_notes.py:27
+msgid "A note must have a tag."
+msgstr "Una nota necesita una etiqueta."
+
+#: nublado/group_notes/bot_commands/group_notes.py:28
+msgid "A note needs a tag and content."
+msgstr "Una nota necesita una etiqueta y contenido."
+
+#: nublado/group_notes/bot_commands/group_notes.py:30
+#, python-brace-format
+msgid "The content for the note *{note_tag}* was not found in the repo."
+msgstr ""
+"El contenido para la nota *{note_tag}* no fue encontrado en el "
+"repositorio."
 
 #: nublado/group_notes/managers.py:14
 msgid "Note tag is required."
