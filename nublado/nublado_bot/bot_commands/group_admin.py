@@ -55,6 +55,7 @@ async def member_exit(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def welcome_button_handler_c(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await set_language(BOT_TOKEN)
     await cmd_welcome_button_handler_c(update, context, GROUP_ID)
 
 
