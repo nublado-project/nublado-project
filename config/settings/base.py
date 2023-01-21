@@ -3,7 +3,6 @@ import sys
 import datetime as dt
 from pathlib import Path
 
-from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_noop as _
 
 
@@ -13,7 +12,7 @@ def get_env_variable(var_name):
         return os.environ[var_name]
     except KeyError:
         error_msg = "Set the {} environment variable.".format(var_name)
-        raise ImproperlyConfigured(error_msg)
+        raise Exception(error_msg)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,7 +49,7 @@ LOCAL_APPS = [
     'group_notes.apps.GroupNotesConfig',
     'group_points.apps.GroupPointsConfig',
     'nublado_bot.apps.NubladoBotConfig',
-    'proto_bot.apps.ProtoBotConfig',
+    # 'proto_bot.apps.ProtoBotConfig',
     'project_app.apps.ProjectAppConfig'
 ]
 THIRD_PARTY_APPS = [
@@ -225,12 +224,12 @@ DJANGO_TELEGRAM = {
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST
         },
-        PROTO_BOT_TOKEN: {
-            'token': PROTO_BOT_TOKEN,
-            'group_id': PROTO_GROUP_ID,
-            'repo_id': PROTO_REPO_ID,
-            'sudo_list': PROTO_SUDO_LIST
-        },
+        # PROTO_BOT_TOKEN: {
+        #     'token': PROTO_BOT_TOKEN,
+        #     'group_id': PROTO_GROUP_ID,
+        #     'repo_id': PROTO_REPO_ID,
+        #     'sudo_list': PROTO_SUDO_LIST
+        # },
     }
 }
 
