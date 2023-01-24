@@ -26,6 +26,12 @@ BOT_MESSAGES = {
     'hello': _("Hey, {member_receive}.\n{member_send} says hello.")
 }
 
+# Constants for default values.
+MIN_DICE = 1
+MAX_DICE = 10
+MIN_DIE_VAL = 1
+MAX_DIE_VAL = 6
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send a message and prompt a reply on start."""
@@ -118,10 +124,10 @@ async def echo(
 async def roll_dice_c(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
-    min_dice=1,
-    max_dice=10,
-    dice_min_val=1,
-    dice_max_val=6,
+    min_dice=MIN_DICE,
+    max_dice=MAX_DICE,
+    dice_min_val=MIN_DIE_VAL,
+    dice_max_val=MAX_DIE_VAL,
     dice_sum=False
 ):
     if len(context.args) >= 1:
@@ -148,6 +154,15 @@ async def roll_dice_c(
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 text=message 
+            )
+        else:
+            message = _(BOT_MESSAGES['dice_specify_num']).format(
+                min_dice=min_dice,
+                max_dice=max_dice
+            )
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=message
             )
     else:
         message = _(BOT_MESSAGES['dice_specify_num']).format(
