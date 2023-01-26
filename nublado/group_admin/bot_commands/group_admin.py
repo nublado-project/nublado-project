@@ -153,7 +153,7 @@ async def unrestrict_chat_member(
     bot: Bot,
     user_id: int,
     chat_id: int,
-    interval_minutes: int = 2
+    interval_minutes: int = 1
 ):
     """Restore restricted chat member to group's default member permissions."""
     try:
