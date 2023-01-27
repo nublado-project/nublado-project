@@ -24,8 +24,8 @@ from group_admin.bot_commands.group_admin import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.PROTO_BOT_TOKEN
-GROUP_ID = settings.PROTO_GROUP_ID
+BOT_TOKEN = settings.TEST_BOT_TOKEN
+GROUP_ID = settings.TEST_GROUP_ID
 
 
 @send_typing_action
@@ -43,19 +43,16 @@ async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     group_id=GROUP_ID
 )
 async def member_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await set_language(BOT_TOKEN)
     await cmd_member_join(update, context, GROUP_ID)
 
 @restricted_group_id(
     group_id=GROUP_ID
 )
 async def member_exit(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await set_language(BOT_TOKEN)
     await cmd_member_exit(update, context, GROUP_ID)
 
 
 async def welcome_button_handler_c(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await set_language(BOT_TOKEN)
     await cmd_welcome_button_handler_c(update, context, GROUP_ID)
 
 

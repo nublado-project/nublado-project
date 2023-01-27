@@ -49,7 +49,7 @@ LOCAL_APPS = [
     'group_notes.apps.GroupNotesConfig',
     'group_points.apps.GroupPointsConfig',
     'nublado_bot.apps.NubladoBotConfig',
-    # 'proto_bot.apps.ProtoBotConfig',
+    'test_bot.apps.TestBotConfig',
     'project_app.apps.ProjectAppConfig'
 ]
 THIRD_PARTY_APPS = [
@@ -201,14 +201,13 @@ NUBLADO_SUDO_LIST = [
 ]
 
 # Command line arg to run this bot
-PROTO_BOT = 'protobot'
-PROTO_BOT_TOKEN = get_env_variable('PROTO_BOT_TOKEN')
-PROTO_GROUP_ID = int(get_env_variable('PROTO_GROUP_ID'))
-
-PROTO_REPO_ID = NUBLADO_REPO_ID
-PROTO_GROUP_OWNER_ID = NUBLADO_GROUP_OWNER_ID
-PROTO_SUDO_LIST = [
-    PROTO_GROUP_OWNER_ID, 
+TEST_BOT = "testbot"
+TEST_BOT_TOKEN = get_env_variable('TEST_BOT_TOKEN')
+TEST_GROUP_ID = int(get_env_variable('TEST_GROUP_ID'))
+TEST_REPO_ID = NUBLADO_REPO_ID
+TEST_GROUP_OWNER_ID = NUBLADO_GROUP_OWNER_ID
+TEST_SUDO_LIST = [
+    TEST_GROUP_OWNER_ID, 
 ]
 
 DJANGO_TELEGRAM = {
@@ -224,16 +223,9 @@ DJANGO_TELEGRAM = {
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST
         },
-        # PROTO_BOT_TOKEN: {
-        #     'token': PROTO_BOT_TOKEN,
-        #     'group_id': PROTO_GROUP_ID,
-        #     'repo_id': PROTO_REPO_ID,
-        #     'sudo_list': PROTO_SUDO_LIST
-        # },
     }
 }
 
 BOT_CLI = {
-    NUBLADO_BOT: DJANGO_TELEGRAM['bots'][NUBLADO_BOT_TOKEN],
-    # PROTO_BOT: DJANGO_TELEGRAM['bots'][PROTO_BOT_TOKEN]
+    NUBLADO_BOT: DJANGO_TELEGRAM['bots'][NUBLADO_BOT_TOKEN]
 }

@@ -50,7 +50,6 @@ class Bot(object):
                 raise ImproperlyConfigured(bot_mode_error)
         except Exception as e:
             logger.error(e)
-            raise ImproperlyConfigured(django_telegram_settings_error)
 
     def start_polling(self):
         logger.info("Bot mode: polling")
@@ -61,8 +60,8 @@ class Bot(object):
             await self.telegram_bot.set_webhook(self.webhook_url)
             logger.info(f"Bot {self.name} webhook set.")
         else:
-            error = f"Bot {self.token} webhook url isn't set."
-            raise ImproperlyConfigured(error)
+            logger.error(f"Bot {self.token} webhook url isn't set.")
+            raise ImproperlyConfigured()
 
     def add_handler(self, handler, handler_group: int = 0):
         try:

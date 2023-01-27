@@ -7,7 +7,6 @@ from telegram import (
     Bot, Update, ChatPermissions,
     InlineKeyboardButton, InlineKeyboardMarkup
 )
-
 from telegram.ext import (
     ContextTypes
 )
@@ -110,17 +109,25 @@ async def set_bot_language(
 #         text=message
 #     )
 
+
+async def has_member(group_id: int, user_id: int) -> bool:
+    member_exists = await GroupMember.objects.filter(
+        group_id=group_id,
+        user_id=user_id
+    ).aexists()
+    return member_exists
+
+
 async def add_member(group_id, user_id):
     member_exists = await has_member(group_id, user_id)
     if not member_exists:
-        logger.info("FUck")
         await sync_to_async(GroupMember.objects.create_group_member)(
             group_id=group_id,
             user_id=user_id
         )
 
 
-async def remove_member(group_id, user_id):
+async def remove_member(user_id, group_id):
     await GroupMember.objects.filter(
         group_id=group_id,
         user_id=user_id
@@ -150,7 +157,7 @@ async def unrestrict_chat_member(
     bot: Bot,
     user_id: int,
     chat_id: int,
-    interval_minutes: int = 2
+    interval_minutes: int = 1
 ):
     """Restore restricted chat member to group's default member permissions."""
     try:
@@ -217,7 +224,7 @@ async def member_exit(
     if update.message.left_chat_member:
         user = update.message.left_chat_member
         # Delete member from db.
-        await remove_member(group_id, user.id)
+        await remove_member(user.id, group_id)
         # Delete service message.
         try:
             await context.bot.delete_message(

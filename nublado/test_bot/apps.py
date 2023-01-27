@@ -9,9 +9,9 @@ from django_telegram.bot import Bot
 logger = logging.getLogger('django')
 
 
-class ProtoBotConfig(AppConfig):
-    name = 'proto_bot'
-    bot_key = settings.PROTO_BOT_TOKEN
+class TestBotConfig(AppConfig):
+    name = "test_bot"
+    bot_key = settings.TEST_BOT_TOKEN
     is_ready = False
 
     def ready(self):
@@ -39,7 +39,7 @@ class ProtoBotConfig(AppConfig):
             )
 
             bot_registry = DjangoTelegramConfig.bot_registry
-            bot = Bot(settings.PROTO_BOT_TOKEN, name=settings.PROTO_BOT)
+            bot = Bot(settings.TEST_BOT_TOKEN, name=settings.TEST_BOT)
 
             # Register handlers
             
@@ -67,5 +67,5 @@ class ProtoBotConfig(AppConfig):
             bot.add_command_handler('remove_group_note', remove_group_note)
             bot.add_handler(get_group_note_handler, handler_group=2)
             # Add the bot to the registry.
-            bot_registry.add_bot(ProtoBotConfig.bot_key, bot)
+            bot_registry.add_bot(TestBotConfig.bot_key, bot)
             self.is_ready = True

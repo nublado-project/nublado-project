@@ -48,7 +48,6 @@ class BotWebhookView(View):
                 logger.info(f"Update from webhook: {update}")
             except Exception as e:
                 logger.error(f"Error in processing update: {e}")
-                raise Http404
             return JsonResponse({})
         else:
             raise Http404

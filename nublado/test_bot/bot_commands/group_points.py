@@ -22,12 +22,12 @@ from group_points.bot_commands.group_points import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.PROTO_BOT_TOKEN
+BOT_TOKEN = settings.TEST_BOT_TOKEN
 ADD_POINTS_TRIGGER = '\+'
 ADD_POINTS_REGEX = '^' + ADD_POINTS_TRIGGER + '{2}[\s\S]*$'
 REMOVE_POINTS_TRIGGER = '\-'
 REMOVE_POINTS_REGEX = '^' + REMOVE_POINTS_TRIGGER + '{2}[\s\S]*$'
-GROUP_ID = settings.PROTO_GROUP_ID
+GROUP_ID = settings.TEST_GROUP_ID
 
 # Command handlers 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)

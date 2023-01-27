@@ -24,10 +24,10 @@ from group_notes.bot_commands.group_notes import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.PROTO_BOT_TOKEN
-GROUP_ID = settings.PROTO_GROUP_ID
-REPO_ID = settings.PROTO_REPO_ID
-OWNER_ID = settings.PROTO_GROUP_OWNER_ID
+BOT_TOKEN = settings.TEST_BOT_TOKEN
+GROUP_ID = settings.TEST_GROUP_ID
+REPO_ID = settings.TEST_REPO_ID
+OWNER_ID = settings.TEST_GROUP_OWNER_ID
 TAG_CHAR = '#'
 GET_GROUP_NOTE_REGEX = '^[' + TAG_CHAR + '][a-zA-Z0-9_-]+$'
 

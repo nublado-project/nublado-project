@@ -48,7 +48,7 @@ BOT_MESSAGES = {
 }
 
 @sync_to_async
-def get_group_member(user_id, group_id):
+def get_or_create_group_member(user_id, group_id):
     """Get user's total points in group."""
     group_member, group_member_created = GroupMember.objects.get_or_create(
         group_id=group_id,
@@ -107,8 +107,8 @@ async def add_points(
 
             # Check if the reply is to another member and not a bot or oneself.
             if not receiver.is_bot and sender != receiver:
-                member_sender = await get_group_member(sender.id, group_id)
-                member_receiver = await get_group_member(receiver.id, group_id)
+                member_sender = await get_or_create_group_member(sender.id, group_id)
+                member_receiver = await get_or_create_group_member(receiver.id, group_id)
                 member_receiver.points += member_sender.point_increment
                 await sync_to_async(member_receiver.save)()
 
@@ -156,8 +156,8 @@ async def remove_points(
             receiver_name = get_username_or_name(receiver)
 
             if not receiver.is_bot and sender != receiver:
-                member_sender = await get_group_member(sender.id, group_id)
-                member_receiver = await get_group_member(receiver.id, group_id)
+                member_sender = await get_or_create_group_member(sender.id, group_id)
+                member_receiver = await get_or_create_group_member(receiver.id, group_id)
                 points = member_receiver.points - member_sender.point_increment
                 member_receiver.points = points if points >= 0 else 0
                 await sync_to_async(member_receiver.save)()
