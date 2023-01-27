@@ -110,24 +110,21 @@ async def set_bot_language(
 #         text=message
 #     )
 
-@sync_to_async
-def add_member(user_id, group_id):
-    member_exists = GroupMember.objects.filter(
-        group_id=group_id,
-        user_id=user_id
-    ).exists()
+async def add_member(group_id, user_id):
+    member_exists = await has_member(group_id, user_id)
     if not member_exists:
-        GroupMember.objects.create_group_member(
+        logger.info("FUck")
+        await sync_to_async(GroupMember.objects.create_group_member)(
             group_id=group_id,
             user_id=user_id
         )
 
-@sync_to_async
-def remove_member(user_id, group_id):
-    GroupMember.objects.filter(
+
+async def remove_member(group_id, user_id):
+    await GroupMember.objects.filter(
         group_id=group_id,
         user_id=user_id
-    ).delete()
+    ).adelete()
 
 
 async def restrict_chat_member(bot: Bot, user_id: int, chat_id: int):
@@ -153,7 +150,7 @@ async def unrestrict_chat_member(
     bot: Bot,
     user_id: int,
     chat_id: int,
-    interval_minutes: int = 1
+    interval_minutes: int = 2
 ):
     """Restore restricted chat member to group's default member permissions."""
     try:
@@ -181,7 +178,7 @@ async def member_join(
     if update.message.new_chat_members:
         for user in update.message.new_chat_members:
             # Add user to db
-            await add_member(user.id, group_id)
+            await add_member(group_id, user.id)
             # Mute user until he or she presses the "I agree" button.
             await restrict_chat_member(context.bot, user.id, group_id)
             callback_data = AGREE_BTN_CALLBACK_DATA + " " + str(user.id)
@@ -220,7 +217,7 @@ async def member_exit(
     if update.message.left_chat_member:
         user = update.message.left_chat_member
         # Delete member from db.
-        await remove_member(user.id, group_id)
+        await remove_member(group_id, user.id)
         # Delete service message.
         try:
             await context.bot.delete_message(
