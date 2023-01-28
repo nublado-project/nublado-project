@@ -43,12 +43,14 @@ async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     group_id=GROUP_ID
 )
 async def member_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await set_language(BOT_TOKEN)
     await cmd_member_join(update, context, GROUP_ID)
 
 @restricted_group_id(
     group_id=GROUP_ID
 )
 async def member_exit(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await set_language(BOT_TOKEN)
     await cmd_member_exit(update, context, GROUP_ID)
 
 

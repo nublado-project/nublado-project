@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 23:30+0000\n"
+"POT-Creation-Date: 2023-01-28 13:30+0000\n"
 "PO-Revision-Date: 2023-01-15 19:37-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,67 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.4.2\n"
 
-#: config/settings/base.py:117
+#: config/settings/base.py:116
 msgid "English"
 msgstr "inglés"
 
-#: config/settings/base.py:118
+#: config/settings/base.py:117
 msgid "Spanish"
 msgstr "español"
 
-#: config/settings/base.py:181
+#: config/settings/base.py:180
 msgid "Monday"
 msgstr "lunes"
 
-#: config/settings/base.py:181
+#: config/settings/base.py:180
 msgid "Tuesday"
 msgstr "martes"
 
-#: config/settings/base.py:181
+#: config/settings/base.py:180
 msgid "Wednesday"
 msgstr "miércoles"
 
-#: config/settings/base.py:181
+#: config/settings/base.py:180
 msgid "Thursday"
 msgstr "jueves"
 
-#: config/settings/base.py:182
+#: config/settings/base.py:181
 msgid "Friday"
 msgstr "viernes"
 
-#: config/settings/base.py:182
+#: config/settings/base.py:181
 msgid "Saturday"
 msgstr "sábado"
 
-#: config/settings/base.py:182
+#: config/settings/base.py:181
 msgid "Sunday"
 msgstr "domingo"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Mon."
 msgstr ""
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Tue."
 msgstr ""
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Wed."
 msgstr ""
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Thu."
 msgstr ""
 
-#: config/settings/base.py:186
+#: config/settings/base.py:185
 msgid "Fri."
 msgstr ""
 
-#: config/settings/base.py:186
+#: config/settings/base.py:185
 msgid "Sat."
 msgstr ""
 
-#: config/settings/base.py:186
+#: config/settings/base.py:185
 msgid "Sun."
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 "Oye, {member_receive}.\n"
 "{member_send} te dice hola."
 
-#: nublado/bot_misc/bot_commands/misc.py:70
+#: nublado/bot_misc/bot_commands/misc.py:76
 msgid "The command requires some text to be reversed."
 msgstr ""
 
@@ -146,11 +146,11 @@ msgstr ""
 msgid "Bot configuration"
 msgstr ""
 
-#: nublado/group_admin/bot_commands/group_admin.py:30
+#: nublado/group_admin/bot_commands/group_admin.py:29
 msgid "I agree."
 msgstr "Estoy de acuerdo."
 
-#: nublado/group_admin/bot_commands/group_admin.py:32
+#: nublado/group_admin/bot_commands/group_admin.py:31
 #, python-brace-format
 msgid ""
 "Welcome to the group, {name}.\n"
@@ -171,7 +171,7 @@ msgstr ""
 "- Comunícate solo en inglés o español.\n"
 "- Sé un buen ejemplo. Ayuda a los demás con las correcciones."
 
-#: nublado/group_admin/bot_commands/group_admin.py:39
+#: nublado/group_admin/bot_commands/group_admin.py:38
 #, python-brace-format
 msgid ""
 "Welcome to the group, {name}.\n"
@@ -183,18 +183,18 @@ msgid ""
 msgstr ""
 "Bienvenido/a al grupo, {name}.\n"
 "\n"
-"Tienes que presentarte con un mensaje de voz. Es nuestro protocolo para "
-"los nuevos miembros. Eso nos ayuda a filtrar las cuentas falsas, troles, "
+"Tienes que presentarte con un mensaje de voz. Es nuestro protocolo para los "
+"nuevos miembros. Eso nos ayuda a filtrar las cuentas falsas, troles, "
 "estafadores, bots, etc.\n"
 "\n"
 "Esperamos tu presentación."
 
-#: nublado/group_admin/bot_commands/group_admin.py:44
+#: nublado/group_admin/bot_commands/group_admin.py:43
 #, python-brace-format
 msgid "The bot's language has been changed to {language}."
 msgstr "El idioma del bot ha sido cambiado al {language}."
 
-#: nublado/group_admin/bot_commands/group_admin.py:45
+#: nublado/group_admin/bot_commands/group_admin.py:44
 #, python-brace-format
 msgid "Error: The possible language keys are [{language_keys}]."
 msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
