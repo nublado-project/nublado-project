@@ -38,6 +38,19 @@ class GroupMemberManager(models.Manager):
         return super(GroupMemberManager, self).get_queryset()
 
 
+    async def a_get_group_member(self, group_id: int, user_id: int):
+        """Fetches a group member asynchronously."""
+        try:
+            group_member = await self.aget(
+                group_id=group_id,
+                user_id=user_id
+            )
+        except self.model.DoesNotExist:
+            group_member = None
+
+        return group_member
+
+
 # class TmpMessageManager(models.Manager):
 #     def create_tmp_message(self, message_id=None, chat_id=None, **kwargs):
 #         if not message_id:

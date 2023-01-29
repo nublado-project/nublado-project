@@ -20,6 +20,21 @@ USER_B_ID = settings.TEST_GROUP_OWNER_ID
 
 logger = logging.getLogger('django')
 
+# @pytest.fixture(scope="session")
+# def django_db_setup():
+
+#     settings.DATABASES['default'] = {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ['DATABASE_NAME'],
+#         'USER': os.environ['DATABASE_USER'],
+#         'PASSWORD': os.environ['DATABASE_PWD'],
+#         'HOST': 'localhost',
+#         'PORT': '',
+#         "TEST": {
+#             "NAME": os.environ["TEST_DATABASE_NAME"],
+#         }
+#     }
+
 
 @pytest.fixture(scope="session")
 def event_loop():

@@ -6,6 +6,7 @@ from telethon.tl.functions.messages import ImportChatInviteRequest
 from telethon.utils import get_display_name
 
 from django.conf import settings
+from django.db import connection
 from django.utils.translation import gettext as _
 
 from django_telegram.models import GroupMember
@@ -13,8 +14,7 @@ from group_admin.bot_commands.group_admin import (
     BOT_MESSAGES, add_member
 )
 from .helpers import (
-    get_button_with_text, is_group_member,
-    get_group_member
+    get_button_with_text, is_group_member
 )
 from .conftest import (
     TEST_GROUP_ID, TEST_BOT_ID, TIMEOUT, MAX_MSGS
@@ -74,8 +74,10 @@ class TestGroupAdminCommands:
                           "with a voice message."
             assert greeting in response.raw_text
             assert welcome_msg in response.raw_text
+            db_name = connection.get_connection_params()
+            logger.info(f"db: {db_name}")
 
-            group_member = await get_group_member(TEST_GROUP_ID, me.id)
+            group_member = await GroupMember.objects.a_get_group_member(TEST_GROUP_ID, me.id)
             assert group_member is None
 
             # Pending: Check if new member can send messages after clicking 

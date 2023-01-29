@@ -5,20 +5,6 @@ from telethon import TelegramClient
 from telethon.tl.custom.message import Message, MessageButton
 from telethon.tl.types import PeerUser
 
-from django_telegram.models import GroupMember
-
-
-async def get_group_member(group_id: int, user_id: int):
-    try:
-        group_member = await GroupMember.objects.aget(
-            group_id=group_id,
-            user_id=user_id
-        )
-    except GroupMember.DoesNotExist:
-        group_member = None
-
-    return group_member
-
 
 def is_from_test_bot(message: Message, test_bot_id: int) -> bool:
     return (isinstance(message.from_id, PeerUser) and
