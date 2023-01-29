@@ -1,9 +1,12 @@
 import re
 from typing import Optional
+import logging
 
 from telethon import TelegramClient
 from telethon.tl.custom.message import Message, MessageButton
 from telethon.tl.types import PeerUser
+
+logger_debug = logging.getLogger('django-debug')
 
 
 def is_from_test_bot(message: Message, test_bot_id: int) -> bool:
