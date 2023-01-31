@@ -12,7 +12,6 @@ from telegram.ext import (
 )
 from telegram.constants import ChatMemberStatus
 
-from django.db import connection
 from django.utils.translation import activate, gettext as _
 from django.conf import settings
 
@@ -72,7 +71,6 @@ async def set_bot_language(
                 logger.error(f"Bot {token} not found in the configuration.")
         else:
             keys = list(settings.LANGUAGES_DICT.keys())
-            logger.info(keys)
             message = _(BOT_MESSAGES['error_invalid_language_key']).format(
                 language_keys=keys
             )
@@ -122,19 +120,13 @@ async def has_member(group_id: int, user_id: int) -> bool:
 async def add_member(group_id, user_id):
     member_exists = await has_member(group_id, user_id)
     member = await GroupMember.objects.a_get_group_member(group_id, user_id)
-    logger.info(f"member: {member}")
-    logger.info(f"member exists: {member_exists}")
     if not member_exists:
         await sync_to_async(GroupMember.objects.create_group_member)(
             group_id=group_id,
             user_id=user_id
         )
     member_exists = await has_member(group_id, user_id)
-    logger.info(f"member exists: {member_exists}")
     member = await GroupMember.objects.a_get_group_member(group_id, user_id)
-    logger.info(f"member: {member}")
-    db_name = connection.get_connection_params()
-    logger.info(f"db: {db_name}")
 
 
 async def remove_member(user_id, group_id):

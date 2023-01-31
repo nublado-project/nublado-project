@@ -46,7 +46,6 @@ class TestGroupAdminCommands:
 
         # Pending: Check if new member can send messages before pressing the confirmation button.
         permissions = await tg_client.get_permissions(TEST_GROUP_ID, me.id)
-        logger.info(f"default permissions: {permissions.has_default_permissions}")
 
         # Conversation in group
         async with tg_client.conversation(
@@ -83,4 +82,3 @@ class TestGroupAdminCommands:
             # Pending: Check if new member can send messages after clicking 
             # the confirmation button.
             permissions = await tg_client.get_permissions(TEST_GROUP_ID, me.id)
-            logger.info(f"default permissions: {permissions.has_default_permissions}")
