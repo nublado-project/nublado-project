@@ -52,7 +52,6 @@ class TestBotMiscCommands:
         ) as conv:
             await conv.send_message(f"{cmd} 5")
             resp = await conv.get_response()
-            logger.info(resp.raw_text)
             # Extract the "dice" from the response string as a list.
             nums = get_num_list_from_str(resp.raw_text)
             display_name = get_display_name(await tg_client.get_me())
