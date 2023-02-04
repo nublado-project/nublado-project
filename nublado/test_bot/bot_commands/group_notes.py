@@ -59,7 +59,7 @@ async def remove_group_note(
     context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     await set_language(BOT_TOKEN)
-    await cmd_remove_group_note(update, context, group_id=GROUP_ID)
+    await cmd_remove_group_note(update, context, group_id=GROUP_ID, repo_id=REPO_ID)
 
 
 @restricted_group_member(group_id=GROUP_ID)

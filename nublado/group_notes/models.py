@@ -14,11 +14,6 @@ class GroupNote(TimestampModel):
     message_id = models.BigIntegerField(
         null=True
     )
-    content = models.TextField(
-        null=True,
-        blank=True
-    )
-
     objects = GroupNoteManager()
 
     class Meta:
