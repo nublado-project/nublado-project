@@ -61,6 +61,7 @@ async def save_group_note(
     repo_id: int = None
 ) -> None:
     if group_id is not None and repo_id is not None:
+        # Is at least a tag provided?
         if context.args:
             note_tag = context.args[0]
             saved_message = _(BOT_MESSAGES['note_saved']).format(
