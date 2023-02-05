@@ -42,7 +42,7 @@ async def group_notes(
     await cmd_group_notes(update, context, group_id=GROUP_ID)
 
 
-@restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.OWNER)
+@restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.ADMINISTRATOR)
 @send_typing_action
 async def save_group_note(
     update: Update,
@@ -52,7 +52,7 @@ async def save_group_note(
     await cmd_save_group_note(update, context, group_id=GROUP_ID, repo_id=REPO_ID)
 
 
-@restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.OWNER)
+@restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.ADMINISTRATOR)
 @send_typing_action
 async def remove_group_note(
     update: Update,
