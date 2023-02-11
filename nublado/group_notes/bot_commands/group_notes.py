@@ -60,8 +60,6 @@ async def save_group_note(
     group_id: int = None,
     repo_id: int = None
 ) -> None:
-    logger.info("HELLO")
-
     if group_id is not None and repo_id is not None:
         # Is at least a tag provided?
         if context.args:
