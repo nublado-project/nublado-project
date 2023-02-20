@@ -44,8 +44,9 @@ BOT_MESSAGES = {
     'error_invalid_language_key': _("Error: The possible language keys are [{language_keys}].")
 }
 
-# Callback data
+# Contants
 AGREE_BTN_CALLBACK_DATA = "chat_member_welcome_agree"
+PENDING_VERIFICATION_TAG = "#pending\_verification"
 
 
 async def set_bot_language(
@@ -268,12 +269,19 @@ async def chat_member_welcome_agree(
         message = _(BOT_MESSAGES['welcome_agreed']).format(
             name=member.user.mention_markdown()
         )
-        await bot.send_message(
+        welcome_message = await bot.send_message(
             chat_id=chat_id,
             text=message
         )
-    except:
-        pass
+        logger.info(welcome_message.message_id)
+        logger.info(PENDING_VERIFICATION_TAG)
+        await bot.send_message(
+            chat_id=chat_id,
+            reply_to_message_id=welcome_message.message_id,
+            text=PENDING_VERIFICATION_TAG
+        )
+    except Exception as e:
+        logger.error(e)
 
 
 async def welcome_button_handler_c(

@@ -28,7 +28,7 @@ logger = logging.getLogger('django')
 class TestGroupNotesCommands:
     @pytest.mark.asyncio
     async def test_save_group_note(self, group_conv):
-        cmd = "/save_group_note
+        cmd = "/save_group_note"
         await group_conv.send_message(cmd)
         resp = await group_conv.get_response()
         assert is_from_test_bot(resp, TEST_BOT_ID)

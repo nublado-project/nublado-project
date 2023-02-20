@@ -21,10 +21,6 @@ TEST_GROUP_INVITATION = "elL0E4yk9vs3ZGZh"
 logger = logging.getLogger('django')
 logger_debug = logging.getLogger('django-debug')
 
-# Note: Suspend the external webhook web service and run the bot
-# locally with polling when running these tests.
-# python manage.py runbot testbot --settings=config.settings.test
-
 
 class TestGroupAdminCommands:
     @pytest.mark.django_db(transaction=True)
