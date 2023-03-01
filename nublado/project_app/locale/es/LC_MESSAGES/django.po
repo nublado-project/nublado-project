@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-28 13:30+0000\n"
-"PO-Revision-Date: 2023-01-15 19:37-0800\n"
+"PO-Revision-Date: 2023-03-01 00:16-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: config/settings/base.py:116
 msgid "English"
@@ -120,7 +120,7 @@ msgid ""
 "{member_send} says hello."
 msgstr ""
 "Oye, {member_receive}.\n"
-"{member_send} te dice hola."
+"{member_send} te saluda."
 
 #: nublado/bot_misc/bot_commands/misc.py:76
 msgid "The command requires some text to be reversed."
@@ -282,12 +282,12 @@ msgstr "No puedes quitarle {points_name} a un bot."
 #: nublado/group_points/bot_commands/group_points.py:30
 #, python-brace-format
 msgid "You can't give {points_name} to yourself."
-msgstr "No puedes regalarte {points_name} a ti mism@."
+msgstr "No puedes regalarte {points_name} a ti mismo/a."
 
 #: nublado/group_points/bot_commands/group_points.py:31
 #, python-brace-format
 msgid "You can't take {points_name} from yourself."
-msgstr "No puedes quitarte {points_name} a ti mism@."
+msgstr "No puedes quitarte {points_name} a ti mismo/a."
 
 #: nublado/group_points/bot_commands/group_points.py:33
 #, python-brace-format

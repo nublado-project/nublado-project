@@ -44,7 +44,7 @@ BOT_MESSAGES = {
     'error_invalid_language_key': _("Error: The possible language keys are [{language_keys}].")
 }
 
-# Contants
+# Constants
 AGREE_BTN_CALLBACK_DATA = "chat_member_welcome_agree"
 PENDING_VERIFICATION_TAG = "#pending\_verification"
 
