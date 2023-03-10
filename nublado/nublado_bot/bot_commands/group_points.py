@@ -23,10 +23,10 @@ from group_points.bot_commands.group_points import (
 logger = logging.getLogger('django')
 
 BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
-ADD_POINTS_TRIGGER = '\+'
-ADD_POINTS_REGEX = '^' + ADD_POINTS_TRIGGER + '{2}[\s\S]*$'
-REMOVE_POINTS_TRIGGER = '\-'
-REMOVE_POINTS_REGEX = '^' + REMOVE_POINTS_TRIGGER + '{2}[\s\S]*$'
+ADD_POINT_TRIGGER = '\+'
+ADD_POINT_REGEX = '^' + ADD_POINT_TRIGGER + '{2}[^' + ADD_POINT_TRIGGER + '][\s\S]*$'
+REMOVE_POINT_TRIGGER = '\-'
+REMOVE_POINT_REGEX = '^' + REMOVE_POINT_TRIGGER + '{2}[\s\S]*$'
 GROUP_ID = settings.NUBLADO_GROUP_ID
 
 # Command handlers 
@@ -46,12 +46,12 @@ async def remove_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 # Message handlers to listen for triggers to add or remove points.
 add_points_handler = MessageHandler(
-    (filters.Regex(ADD_POINTS_REGEX) & filters.REPLY),
+    (filters.Regex(ADD_POINT_REGEX) & filters.REPLY),
     add_points
 )
 
 
 remove_points_handler = MessageHandler(
-    (filters.Regex(REMOVE_POINTS_REGEX) & filters.REPLY),
+    (filters.Regex(REMOVE_POINT_REGEX) & filters.REPLY),
     remove_points
 )
