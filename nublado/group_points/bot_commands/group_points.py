@@ -1,12 +1,10 @@
 import logging
 
 from asgiref.sync import sync_to_async
-
 from telegram import Update
 from telegram.ext import (
     ContextTypes, MessageHandler, filters
 )
-
 from django.conf import settings
 from django.utils.translation import gettext as _
 
