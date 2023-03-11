@@ -28,7 +28,9 @@ ADD_POINT_REGEX = '^' + ADD_POINT_TRIGGER + '{2}(?!' + ADD_POINT_TRIGGER + ')[\s
 ADD_POINTS_REGEX = '^' + ADD_POINT_TRIGGER + '{3}(?!' + ADD_POINT_TRIGGER + ')[\s\S]*$'
 
 REMOVE_POINT_TRIGGER = '\-'
-REMOVE_POINT_REGEX = '^' + REMOVE_POINT_TRIGGER + '{2}[\s\S]*$'
+REMOVE_POINT_REGEX = '^' + REMOVE_POINT_TRIGGER + '{2}(?!' + ADD_POINT_TRIGGER + ')[\s\S]*$'
+REMOVE_POINTS_REGEX = '^' + REMOVE_POINT_TRIGGER + '{3}(?!' + ADD_POINT_TRIGGER + ')[\s\S]*$'
+
 GROUP_ID = settings.NUBLADO_GROUP_ID
 
 # Command handlers 
@@ -53,6 +55,14 @@ async def remove_point(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     await cmd_remove_points(update, context, num_points=1, group_id=GROUP_ID)
 
 
+@restricted_group_member(group_id=GROUP_ID, private_chat=False)
+@send_typing_action
+async def remove_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await set_language(BOT_TOKEN)
+    await cmd_remove_points(update, context, num_points=2, group_id=GROUP_ID)
+
+
+
 # Message handlers to listen for triggers to add or remove points.
 add_point_handler = MessageHandler(
     (filters.Regex(ADD_POINT_REGEX) & filters.REPLY),
@@ -64,7 +74,12 @@ add_points_handler = MessageHandler(
     add_points
 )
 
-remove_points_handler = MessageHandler(
+remove_point_handler = MessageHandler(
     (filters.Regex(REMOVE_POINT_REGEX) & filters.REPLY),
     remove_point
+)
+
+remove_points_handler = MessageHandler(
+    (filters.Regex(REMOVE_POINTS_REGEX) & filters.REPLY),
+    remove_points
 )
