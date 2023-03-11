@@ -31,8 +31,8 @@ BOT_MESSAGES = {
         "*{sender_name} ({member_sender})* has given a " + \
         "{points_name} to *{receiver_name} ({receiver_points})*."
     ),
-    'give_points': (
-        "*{sender_name} ({member_sender})* has given some " + \
+    'give_points': _(
+        "*{sender_name} ({member_sender})* has given {num_points} " + \
         "{points_name} to *{receiver_name} ({receiver_points})*."
     ),
     'take_point': _(
@@ -40,7 +40,7 @@ BOT_MESSAGES = {
         "{points_name} from *{receiver_name} ({receiver_points})*."
     ),
     'take_points': _(
-        "*{sender_name} ({member_sender})* has taken some " + \
+        "*{sender_name} ({member_sender})* has taken {num_points} " + \
         "{points_name} from *{receiver_name} ({receiver_points})*."
     ),
 }
@@ -93,6 +93,7 @@ def get_or_create_group_member(user_id, group_id):
 async def add_points(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
+    num_points: int = 1,
     group_id: int = None,
 ) -> None:
     if group_id:
@@ -107,13 +108,14 @@ async def add_points(
             if not receiver.is_bot and sender != receiver:
                 member_sender = await get_or_create_group_member(sender.id, group_id)
                 member_receiver = await get_or_create_group_member(receiver.id, group_id)
-                member_receiver.points += member_sender.point_increment
+                member_receiver.points += num_points
                 await sync_to_async(member_receiver.save)()
 
-                if member_sender.point_increment > 1:
+                if num_points > 1:
                     message = _(BOT_MESSAGES['give_points']).format(
                         sender_name=sender_name,
                         member_sender=member_sender.points,
+                        num_points=num_points,
                         points_name=_(POINTS_NAME),
                         receiver_name=receiver_name,
                         receiver_points=member_receiver.points
@@ -144,6 +146,7 @@ async def add_points(
 async def remove_points(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
+    num_points: int = 1,
     group_id: int = None
 ) -> None:
     if group_id:
@@ -156,14 +159,15 @@ async def remove_points(
             if not receiver.is_bot and sender != receiver:
                 member_sender = await get_or_create_group_member(sender.id, group_id)
                 member_receiver = await get_or_create_group_member(receiver.id, group_id)
-                points = member_receiver.points - member_sender.point_increment
+                points = member_receiver.points - num_points
                 member_receiver.points = points if points >= 0 else 0
                 await sync_to_async(member_receiver.save)()
 
-                if member_sender.point_increment > 1:
+                if num_points > 1:
                     message = _(BOT_MESSAGES['take_points']).format(
                         sender_name=sender_name,
                         member_sender=member_sender.points,
+                        num_points=num_points,
                         points_name=_(POINTS_NAME),
                         receiver_name=receiver_name,
                         receiver_points=member_receiver.points

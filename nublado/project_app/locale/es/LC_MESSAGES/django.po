@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-28 13:30+0000\n"
-"PO-Revision-Date: 2023-03-01 00:16-0800\n"
+"POT-Creation-Date: 2023-03-11 09:37+0000\n"
+"PO-Revision-Date: 2023-03-11 01:38-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -26,59 +26,59 @@ msgstr "inglés"
 msgid "Spanish"
 msgstr "español"
 
-#: config/settings/base.py:180
+#: config/settings/base.py:185
 msgid "Monday"
 msgstr "lunes"
 
-#: config/settings/base.py:180
+#: config/settings/base.py:185
 msgid "Tuesday"
 msgstr "martes"
 
-#: config/settings/base.py:180
+#: config/settings/base.py:185
 msgid "Wednesday"
 msgstr "miércoles"
 
-#: config/settings/base.py:180
+#: config/settings/base.py:185
 msgid "Thursday"
 msgstr "jueves"
 
-#: config/settings/base.py:181
+#: config/settings/base.py:186
 msgid "Friday"
 msgstr "viernes"
 
-#: config/settings/base.py:181
+#: config/settings/base.py:186
 msgid "Saturday"
 msgstr "sábado"
 
-#: config/settings/base.py:181
+#: config/settings/base.py:186
 msgid "Sunday"
 msgstr "domingo"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:189
 msgid "Mon."
 msgstr ""
 
-#: config/settings/base.py:184
+#: config/settings/base.py:189
 msgid "Tue."
 msgstr ""
 
-#: config/settings/base.py:184
+#: config/settings/base.py:189
 msgid "Wed."
 msgstr ""
 
-#: config/settings/base.py:184
+#: config/settings/base.py:189
 msgid "Thu."
 msgstr ""
 
-#: config/settings/base.py:185
+#: config/settings/base.py:190
 msgid "Fri."
 msgstr ""
 
-#: config/settings/base.py:185
+#: config/settings/base.py:190
 msgid "Sat."
 msgstr ""
 
-#: config/settings/base.py:185
+#: config/settings/base.py:190
 msgid "Sun."
 msgstr ""
 
@@ -253,43 +253,43 @@ msgstr ""
 msgid "Message id or content is required."
 msgstr ""
 
-#: nublado/group_notes/models.py:25
+#: nublado/group_notes/models.py:20
 msgid "Bot note"
 msgstr ""
 
-#: nublado/group_notes/models.py:26
+#: nublado/group_notes/models.py:21
 msgid "Bot notes"
 msgstr ""
 
-#: nublado/group_points/bot_commands/group_points.py:22
+#: nublado/group_points/bot_commands/group_points.py:20
 msgid "raindrop"
 msgstr "gota de lluvia"
 
-#: nublado/group_points/bot_commands/group_points.py:23
+#: nublado/group_points/bot_commands/group_points.py:21
 msgid "raindrops"
 msgstr "gotas de lluvia"
 
-#: nublado/group_points/bot_commands/group_points.py:28
+#: nublado/group_points/bot_commands/group_points.py:26
 #, python-brace-format
 msgid "You can't give {points_name} to a bot."
 msgstr "No puedes regalarle {points_name} a un bot."
 
-#: nublado/group_points/bot_commands/group_points.py:29
+#: nublado/group_points/bot_commands/group_points.py:27
 #, python-brace-format
 msgid "You can't take {points_name} from a bot."
 msgstr "No puedes quitarle {points_name} a un bot."
 
-#: nublado/group_points/bot_commands/group_points.py:30
+#: nublado/group_points/bot_commands/group_points.py:28
 #, python-brace-format
 msgid "You can't give {points_name} to yourself."
 msgstr "No puedes regalarte {points_name} a ti mismo/a."
 
-#: nublado/group_points/bot_commands/group_points.py:31
+#: nublado/group_points/bot_commands/group_points.py:29
 #, python-brace-format
 msgid "You can't take {points_name} from yourself."
 msgstr "No puedes quitarte {points_name} a ti mismo/a."
 
-#: nublado/group_points/bot_commands/group_points.py:33
+#: nublado/group_points/bot_commands/group_points.py:31
 #, python-brace-format
 msgid ""
 "*{sender_name} ({member_sender})* has given a {points_name} to "
@@ -298,7 +298,16 @@ msgstr ""
 "*{sender_name} ({member_sender})* le ha regalado una {points_name} a "
 "*{receiver_name} ({receiver_points})*."
 
-#: nublado/group_points/bot_commands/group_points.py:41
+#: nublado/group_points/bot_commands/group_points.py:35
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has given {num_points} {points_name} to "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha regalado {num_points} {points_name} "
+"a *{receiver_name} ({receiver_points})*."
+
+#: nublado/group_points/bot_commands/group_points.py:39
 #, python-brace-format
 msgid ""
 "*{sender_name} ({member_sender})* has taken a {points_name} from "
@@ -307,13 +316,13 @@ msgstr ""
 "*{sender_name} ({member_sender})* le ha quitado una {points_name} a "
 "*{receiver_name} ({receiver_points})*."
 
-#: nublado/group_points/bot_commands/group_points.py:45
+#: nublado/group_points/bot_commands/group_points.py:43
 #, python-brace-format
 msgid ""
-"*{sender_name} ({member_sender})* has taken some {points_name} from "
+"*{sender_name} ({member_sender})* has taken {num_points} {points_name} from "
 "*{receiver_name} ({receiver_points})*."
 msgstr ""
-"*{sender_name} ({member_sender})* le ha quitado unas {points_name} a "
+"*{sender_name} ({member_sender})* le ha quitado {num_points} {points_name} a "
 "*{receiver_name} ({receiver_points})*."
 
 #: nublado/users/apps.py:7
@@ -375,3 +384,11 @@ msgstr ""
 #: nublado/project_app/templates/includes/_user_nav.html:48
 msgid "label_logout"
 msgstr ""
+
+#, python-brace-format
+#~ msgid ""
+#~ "*{sender_name} ({member_sender})* has taken some {points_name} from "
+#~ "*{receiver_name} ({receiver_points})*."
+#~ msgstr ""
+#~ "*{sender_name} ({member_sender})* le ha quitado unas {points_name} a "
+#~ "*{receiver_name} ({receiver_points})*."

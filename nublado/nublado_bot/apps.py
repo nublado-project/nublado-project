@@ -17,7 +17,7 @@ class NubladoBotConfig(AppConfig):
     def ready(self):
         if not self.is_ready:
             from .bot_commands.group_points import (
-                add_points_handler, remove_points_handler
+                add_point_handler, add_points_handler, remove_points_handler
             )
             from .bot_commands.group_notes import (
                 group_notes,
@@ -59,6 +59,7 @@ class NubladoBotConfig(AppConfig):
             bot.add_command_handler('roll_sum', roll_sum)
             bot.add_command_handler('get_time', get_time)
             # group_points
+            bot.add_handler(add_point_handler, handler_group=2)
             bot.add_handler(add_points_handler, handler_group=2)
             bot.add_handler(remove_points_handler, handler_group=2)
             # notes
