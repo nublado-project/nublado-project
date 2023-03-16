@@ -196,11 +196,19 @@ async def get_group_note(
                     #     from_chat_id=REPO_ID,
                     #     message_id=group_note.message_id
                     # )
+
+                    # If the note trigger is sent as a reply to another message,
+                    # display the note as a reply to the message being replied to.
+                    if update.message.reply_to_message:
+                        message_id = update.message.reply_to_message.message_id
+                    else:
+                        message_Id = update.message.message_id
+
                     copied_message = await context.bot.copy_message(
                         chat_id=update.effective_chat.id,
                         from_chat_id=repo_id,
                         message_id=group_note.message_id,
-                        reply_to_message_id=update.message.message_id
+                        reply_to_message_id=message_id
                     )
                 except:
                     not_found_message = _(BOT_MESSAGES['note_not_in_repo']).format(
