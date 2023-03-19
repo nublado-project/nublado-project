@@ -202,7 +202,7 @@ async def get_group_note(
                     if update.message.reply_to_message:
                         message_id = update.message.reply_to_message.message_id
                     else:
-                        message_Id = update.message.message_id
+                        message_id = update.message.message_id
 
                     copied_message = await context.bot.copy_message(
                         chat_id=update.effective_chat.id,
