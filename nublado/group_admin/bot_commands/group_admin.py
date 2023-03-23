@@ -36,7 +36,7 @@ BOT_MESSAGES = {
     ),
     'welcome_agreed': _(
         "Welcome to the group, {name}.\n\n" \
-        "We require new members to introduce themselves with a voice message. " \
+        "*YOU NEED TO INTRODUCE YOURSELF WITH A VOICE MESSAGE.*\n\n" \
         "This helps us filter out fake accounts, trolls, etc.\n\n" \
         "We look forward to hearing from you."
     ),
@@ -273,8 +273,6 @@ async def chat_member_welcome_agree(
             chat_id=chat_id,
             text=message
         )
-        logger.info(welcome_message.message_id)
-        logger.info(PENDING_VERIFICATION_TAG)
         await bot.send_message(
             chat_id=chat_id,
             reply_to_message_id=welcome_message.message_id,
