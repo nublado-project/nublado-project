@@ -36,7 +36,7 @@ BOT_MESSAGES = {
     ),
     'welcome_agreed': _(
         "Welcome to the group, {name}.\n\n" \
-        "*You need to introduce yourself with a voice message.*\n\n" \
+        "*YOU NEED TO INTRODUCE YOURSELF WITH A VOICE MESSAGE.*\n\n" \
         "This is our our protocol for new members. It helps us filter out fake accounts, trolls, etc.\n\n" \
         "We look forward to hearing from you."
     ),
