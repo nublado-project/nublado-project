@@ -40,6 +40,7 @@ class User(
 
     objects = UserManager()
     USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email',]
 
     def __str__(self):
         return '{0} : {1}'.format(self.email, self.get_full_name())
