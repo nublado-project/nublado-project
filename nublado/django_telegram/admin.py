@@ -6,5 +6,6 @@ from .models import GroupMember
 
 class GroupMemberAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     pass
+
         
 admin.site.register(GroupMember, GroupMemberAdmin)  
