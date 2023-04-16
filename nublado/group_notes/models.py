@@ -17,6 +17,9 @@ class GroupNote(TimestampModel):
     objects = GroupNoteManager()
 
     class Meta:
-        verbose_name = _("Bot note")
-        verbose_name_plural = _("Bot notes")
+        verbose_name = _("Group note")
+        verbose_name_plural = _("Group notes")
         unique_together = ('group_id', 'note_tag')
+
+    def __str__(self):
+        return '{0} : {1}'.format(self.group_id, self.note_tag)
