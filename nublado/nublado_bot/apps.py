@@ -10,7 +10,7 @@ logger = logging.getLogger('django')
 
 
 class NubladoBotConfig(AppConfig):
-    name = 'nublado_bot'
+    name = "nublado_bot"
     bot_key = settings.NUBLADO_BOT_TOKEN
     is_ready = False
 
