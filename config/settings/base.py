@@ -48,6 +48,7 @@ LOCAL_APPS = [
     'group_admin.apps.GroupAdminConfig',
     'group_notes.apps.GroupNotesConfig',
     'group_points.apps.GroupPointsConfig',
+    'nublado_bot.apps.NubladoBotConfig',
     #'test_bot.apps.TestBotConfig',
     'project_app.apps.ProjectAppConfig'
 ]
@@ -223,6 +224,7 @@ DJANGO_TELEGRAM = {
     'bots': {
         NUBLADO_BOT_TOKEN: {
             'token': NUBLADO_BOT_TOKEN,
+            'name': NUBLADO_BOT,
             'group_id': NUBLADO_GROUP_ID,
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST

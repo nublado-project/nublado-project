@@ -46,7 +46,6 @@ class Bot(object):
                     self.webhook_url = f"{webhook_site}/{webhook_path}/{self.token}/"
             else:
                 raise ImproperlyConfigured(bot_mode_error)
-            self.setup_handlers()
         except Exception as e:
             logger.error(e)
 
@@ -77,6 +76,3 @@ class Bot(object):
     def add_command_handler(self, command: str, func, handler_group: int = 0):
         handler = CommandHandler(command, func)
         self.add_handler(handler, handler_group)
-
-    def setup_handers(self):
-        pass
