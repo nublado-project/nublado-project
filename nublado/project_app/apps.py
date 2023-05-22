@@ -34,7 +34,7 @@ class ProjectAppConfig(AppConfig):
                 if r.status_code != httpx.codes.OK:
                     logger.error(f"Error starting bot {bot.token} webhook with post request.")
                 else:
-                    logger.error(f"Bot {bot_name} doesn't exist or is improperly configured.")
+                    logger.error(f"Bot {bot.name} doesn't exist or is improperly configured.")
 
     def ready(self):
         self.setup_bots()
