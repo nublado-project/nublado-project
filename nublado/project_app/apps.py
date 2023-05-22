@@ -31,10 +31,10 @@ class ProjectAppConfig(AppConfig):
                 set_webhook_url = f"{set_webhook_site}/{set_webhook_path}/{bot.token}/"
                 logger.info(set_webhook_url)
                 r = httpx.post(set_webhook_url, data={})
-                if r.status_code != httpx.codes.OK:
-                    logger.error(f"Error starting bot {bot.token} webhook with post request.")
+                if r.status_code == httpx.codes.OK:
+                    logger.info(f"Bot {bot.name} webhook set up.")
                 else:
-                    logger.error(f"Bot {bot.name} doesn't exist or is improperly configured.")
+                    logger.error(f"Bot {bot.name} webhook was not set successfully.")
 
     def ready(self):
         self.setup_bots()
