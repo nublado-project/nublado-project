@@ -54,7 +54,7 @@ class Bot(object):
         logger.info("Bot mode: polling")
         self.application.run_polling()
 
-    async def start_webhook(self):
+    async def set_webhook(self):
         if self.webhook_url:
             await self.telegram_bot.set_webhook(self.webhook_url)
             logger.info(f"Bot {self.name} webhook set.")
