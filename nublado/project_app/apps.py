@@ -25,12 +25,16 @@ class ProjectAppConfig(AppConfig):
         if dt['mode'] == settings.BOT_MODE_WEBHOOK:
             from django_telegram.apps import DjangoTelegramConfig
 
-            for token, bot in bot_registry.bots.items():
-                set_webhook_site = remove_lead_and_trail_slash(dt['webhook_site'])
-                set_webhook_path = remove_lead_and_trail_slash(dt['set_webhook_path'])
-                set_webhook_url = f"{set_webhook_site}/{set_webhook_path}/{bot.token}/"
-                logger.info(set_webhook_url)
-                r = httpx.post(set_webhook_url, data={})
+            # for token, bot in bot_registry.bots.items():
+            #     set_webhook_site = remove_lead_and_trail_slash(dt['webhook_site'])
+            #     set_webhook_path = remove_lead_and_trail_slash(dt['set_webhook_path'])
+            #     set_webhook_url = f"{set_webhook_site}/{set_webhook_path}/{bot.token}/"
+            #     logger.info(set_webhook_url)
+            #     r = httpx.post(set_webhook_url, data={})
+            #     if r.status_code == httpx.codes.OK:
+            #         logger.info(f"Bot {bot.name} webhook set up.")
+            #     else:
+            #         logger.error(f"Bot {bot.name} webhook was not set successfully.")
 
     def ready(self):
         self.setup_bots()
