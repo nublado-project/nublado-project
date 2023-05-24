@@ -24,6 +24,6 @@ class Command(BaseCommand):
                     self.style.SUCCESS(f"Successfully set webhook for {bot_conf['name']} from command.")
                 )
             else:
-                raise CommandError(f"Error setting webhook for {bot_conf['name']} from command.")
+                raise CommandError(f"Error setting webhook for {bot_conf['name']} from command. {r}")
 
         return
