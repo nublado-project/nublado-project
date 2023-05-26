@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-24 04:51+0000\n"
-"PO-Revision-Date: 2023-05-23 21:52-0700\n"
+"POT-Creation-Date: 2023-05-26 23:40+0000\n"
+"PO-Revision-Date: 2023-05-26 16:42-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -82,12 +82,12 @@ msgstr ""
 msgid "Sun."
 msgstr ""
 
-#: nublado/bot_misc/bot_commands/misc.py:21
+#: nublado/bot_misc/bot_messages.py:4
 #, python-brace-format
 msgid "{member} has rolled {dice}."
 msgstr "{member} ha tirado {dice}."
 
-#: nublado/bot_misc/bot_commands/misc.py:22
+#: nublado/bot_misc/bot_messages.py:5
 #, python-brace-format
 msgid ""
 "{member} has rolled {dice}.\n"
@@ -98,22 +98,22 @@ msgstr ""
 "\n"
 " Total: {total}"
 
-#: nublado/bot_misc/bot_commands/misc.py:23
+#: nublado/bot_misc/bot_messages.py:6
 #, python-brace-format
 msgid "Please specify the number of dice ({min_dice} - {max_dice})."
 msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
 
-#: nublado/bot_misc/bot_commands/misc.py:24
+#: nublado/bot_misc/bot_messages.py:7
 #, python-brace-format
 msgid "It's {weekday}, {time} {timezone}."
 msgstr "Es {weekday}, {time} {timezone}."
 
-#: nublado/bot_misc/bot_commands/misc.py:25
+#: nublado/bot_misc/bot_messages.py:8
 #, python-brace-format
 msgid "Hello, {member}. {bot_name} has started."
 msgstr ""
 
-#: nublado/bot_misc/bot_commands/misc.py:26
+#: nublado/bot_misc/bot_messages.py:9
 #, python-brace-format
 msgid ""
 "Hey, {member_receive}.\n"
@@ -122,8 +122,8 @@ msgstr ""
 "Oye, {member_receive}.\n"
 "{member_send} te saluda."
 
-#: nublado/bot_misc/bot_commands/misc.py:76
-msgid "The command requires some text to be reversed."
+#: nublado/bot_misc/bot_messages.py:10
+msgid "This command requires a text argument."
 msgstr ""
 
 #: nublado/core/models.py:10
@@ -146,11 +146,11 @@ msgstr ""
 msgid "Bot configuration"
 msgstr ""
 
-#: nublado/group_admin/bot_commands/group_admin.py:29
+#: nublado/group_admin/bot_messages.py:5
 msgid "I agree."
 msgstr "Estoy de acuerdo."
 
-#: nublado/group_admin/bot_commands/group_admin.py:31
+#: nublado/group_admin/bot_messages.py:7
 #, python-brace-format
 msgid ""
 "Welcome to the group, {name}.\n"
@@ -160,7 +160,8 @@ msgid ""
 "\n"
 "*Rules*\n"
 "- Communicate in only English and Spanish.\n"
-"- Be a good example. Help others out with corrections."
+"- Be a good example. Help others out with corrections.\n"
+"- Introduce yourself with a voice message after joining."
 msgstr ""
 "Bienvenido/a al grupo, {name}.\n"
 "\n"
@@ -169,9 +170,10 @@ msgstr ""
 "\n"
 "*Reglas*\n"
 "- Comunícate solo en inglés o español.\n"
-"- Sé un buen ejemplo. Ayuda a los demás con las correcciones."
+"- Sé un buen ejemplo. Ayuda a los demás con las correcciones.\n"
+"- Preséntate con un mensaje de voz al unirte."
 
-#: nublado/group_admin/bot_commands/group_admin.py:38
+#: nublado/group_admin/bot_messages.py:15
 #, python-brace-format
 msgid ""
 "Welcome to the group, {name}.\n"
@@ -186,29 +188,29 @@ msgid ""
 msgstr ""
 "Bienvenido/a al grupo, {name}.\n"
 "\n"
-"*TIENES QUE PRESENTARTE CON UN MENSAJE DE VOZ AHORA O SERÁS EXPULSADO/A DEL "
-"GRUPO.* \n"
+"*TIENES QUE PRESENTARTE CON UN MENSAJE DE VOZ  O SERÁS EXPULSADO/A DEL GRUPO."
+"* \n"
 "\n"
 "Es nuestro protocolo para filtrar las cuentas falsas, troles, estafadores, "
 "bots, etc.\n"
 "\n"
 "Esperamos tu presentación."
 
-#: nublado/group_admin/bot_commands/group_admin.py:43
+#: nublado/group_admin/bot_messages.py:20
 #, python-brace-format
 msgid "The bot's language has been changed to {language}."
 msgstr "El idioma del bot ha sido cambiado al {language}."
 
-#: nublado/group_admin/bot_commands/group_admin.py:44
+#: nublado/group_admin/bot_messages.py:21
 #, python-brace-format
 msgid "Error: The possible language keys are [{language_keys}]."
 msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
 
-#: nublado/group_notes/bot_commands/group_notes.py:21
+#: nublado/group_notes/bot_messages.py:4
 msgid "There are no saved notes."
 msgstr "No hay notas."
 
-#: nublado/group_notes/bot_commands/group_notes.py:22
+#: nublado/group_notes/bot_messages.py:5
 #, python-brace-format
 msgid ""
 "*Notes*\n"
@@ -217,34 +219,34 @@ msgstr ""
 "*Notas*\n"
 "{notes}"
 
-#: nublado/group_notes/bot_commands/group_notes.py:23
+#: nublado/group_notes/bot_messages.py:6
 #, python-brace-format
 msgid "The note *{note_tag}* has been saved."
 msgstr "La nota *{note_tag}* ha sido guardada."
 
-#: nublado/group_notes/bot_commands/group_notes.py:24
+#: nublado/group_notes/bot_messages.py:7
 #, python-brace-format
 msgid "The note *{note_tag}* has been removed."
 msgstr "La nota *{note_tag}* ha sido eliminada."
 
-#: nublado/group_notes/bot_commands/group_notes.py:25
+#: nublado/group_notes/bot_messages.py:8
 #, python-brace-format
 msgid "The note *{note_tag}* doesn't exist."
 msgstr "La nota *{note_tag}* no existe."
 
-#: nublado/group_notes/bot_commands/group_notes.py:26
+#: nublado/group_notes/bot_messages.py:9
 msgid "A note needs content."
 msgstr "Una nota necesita contenido."
 
-#: nublado/group_notes/bot_commands/group_notes.py:27
+#: nublado/group_notes/bot_messages.py:10
 msgid "A note must have a tag."
 msgstr "Una nota necesita una etiqueta."
 
-#: nublado/group_notes/bot_commands/group_notes.py:28
+#: nublado/group_notes/bot_messages.py:11
 msgid "A note needs a tag and content."
 msgstr "Una nota necesita una etiqueta y contenido."
 
-#: nublado/group_notes/bot_commands/group_notes.py:30
+#: nublado/group_notes/bot_messages.py:13
 #, python-brace-format
 msgid "The content for the note *{note_tag}* was not found in the repo."
 msgstr ""
@@ -266,35 +268,35 @@ msgstr ""
 msgid "Group notes"
 msgstr ""
 
-#: nublado/group_points/bot_commands/group_points.py:20
+#: nublado/group_points/bot_commands/group_points.py:21
 msgid "raindrop"
 msgstr "gota de lluvia"
 
-#: nublado/group_points/bot_commands/group_points.py:21
+#: nublado/group_points/bot_commands/group_points.py:22
 msgid "raindrops"
 msgstr "gotas de lluvia"
 
-#: nublado/group_points/bot_commands/group_points.py:26
+#: nublado/group_points/bot_messages.py:5
 #, python-brace-format
 msgid "You can't give {points_name} to a bot."
 msgstr "No puedes regalarle {points_name} a un bot."
 
-#: nublado/group_points/bot_commands/group_points.py:27
+#: nublado/group_points/bot_messages.py:6
 #, python-brace-format
 msgid "You can't take {points_name} from a bot."
 msgstr "No puedes quitarle {points_name} a un bot."
 
-#: nublado/group_points/bot_commands/group_points.py:28
+#: nublado/group_points/bot_messages.py:7
 #, python-brace-format
 msgid "You can't give {points_name} to yourself."
 msgstr "No puedes regalarte {points_name} a ti mismo/a."
 
-#: nublado/group_points/bot_commands/group_points.py:29
+#: nublado/group_points/bot_messages.py:8
 #, python-brace-format
 msgid "You can't take {points_name} from yourself."
 msgstr "No puedes quitarte {points_name} a ti mismo/a."
 
-#: nublado/group_points/bot_commands/group_points.py:31
+#: nublado/group_points/bot_messages.py:10
 #, python-brace-format
 msgid ""
 "*{sender_name} ({member_sender})* has given a {points_name} to "
@@ -303,7 +305,7 @@ msgstr ""
 "*{sender_name} ({member_sender})* le ha regalado una {points_name} a "
 "*{receiver_name} ({receiver_points})*."
 
-#: nublado/group_points/bot_commands/group_points.py:35
+#: nublado/group_points/bot_messages.py:14
 #, python-brace-format
 msgid ""
 "*{sender_name} ({member_sender})* has given {num_points} {points_name} to "
@@ -312,7 +314,7 @@ msgstr ""
 "*{sender_name} ({member_sender})* le ha regalado {num_points} {points_name} "
 "a *{receiver_name} ({receiver_points})*."
 
-#: nublado/group_points/bot_commands/group_points.py:39
+#: nublado/group_points/bot_messages.py:18
 #, python-brace-format
 msgid ""
 "*{sender_name} ({member_sender})* has taken a {points_name} from "
@@ -321,7 +323,7 @@ msgstr ""
 "*{sender_name} ({member_sender})* le ha quitado una {points_name} a "
 "*{receiver_name} ({receiver_points})*."
 
-#: nublado/group_points/bot_commands/group_points.py:43
+#: nublado/group_points/bot_messages.py:22
 #, python-brace-format
 msgid ""
 "*{sender_name} ({member_sender})* has taken {num_points} {points_name} from "

@@ -8,7 +8,8 @@ BOT_MESSAGES = {
         "Please read the following rules and click the \"I agree\" button to participate.\n\n" \
         "*Rules*\n" \
         "- Communicate in only English and Spanish.\n" \
-        "- Be a good example. Help others out with corrections."
+        "- Be a good example. Help others out with corrections.\n" \
+        "- Introduce yourself with a voice message after joining."
     ),
     'welcome_agreed': _(
         "Welcome to the group, {name}.\n\n" \
