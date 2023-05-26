@@ -21,28 +21,9 @@ from django_telegram.functions.admin import (
     get_non_group_members,
 )
 from django_telegram.models import GroupMember
+from ..bot_messages import BOT_MESSAGES
 
 logger = logging.getLogger('django')
-
-# Translated strings.
-BOT_MESSAGES = {
-    'agree': _("I agree."),
-    'welcome': _(
-        "Welcome to the group, {name}.\n\n" \
-        "Please read the following rules and click the \"I agree\" button to participate.\n\n" \
-        "*Rules*\n" \
-        "- Communicate in only English and Spanish.\n" \
-        "- Be a good example. Help others out with corrections."
-    ),
-    'welcome_agreed': _(
-        "Welcome to the group, {name}.\n\n" \
-        "*YOU NEED TO INTRODUCE YOURSELF WITH A VOICE MESSAGE OR YOU WILL BE BOOTED FROM THE GROUP.*\n\n" \
-        "This is our our protocol for new members. It helps us filter out fake accounts, trolls, etc.\n\n" \
-        "We look forward to hearing from you."
-    ),
-    'bot_language_set': _("The bot's language has been changed to {language}."),
-    'error_invalid_language_key': _("Error: The possible language keys are [{language_keys}].")
-}
 
 # Constants
 AGREE_BTN_CALLBACK_DATA = "chat_member_welcome_agree"
@@ -72,12 +53,12 @@ async def set_bot_language(
                 logger.error(f"Bot {token} not found in the configuration.")
         else:
             keys = list(settings.LANGUAGES_DICT.keys())
-            message = _(BOT_MESSAGES['error_invalid_language_key']).format(
+            bot_message = _(BOT_MESSAGES['error_invalid_language_key']).format(
                 language_keys=keys
             )
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=message
+        text=bot_message
     )
 
 
@@ -100,13 +81,13 @@ async def set_bot_language(
 # async def update_group_admins(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 #     members = update_group_members_from_admins(context.bot, GROUP_ID)
 #     if members:
-#         message = _("Group members updated from admins.")
+#         bot_message = _("Group members updated from admins.")
 #     else:
-#         message = _("Group members not updated from admins.")
+#         bot_message = _("Group members not updated from admins.")
 
 #     context.bot.send_message(
 #         chat_id=update.effective_chat.id,
-#         text=message
+#         text=bot_message
 #     )
 
 
@@ -201,11 +182,11 @@ async def member_join(
                 ],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            message = _(BOT_MESSAGES['welcome']).format(
+            bot_message = _(BOT_MESSAGES['welcome']).format(
                 name=user.mention_markdown()
             )
             await context.bot.send_message(
-                text=message,
+                text=bot_message,
                 chat_id=group_id,
                 reply_markup=reply_markup
             )
@@ -266,12 +247,12 @@ async def chat_member_welcome_agree(
             logger.error(f"Error tring to delete  welcome message {welcome_message_id}.")
     try:
         member = await bot.get_chat_member(chat_id, user_id)
-        message = _(BOT_MESSAGES['welcome_agreed']).format(
+        bot_message = _(BOT_MESSAGES['welcome_agreed']).format(
             name=member.user.mention_markdown()
         )
         welcome_message = await bot.send_message(
             chat_id=chat_id,
-            text=message
+            text=bot_message
         )
         await bot.send_message(
             chat_id=chat_id,
