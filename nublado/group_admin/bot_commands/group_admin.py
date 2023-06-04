@@ -33,15 +33,16 @@ PENDING_VERIFICATION_TAG = "#pending\_verification"
 async def set_bot_language(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
-    token: str
+    bot_id: str
 ):
     if len(context.args) >= 1:
         lang = str(context.args[0])
         if lang in settings.LANGUAGES_DICT.keys():
-            if token in settings.DJANGO_TELEGRAM['bots'].keys():
+            if bot_id in settings.DJANGO_TELEGRAM['bots'].keys():
                 bot_config, bot_config_created = await BotConfig.objects.aget_or_create(
-                    id=token
+                    id=bot_id
                 )
+                logger.info(bot_config)
                 if bot_config.language != lang:
                     bot_config.language = lang
                     await sync_to_async(bot_config.save)()
@@ -50,7 +51,7 @@ async def set_bot_language(
                     language=_(settings.LANGUAGES_DICT[lang])
                 )
             else:
-                logger.error(f"Bot {token} not found in the configuration.")
+                logger.error(f"Bot {bot_id} not found in the configuration.")
         else:
             keys = list(settings.LANGUAGES_DICT.keys())
             bot_message = _(BOT_MESSAGES['error_invalid_language_key']).format(

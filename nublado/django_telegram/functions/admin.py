@@ -12,9 +12,9 @@ logger = logging.getLogger('django')
 
 
 @sync_to_async
-def set_language(token):
+def set_language(bot_id: str):
     try:
-        bot_config = BotConfig.objects.get(id=token)
+        bot_config = BotConfig.objects.get(id=bot_id)
         if bot_config.language in settings.LANGUAGES_DICT.keys():
             activate(bot_config.language)
         else:

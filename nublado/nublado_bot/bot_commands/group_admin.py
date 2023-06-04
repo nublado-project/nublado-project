@@ -24,7 +24,7 @@ from group_admin.bot_commands.group_admin import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
+BOT_ID = settings.NUBLADO_BOT
 GROUP_ID = settings.NUBLADO_GROUP_ID
 
 
@@ -35,27 +35,27 @@ GROUP_ID = settings.NUBLADO_GROUP_ID
     private_chat=False
 )
 async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_language(BOT_TOKEN)
-    await cmd_set_bot_language(update, context, token=BOT_TOKEN)
+    await set_language(BOT_ID)
+    await cmd_set_bot_language(update, context, bot_id=BOT_ID)
 
 
 @restricted_group_id(
     group_id=GROUP_ID
 )
 async def member_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_member_join(update, context, GROUP_ID)
 
 @restricted_group_id(
     group_id=GROUP_ID
 )
 async def member_exit(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_member_exit(update, context, GROUP_ID)
 
 
 async def welcome_button_handler_c(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_welcome_button_handler_c(update, context, GROUP_ID)
 
 

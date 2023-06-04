@@ -222,7 +222,7 @@ DJANGO_TELEGRAM = {
 	'webhook_path' : "bot/webhook",
     'set_webhook_path': "bot/setwebhook",
     'bots': {
-        NUBLADO_BOT_TOKEN: {
+        NUBLADO_BOT: {
             'token': NUBLADO_BOT_TOKEN,
             'name': NUBLADO_BOT,
             'group_id': NUBLADO_GROUP_ID,
