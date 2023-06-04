@@ -42,7 +42,6 @@ async def set_bot_language(
                 bot_config, bot_config_created = await BotConfig.objects.aget_or_create(
                     id=bot_id
                 )
-                logger.info(bot_config)
                 if bot_config.language != lang:
                     bot_config.language = lang
                     await sync_to_async(bot_config.save)()
