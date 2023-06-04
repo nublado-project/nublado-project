@@ -46,7 +46,7 @@ async def set_bot_language(
                     bot_config.language = lang
                     await sync_to_async(bot_config.save)()
                 activate(lang)
-                message = _(BOT_MESSAGES['bot_language_set']).format(
+                bot_message = _(BOT_MESSAGES['bot_language_set']).format(
                     language=_(settings.LANGUAGES_DICT[lang])
                 )
             else:
