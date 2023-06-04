@@ -12,6 +12,7 @@ logger = logging.getLogger('django')
 class NubladoBotConfig(AppConfig):
     name = "nublado_bot"
     bot_key = settings.NUBLADO_BOT_TOKEN
+    bot_name = settings.NUBLADO_BOT
 
     def ready(self):
         from .bot_commands.group_points import (
@@ -66,4 +67,4 @@ class NubladoBotConfig(AppConfig):
         bot.add_command_handler('remove_group_note', remove_group_note)
         bot.add_handler(get_group_note_handler)
         # Add the bot to the registry.
-        bot_registry.add_bot(NubladoBotConfig.bot_key, bot)
+        bot_registry.add_bot(NubladoBotConfig.bot_name, bot)

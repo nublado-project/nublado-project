@@ -231,7 +231,3 @@ DJANGO_TELEGRAM = {
         },
     }
 }
-
-BOT_CLI = {
-    NUBLADO_BOT: DJANGO_TELEGRAM['bots'][NUBLADO_BOT_TOKEN],
-}

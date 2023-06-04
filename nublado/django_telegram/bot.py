@@ -43,7 +43,7 @@ class Bot(object):
                 if not webhook_url:
                     webhook_site = remove_lead_and_trail_slash(dt['webhook_site'])
                     webhook_path = remove_lead_and_trail_slash(dt['webhook_path'])
-                    self.webhook_url = f"{webhook_site}/{webhook_path}/{self.token}/"
+                    self.webhook_url = f"{webhook_site}/{webhook_path}/{self.name}/"
             else:
                 raise ImproperlyConfigured(bot_mode_error)
         except Exception as e:
@@ -58,7 +58,7 @@ class Bot(object):
             await self.telegram_bot.set_webhook(self.webhook_url)
             logger.info(f"Bot {self.name} webhook set.")
         else:
-            logger.error(f"Bot {self.token} webhook url isn't set.")
+            logger.error(f"Bot {self.name} webhook url isn't set.")
             raise ImproperlyConfigured()
 
     def add_handler(self, handler, handler_group: int = 0):

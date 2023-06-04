@@ -13,13 +13,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options['bot_ids']:
             for bot_id in options['bot_ids']:
-                try:
-                    bot_token = settings.BOT_CLI[bot_id]['token']
-                except:
-                    error = f"Bot id {bot_id} doesn't exist or is improperly configured."
-                    raise CommandError(error)
-
-                bot = DjangoTelegramConfig.bot_registry.get_bot(bot_token)
+                bot = DjangoTelegramConfig.bot_registry.get_bot(bot_id)
                 if bot:
                     bot.start_polling()
+                else:
+                    error = f"Bot id {bot_id} doesn't exist or is improperly configured."
+                    raise CommandError(error)
         return

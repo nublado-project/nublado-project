@@ -13,26 +13,26 @@ logger = logging.getLogger('django')
 
 class BotSetWebhookView(View):
     async def post(self, request, *args, **kwargs):
-        token = kwargs['token']
-        bot = DjangoTelegramConfig.bot_registry.get_bot(token)
+        bot_id = kwargs['bot_id']
+        bot = DjangoTelegramConfig.bot_registry.get_bot(bot_id)
 
         if bot is not None:
             try:
                 await bot.set_webhook()
-                logger.info(f"Webhook for bot {bot.token} set successfully in view.")
+                logger.info(f"Webhook for bot {bot.name} set successfully in view.")
                 return JsonResponse({})
             except Exception as e:
-                logger.error(f"Error in setting up webhook for bot {bot.token}: {e}")
+                logger.error(f"Error in setting up webhook for bot {bot.name}: {e}")
                 raise Http404
         else:
-            logger.error(f"Requested bot {token} not found.")
+            logger.error(f"Requested bot {bot_id} not found.")
             raise Http404
 
 
 class BotWebhookView(View):
     async def post(self, request, *args, **kwargs):
-        token = kwargs['token']
-        bot = DjangoTelegramConfig.bot_registry.get_bot(token)
+        bot_id = kwargs['bot_id']
+        bot = DjangoTelegramConfig.bot_registry.get_bot(bot_id)
 
         if bot is not None:
             try:
