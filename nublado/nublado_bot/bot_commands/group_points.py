@@ -22,7 +22,7 @@ from group_points.bot_commands.group_points import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
+BOT_ID = settings.NUBLADO_BOT
 ADD_POINT_TRIGGER = '\+'
 ADD_POINT_REGEX = '^' + ADD_POINT_TRIGGER + '{2}(?!' + ADD_POINT_TRIGGER + ')[\s\S]*$'
 ADD_POINTS_REGEX = '^' + ADD_POINT_TRIGGER + '{3}(?!' + ADD_POINT_TRIGGER + ')[\s\S]*$'
@@ -37,28 +37,28 @@ GROUP_ID = settings.NUBLADO_GROUP_ID
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def add_point(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_add_points(update, context, num_points=1, group_id=GROUP_ID)
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def add_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_add_points(update, context, num_points=2, group_id=GROUP_ID)
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def remove_point(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_remove_points(update, context, num_points=1, group_id=GROUP_ID)
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def remove_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_remove_points(update, context, num_points=2, group_id=GROUP_ID)
 
 

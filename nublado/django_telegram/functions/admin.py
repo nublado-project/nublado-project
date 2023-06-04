@@ -13,13 +13,16 @@ logger = logging.getLogger('django')
 
 @sync_to_async
 def set_language(bot_id: str):
+    logger.info(f"set_language {bot_id} argument.")
     try:
         bot_config = BotConfig.objects.get(id=bot_id)
+        logger.info(f"set_language bot_config {bot_config.language}")
         if bot_config.language in settings.LANGUAGES_DICT.keys():
             activate(bot_config.language)
         else:
             activate(settings.LANGUAGE_CODE)
     except BotConfig.DoesNotExist:
+        logger.info("Bot config not found.")
         activate(settings.LANGUAGE_CODE)
 
 

@@ -24,7 +24,7 @@ from group_notes.bot_commands.group_notes import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
+BOT_ID = settings.NUBLADO_BOT
 GROUP_ID = settings.NUBLADO_GROUP_ID
 REPO_ID = settings.NUBLADO_REPO_ID
 OWNER_ID = settings.NUBLADO_GROUP_OWNER_ID
@@ -38,7 +38,7 @@ async def group_notes(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_group_notes(update, context, group_id=GROUP_ID)
 
 
@@ -48,7 +48,7 @@ async def save_group_note(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_save_group_note(update, context, group_id=GROUP_ID, repo_id=REPO_ID)
 
 
@@ -58,7 +58,7 @@ async def remove_group_note(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_remove_group_note(update, context, group_id=GROUP_ID, repo_id=REPO_ID)
 
 
@@ -68,7 +68,7 @@ async def get_group_note(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_get_group_note(
         update,
         context,

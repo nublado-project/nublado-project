@@ -22,7 +22,7 @@ from bot_misc.bot_commands.misc import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
+BOT_ID = settings.NUBLADO_BOT
 GROUP_ID = settings.NUBLADO_GROUP_ID
 
 
@@ -30,14 +30,14 @@ GROUP_ID = settings.NUBLADO_GROUP_ID
 @send_typing_action
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send a message and prompt a reply on start."""
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_start(update, context)
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_hello(update, context, GROUP_ID)
 
 
@@ -45,7 +45,7 @@ async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
 @send_typing_action
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Echo a message to the group."""
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_echo(update, context, GROUP_ID)
 
 
@@ -53,7 +53,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 @send_typing_action
 async def get_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Display the current time."""
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_get_time(update, context)
 
 
@@ -61,7 +61,7 @@ async def get_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
 @send_typing_action
 async def reverse_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Reverse the text provided as an argument and display it."""
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_reverse_text(update, context)
 
 
@@ -69,7 +69,7 @@ async def reverse_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 @send_typing_action
 async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Roll specified number of dice and show results as text."""
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_roll(update, context)
 
 
@@ -77,5 +77,5 @@ async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE):
 @send_typing_action
 async def roll_sum(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Roll specified number of dice and show results as text."""
-    await set_language(BOT_TOKEN)
+    await set_language(BOT_ID)
     await cmd_roll_sum(update, context)
