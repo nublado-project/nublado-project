@@ -46,6 +46,7 @@ class BotWebhookView(View):
                     await bot.application.process_update(update)
             except Exception as e:
                 logger.error(f"Error in processing update: {e}")
+                raise Http404
             return JsonResponse({})
         else:
             raise Http404
