@@ -4,6 +4,7 @@ import pytest
 from telethon.utils import get_display_name
 
 from django.conf import settings
+from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from bot_misc.bot_commands.misc import (
@@ -32,7 +33,9 @@ class TestBotMiscCommands:
         await group_conv.send_message(cmd)
         resp = await group_conv.get_response()
         assert is_from_test_bot(resp, TEST_BOT_ID)
-        assert "UTC" in resp.raw_text
+        weekday = settings.WEEKDAYS[timezone.now().weekday()]
+        time=timezone.now().strftime('%H:%M')
+        assert f"It's {weekday}, {time} UTC" in resp.raw_text
 
     @pytest.mark.asyncio
     async def test_group_reverse(self, group_conv):

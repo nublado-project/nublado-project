@@ -66,8 +66,9 @@ class TestGroupAdminCommands:
             response = await conv.wait_event(
                 events.NewMessage(incoming=True, from_users=TEST_BOT_ID)
             )
-            welcome_msg = "We require new members to introduce themselves " \
-                          "with a voice message."
+            welcome_msg = "YOU NEED TO INTRODUCE YOURSELF WITH A VOICE MESSAGE OR YOU WILL BE " \
+                          "BOOTED FROM THE GROUP.\n\nThis is our our protocol for new members. " \
+                          "It helps us filter out fake accounts, trolls, etc.\n\nWe look forward to hearing from you."
             assert greeting in response.raw_text
             assert welcome_msg in response.raw_text
 

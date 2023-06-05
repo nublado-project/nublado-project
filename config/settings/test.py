@@ -3,6 +3,11 @@ from .base import *
 TESTING = True
 DEBUG = True
 
+TEST_APPS = [
+    'test_bot.apps.TestBotConfig',
+]
+INSTALLED_APPS += TEST_APPS
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -18,7 +23,7 @@ DATABASES = {
 }
 
 DJANGO_TELEGRAM['mode'] = BOT_MODE_POLLING
-DJANGO_TELEGRAM['bots'][TEST_BOT_TOKEN] = {
+DJANGO_TELEGRAM['bots'][TEST_BOT] = {
     'token': TEST_BOT_TOKEN,
     'group_id': TEST_GROUP_ID,
     'repo_id': TEST_REPO_ID,
@@ -31,4 +36,3 @@ DJANGO_TELEGRAM['testing'] = {
     'api_session_str': get_env_variable('TG_API_SESSION_STR')
 }
 
-BOT_CLI[TEST_BOT] = DJANGO_TELEGRAM['bots'][TEST_BOT_TOKEN]
