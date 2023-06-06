@@ -36,6 +36,7 @@ class TestBotConfig(AppConfig):
             start, get_time, reverse_text,
             echo, hello, roll, roll_sum
         )
+        from .bot_commands.test_commands import test_bot_output
 
         bot_registry = DjangoTelegramConfig.bot_registry
         bot = Bot(settings.TEST_BOT_TOKEN, name=settings.TEST_BOT)
@@ -65,5 +66,8 @@ class TestBotConfig(AppConfig):
         bot.add_command_handler('save_group_note', save_group_note)
         bot.add_command_handler('remove_group_note', remove_group_note)
         bot.add_handler(get_group_note_handler, handler_group=2)
+        # test commands
+        bot.add_command_handler('test_bot_output', test_bot_output)
+
         # Add the bot to the registry.
         bot_registry.add_bot(TestBotConfig.bot_name, bot)

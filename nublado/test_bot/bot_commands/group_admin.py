@@ -24,7 +24,7 @@ from group_admin.bot_commands.group_admin import (
 
 logger = logging.getLogger('django')
 
-BOT_TOKEN = settings.TEST_BOT_TOKEN
+BOT_ID = settings.TEST_BOT
 GROUP_ID = settings.TEST_GROUP_ID
 
 
@@ -35,8 +35,8 @@ GROUP_ID = settings.TEST_GROUP_ID
     private_chat=False
 )
 async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await set_language(BOT_TOKEN)
-    await cmd_set_bot_language(update, context, token=BOT_TOKEN)
+    await set_language(BOT_ID)
+    await cmd_set_bot_language(update, context, bot_id=BOT_ID)
 
 
 @restricted_group_id(

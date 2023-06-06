@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-26 23:40+0000\n"
-"PO-Revision-Date: 2023-05-26 16:42-0700\n"
+"POT-Creation-Date: 2023-06-06 02:12+0000\n"
+"PO-Revision-Date: 2023-06-05 19:14-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,67 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: config/settings/base.py:116
+#: config/settings/base.py:115
 msgid "English"
 msgstr "inglés"
 
-#: config/settings/base.py:117
+#: config/settings/base.py:116
 msgid "Spanish"
 msgstr "español"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Monday"
 msgstr "lunes"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Tuesday"
 msgstr "martes"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Wednesday"
 msgstr "miércoles"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "Thursday"
 msgstr "jueves"
 
-#: config/settings/base.py:186
+#: config/settings/base.py:185
 msgid "Friday"
 msgstr "viernes"
 
-#: config/settings/base.py:186
+#: config/settings/base.py:185
 msgid "Saturday"
 msgstr "sábado"
 
-#: config/settings/base.py:186
+#: config/settings/base.py:185
 msgid "Sunday"
 msgstr "domingo"
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "Mon."
 msgstr ""
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "Tue."
 msgstr ""
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "Wed."
 msgstr ""
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "Thu."
 msgstr ""
 
-#: config/settings/base.py:190
+#: config/settings/base.py:189
 msgid "Fri."
 msgstr ""
 
-#: config/settings/base.py:190
+#: config/settings/base.py:189
 msgid "Sat."
 msgstr ""
 
-#: config/settings/base.py:190
+#: config/settings/base.py:189
 msgid "Sun."
 msgstr ""
 
@@ -331,6 +331,10 @@ msgid ""
 msgstr ""
 "*{sender_name} ({member_sender})* le ha quitado {num_points} {points_name} a "
 "*{receiver_name} ({receiver_points})*."
+
+#: nublado/test_bot/bot_commands/test_commands.py:12
+msgid "testing testing"
+msgstr "probando probando"
 
 #: nublado/users/apps.py:7
 msgid "label_user_config"

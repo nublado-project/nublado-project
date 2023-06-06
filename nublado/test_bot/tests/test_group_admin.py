@@ -12,6 +12,9 @@ from django_telegram.models import GroupMember
 from .helpers import (
     get_button_with_text, is_group_member
 )
+from .helpers import (
+    is_from_test_bot
+)
 from .conftest import (
     TEST_GROUP_ID, TEST_BOT_ID, TIMEOUT, MAX_MSGS
 )
@@ -23,6 +26,40 @@ logger_debug = logging.getLogger('django-debug')
 
 
 class TestGroupAdminCommands:
+
+    @pytest.mark.django_db(transaction=True)
+    @pytest.mark.asyncio
+    async def test_set_bot_language(self, group_conv):
+
+        # Note: Requires admin
+        cmd = "/set_bot_language"
+        cmd_test_output = "/test_bot_output"
+
+        # English
+        await group_conv.send_message(f"{cmd} es")
+        resp = await group_conv.get_response()
+        assert is_from_test_bot(resp, TEST_BOT_ID)
+        assert "El idioma del bot ha sido cambiado al español" in resp.raw_text
+        await group_conv.send_message(cmd_test_output)
+        resp = await group_conv.get_response()
+        assert "probando probando" in resp.raw_text
+
+        # Spanish
+        await group_conv.send_message(f"{cmd} en")
+        resp = await group_conv.get_response()
+        assert is_from_test_bot(resp, TEST_BOT_ID)
+        assert "The bot's language has been changed to English" in resp.raw_text
+        await group_conv.send_message(cmd_test_output)
+        resp = await group_conv.get_response()
+        assert "testing testing" in resp.raw_text
+
+        # Non-supported language
+        await group_conv.send_message(f"{cmd} xx")
+        resp = await group_conv.get_response()
+        assert is_from_test_bot(resp, TEST_BOT_ID)
+        assert "Error: The possible language keys are ['en', 'es']" in resp.raw_text
+    
+
     @pytest.mark.django_db(transaction=True)
     @pytest.mark.asyncio
     async def test_member_join_group(self, tg_client):
