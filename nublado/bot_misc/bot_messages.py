@@ -7,5 +7,6 @@ BOT_MESSAGES = {
     'get_time': _("It's {weekday}, {time} {timezone}."),
     'start_bot': _("Hello, {member}. {bot_name} has started."),
     'hello': _("Hey, {member_receive}.\n{member_send} says hello."),
-    'text_required': _("This command requires a text argument.")
+    'text_required': _("This command requires a text argument."),
+    "testing": _("testing testing")
 }

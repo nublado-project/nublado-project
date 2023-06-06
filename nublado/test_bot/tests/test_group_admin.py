@@ -33,7 +33,7 @@ class TestGroupAdminCommands:
 
         # Note: Requires admin
         cmd = "/set_bot_language"
-        cmd_test_output = "/test_bot_output"
+        cmd_test_output = "/test_bot"
 
         # English
         await group_conv.send_message(f"{cmd} es")

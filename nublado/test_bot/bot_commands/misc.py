@@ -11,6 +11,7 @@ from django_telegram.functions.chat_actions import send_typing_action
 from django_telegram.functions.decorators import restricted_group_member
 from bot_misc.bot_commands.misc import (
     start as cmd_start,
+    test_bot as cmd_test_bot,
     get_time as cmd_get_time,
     reverse_text as cmd_reverse_text,
     echo as cmd_echo,
@@ -30,6 +31,13 @@ GROUP_ID = settings.TEST_GROUP_ID
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send a message and prompt a reply on start."""
     await cmd_start(update, context)
+
+
+@restricted_group_member(group_id=GROUP_ID)
+@send_typing_action
+async def test_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Test the bot's resonsiveness by posting a dummy message."""
+    await cmd_test_bot(update, context)
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)

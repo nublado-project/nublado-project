@@ -39,6 +39,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def test_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Send a dummy message for testing."""
+    bot_message = _(BOT_MESSAGES['testing'])
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=bot_message
+    )
+
+
 async def get_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Display the current time."""
     weekday = timezone.now().weekday()
