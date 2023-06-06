@@ -10,18 +10,9 @@ logger_debug = logging.getLogger('django-debug')
 
 
 def is_from_test_bot(message: Message, test_bot_id: int) -> bool:
+    logger_debug.info(message.from_id)
     return (isinstance(message.from_id, PeerUser) and
             message.from_id.user_id == test_bot_id)
-
-
-def get_num_list_from_str(txt: str):
-    """
-    Return a list of comma-separated numbers in string.
-    Example: "Hello 1, 2, 3 world" -> ['1', '2', '3]
-             "Hello 1 world." -> ['1']
-    """
-    num_list = re.findall("\d+(?:,\d+)?", txt)
-    return num_list
 
 
 async def is_group_member(
@@ -34,6 +25,16 @@ async def is_group_member(
             if id == group_id:
                 return True
     return False
+
+
+def get_num_list_from_str(txt: str):
+    """
+    Return a list of comma-separated numbers in string.
+    Example: "Hello 1, 2, 3 world" -> ['1', '2', '3]
+             "Hello 1 world." -> ['1']
+    """
+    num_list = re.findall("\d+(?:,\d+)?", txt)
+    return num_list
 
 
 def get_button_with_text(

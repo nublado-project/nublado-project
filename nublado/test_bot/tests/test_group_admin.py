@@ -10,9 +10,7 @@ from django.utils.translation import gettext as _
 
 from django_telegram.models import GroupMember
 from .helpers import (
-    get_button_with_text, is_group_member
-)
-from .helpers import (
+    get_button_with_text, is_group_member,
     is_from_test_bot
 )
 from .conftest import (
