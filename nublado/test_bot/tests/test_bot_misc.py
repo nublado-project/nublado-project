@@ -28,8 +28,8 @@ logger = logging.getLogger('django')
 
 class TestBotMiscCommands:
     @pytest.mark.asyncio
-    async def test_group_get_time(self, group_conv):
-        cmd = "/get_time"
+    async def test_group_get_time_utc(self, group_conv):
+        cmd = "/get_time_utc"
         await group_conv.send_message(cmd)
         resp = await group_conv.get_response()
         assert is_from_test_bot(resp, TEST_BOT_ID)

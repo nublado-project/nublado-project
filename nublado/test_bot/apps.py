@@ -33,7 +33,7 @@ class TestBotConfig(AppConfig):
             set_bot_language
         )
         from .bot_commands.misc import (
-            start, test_bot, get_time, reverse_text,
+            start, test_bot, get_time_utc, reverse_text,
             echo, hello, roll, roll_sum
         )
 
@@ -57,7 +57,7 @@ class TestBotConfig(AppConfig):
         bot.add_command_handler('hello', hello)
         bot.add_command_handler('roll', roll)
         bot.add_command_handler('roll_sum', roll_sum)
-        bot.add_command_handler('get_time', get_time)
+        bot.add_command_handler('get_time_utc', get_time_utc)
         # group_points
         bot.add_handler(add_points_handler, handler_group=2)
         bot.add_handler(remove_points_handler, handler_group=2)

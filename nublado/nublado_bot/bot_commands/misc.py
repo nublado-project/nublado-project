@@ -12,7 +12,7 @@ from django_telegram.functions.decorators import restricted_group_member
 from django_telegram.functions.admin import set_language
 from bot_misc.bot_commands.misc import (
     start as cmd_start,
-    get_time as cmd_get_time,
+    get_time_utc as cmd_get_time_utc,
     reverse_text as cmd_reverse_text,
     echo as cmd_echo,
     hello as cmd_hello,
@@ -51,10 +51,10 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @restricted_group_member(group_id=GROUP_ID)
 @send_typing_action
-async def get_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Display the current time."""
+async def get_time_utc(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Display the current date/time in UTC format."""
     await set_language(BOT_ID)
-    await cmd_get_time(update, context)
+    await cmd_get_time_utc(update, context)
 
 
 @restricted_group_member(group_id=GROUP_ID)

@@ -48,8 +48,8 @@ async def test_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def get_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Display the current time."""
+async def get_time_utc(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Display the current date/time in UTC format."""
     weekday = timezone.now().weekday()
     bot_message = _(BOT_MESSAGES['get_time']).format(
         weekday=_(settings.WEEKDAYS[weekday]),
