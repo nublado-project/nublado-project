@@ -4,7 +4,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
-python manage.py migrate users django_telegram
+# python manage.py migrate users django_telegram
 python manage.py collectstatic --no-input
 
 if [[ $CREATE_SUPERUSER = true ]];
