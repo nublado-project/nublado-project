@@ -12,5 +12,5 @@ app_name = 'project_app'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('health', HealthView.as_view(), name='health'),
-	#path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon.ico')))
+	path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('/static/favicon.ico')))
 ]
