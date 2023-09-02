@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 class TimestampModel(models.Model):
     date_created = models.DateTimeField(
         verbose_name=_("date created"),
-        default=timezone.now,
+        auto_now_add=True,
         editable=False
     )
     date_updated = models.DateTimeField(
