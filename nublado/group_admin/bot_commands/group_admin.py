@@ -122,7 +122,7 @@ async def restrict_chat_member(bot: Bot, user_id: int, chat_id: int):
     try:
         permissions = ChatPermissions(
             can_send_messages=False,
-            can_send_media_messages=False,
+            can_send_voice_notes=False,
             can_send_polls=False,
             can_send_other_messages=False  
         )
@@ -132,8 +132,9 @@ async def restrict_chat_member(bot: Bot, user_id: int, chat_id: int):
             permissions=permissions 
         )
         return True
-    except:
+    except Exception as e:
         logger.error(f"Error disactivating member {user_id}")
+        logger.error(e)
         return False
 
 
