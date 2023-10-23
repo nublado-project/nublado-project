@@ -9,7 +9,7 @@ services:
   plan: free
   env: python
   buildCommand: "./build.sh"
-  startCommand: "gunicorn config.asgi:application -w 4 -k uvicorn.workers.UvicornWorker"
+  startCommand: "./start.sh"
   autoDeploy: false
   envVars:
     - key: DATABASE_URL
