@@ -181,11 +181,16 @@ async def get_group_note(
                     group_id=group_id
                 )
                 try:
+                    if update.message.reply_to_message:
+                        note_message_id = update.message.reply_to_message.message_id
+                    else
+                        note_message_id = update.message.message_id
+
                     copied_message = await context.bot.copy_message(
                         chat_id=update.effective_chat.id,
                         from_chat_id=repo_id,
                         message_id=group_note.message_id,
-                        reply_to_message_id=update.message.message_id
+                        reply_to_message_id=note_message_id
                     )
                 except:
                     bot_message = _(BOT_MESSAGES['note_not_in_repo']).format(
@@ -198,6 +203,7 @@ async def get_group_note(
                     )            
             except GroupNote.DoesNotExist:
                 pass
+
 
 # Handlers to listen for triggers to retrieve notes.
 get_group_note_handler = MessageHandler(
