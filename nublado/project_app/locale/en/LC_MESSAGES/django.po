@@ -1,0 +1,405 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-07 14:03+0000\n"
+"PO-Revision-Date: 2023-10-31 16:45-0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: config/settings/base.py:115
+msgid "common.language.en"
+msgstr "inglés"
+
+#: config/settings/base.py:116
+msgid "common.language.es"
+msgstr "español"
+
+#: config/settings/base.py:184
+msgid "Monday"
+msgstr "lunes"
+
+#: config/settings/base.py:184
+msgid "Tuesday"
+msgstr "martes"
+
+#: config/settings/base.py:184
+msgid "Wednesday"
+msgstr "miércoles"
+
+#: config/settings/base.py:184
+msgid "Thursday"
+msgstr "jueves"
+
+#: config/settings/base.py:185
+msgid "Friday"
+msgstr "viernes"
+
+#: config/settings/base.py:185
+msgid "Saturday"
+msgstr "sábado"
+
+#: config/settings/base.py:185
+msgid "Sunday"
+msgstr "domingo"
+
+#: config/settings/base.py:188
+msgid "Mon."
+msgstr ""
+
+#: config/settings/base.py:188
+msgid "Tue."
+msgstr ""
+
+#: config/settings/base.py:188
+msgid "Wed."
+msgstr ""
+
+#: config/settings/base.py:188
+msgid "Thu."
+msgstr ""
+
+#: config/settings/base.py:189
+msgid "Fri."
+msgstr ""
+
+#: config/settings/base.py:189
+msgid "Sat."
+msgstr ""
+
+#: config/settings/base.py:189
+msgid "Sun."
+msgstr ""
+
+#: nublado/bot_misc/bot_messages.py:4
+#, python-brace-format
+msgid "{member} has rolled {dice}."
+msgstr "{member} ha tirado {dice}."
+
+#: nublado/bot_misc/bot_messages.py:5
+#, python-brace-format
+msgid ""
+"{member} has rolled {dice}.\n"
+"\n"
+" Total: {total}"
+msgstr ""
+"{member} ha tirado {dice}.\n"
+"\n"
+" Total: {total}"
+
+#: nublado/bot_misc/bot_messages.py:6
+#, python-brace-format
+msgid "Please specify the number of dice ({min_dice} - {max_dice})."
+msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
+
+#: nublado/bot_misc/bot_messages.py:7
+#, python-brace-format
+msgid "It's {weekday}, {time} {timezone}."
+msgstr "Es {weekday}, {time} {timezone}."
+
+#: nublado/bot_misc/bot_messages.py:8
+#, python-brace-format
+msgid "Hello, {member}. {bot_name} has started."
+msgstr ""
+
+#: nublado/bot_misc/bot_messages.py:9
+#, python-brace-format
+msgid ""
+"Hey, {member_receive}.\n"
+"{member_send} says hello."
+msgstr ""
+"Oye, {member_receive}.\n"
+"{member_send} te saluda."
+
+#: nublado/bot_misc/bot_messages.py:10
+msgid "This command requires a text argument."
+msgstr ""
+
+#: nublado/bot_misc/bot_messages.py:11
+msgid "testing testing"
+msgstr "probando probando"
+
+#: nublado/core/models.py:10
+msgid "date created"
+msgstr ""
+
+#: nublado/core/models.py:15
+msgid "date updated"
+msgstr ""
+
+#: nublado/django_telegram/managers.py:16 nublado/group_notes/managers.py:16
+msgid "Group id is required."
+msgstr ""
+
+#: nublado/django_telegram/managers.py:18
+msgid "User id is required."
+msgstr ""
+
+#: nublado/django_telegram/models.py:29
+msgid "Bot configuration"
+msgstr ""
+
+#: nublado/group_admin/bot_messages.py:5
+msgid "I agree."
+msgstr "Estoy de acuerdo."
+
+#: nublado/group_admin/bot_messages.py:7
+#, python-brace-format
+msgid ""
+"Welcome to the group, {name}.\n"
+"\n"
+"Please read the following rules and click the \"I agree\" button to "
+"participate.\n"
+"\n"
+"*Rules*\n"
+"- Communicate in only English and Spanish.\n"
+"- Be a good example. Help others out with corrections.\n"
+"- Introduce yourself with a voice message after joining."
+msgstr ""
+"Bienvenido/a al grupo, {name}.\n"
+"\n"
+"Lee las siguientes reglas y pulsa el botón de  \"Estoy de acuerdo\" para "
+"participar.\n"
+"\n"
+"*Reglas*\n"
+"- Comunícate solo en inglés o español.\n"
+"- Sé un buen ejemplo. Ayuda a los demás con las correcciones.\n"
+"- Preséntate con un mensaje de voz al unirte."
+
+#: nublado/group_admin/bot_messages.py:15
+#, python-brace-format
+msgid ""
+"Welcome to the group, {name}.\n"
+"\n"
+"*You need to introduce yourself with a voice message or you will be booted "
+"from the group.*\n"
+"\n"
+"This is our our protocol for new members. It helps us filter out fake "
+"accounts, trolls, etc.\n"
+"\n"
+"We look forward to hearing from you."
+msgstr ""
+"Bienvenido/a al grupo, {name}.\n"
+"\n"
+"*TIENES QUE PRESENTARTE CON UN MENSAJE DE VOZ O SERÁS EXPULSADO/A DEL GRUPO ."
+"* \n"
+"\n"
+"Es nuestro protocolo para filtrar las cuentas falsas, troles, estafadores, "
+"bots, etc.\n"
+"\n"
+"Esperamos tu presentación."
+
+#: nublado/group_admin/bot_messages.py:20
+#, python-brace-format
+msgid "The bot's language has been changed to {language}."
+msgstr "El idioma del bot ha sido cambiado al {language}."
+
+#: nublado/group_admin/bot_messages.py:21
+#, python-brace-format
+msgid "Error: The possible language keys are [{language_keys}]."
+msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
+
+#: nublado/group_notes/bot_messages.py:4
+msgid "There are no saved notes."
+msgstr "No hay notas."
+
+#: nublado/group_notes/bot_messages.py:5
+#, python-brace-format
+msgid ""
+"*Notes*\n"
+"{notes}"
+msgstr ""
+"*Notas*\n"
+"{notes}"
+
+#: nublado/group_notes/bot_messages.py:6
+#, python-brace-format
+msgid "The note *{note_tag}* has been saved."
+msgstr "La nota *{note_tag}* ha sido guardada."
+
+#: nublado/group_notes/bot_messages.py:7
+#, python-brace-format
+msgid "The note *{note_tag}* has been removed."
+msgstr "La nota *{note_tag}* ha sido eliminada."
+
+#: nublado/group_notes/bot_messages.py:8
+#, python-brace-format
+msgid "The note *{note_tag}* doesn't exist."
+msgstr "La nota *{note_tag}* no existe."
+
+#: nublado/group_notes/bot_messages.py:9
+msgid "A note needs content."
+msgstr "Una nota necesita contenido."
+
+#: nublado/group_notes/bot_messages.py:10
+msgid "A note must have a tag."
+msgstr "Una nota necesita una etiqueta."
+
+#: nublado/group_notes/bot_messages.py:11
+msgid "A note needs a tag and content."
+msgstr "Una nota necesita una etiqueta y contenido."
+
+#: nublado/group_notes/bot_messages.py:13
+#, python-brace-format
+msgid "The content for the note *{note_tag}* was not found in the repo."
+msgstr ""
+"El contenido para la nota *{note_tag}* no fue encontrado en el repositorio."
+
+#: nublado/group_notes/managers.py:14
+msgid "Note tag is required."
+msgstr ""
+
+#: nublado/group_notes/managers.py:41
+msgid "Message id or content is required."
+msgstr ""
+
+#: nublado/group_notes/models.py:20
+msgid "Group note"
+msgstr ""
+
+#: nublado/group_notes/models.py:21
+msgid "Group notes"
+msgstr ""
+
+#: nublado/group_points/bot_commands/group_points.py:21
+msgid "raindrop"
+msgstr "gota de lluvia"
+
+#: nublado/group_points/bot_commands/group_points.py:22
+msgid "raindrops"
+msgstr "gotas de lluvia"
+
+#: nublado/group_points/bot_messages.py:5
+#, python-brace-format
+msgid "You can't give {points_name} to a bot."
+msgstr "No puedes regalarle {points_name} a un bot."
+
+#: nublado/group_points/bot_messages.py:6
+#, python-brace-format
+msgid "You can't take {points_name} from a bot."
+msgstr "No puedes quitarle {points_name} a un bot."
+
+#: nublado/group_points/bot_messages.py:7
+#, python-brace-format
+msgid "You can't give {points_name} to yourself."
+msgstr "No puedes regalarte {points_name} a ti mismo/a."
+
+#: nublado/group_points/bot_messages.py:8
+#, python-brace-format
+msgid "You can't take {points_name} from yourself."
+msgstr "No puedes quitarte {points_name} a ti mismo/a."
+
+#: nublado/group_points/bot_messages.py:10
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has given a {points_name} to "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha regalado una {points_name} a "
+"*{receiver_name} ({receiver_points})*."
+
+#: nublado/group_points/bot_messages.py:14
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has given {num_points} {points_name} to "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha regalado {num_points} {points_name} "
+"a *{receiver_name} ({receiver_points})*."
+
+#: nublado/group_points/bot_messages.py:18
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has taken a {points_name} from "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha quitado una {points_name} a "
+"*{receiver_name} ({receiver_points})*."
+
+#: nublado/group_points/bot_messages.py:22
+#, python-brace-format
+msgid ""
+"*{sender_name} ({member_sender})* has taken {num_points} {points_name} from "
+"*{receiver_name} ({receiver_points})*."
+msgstr ""
+"*{sender_name} ({member_sender})* le ha quitado {num_points} {points_name} a "
+"*{receiver_name} ({receiver_points})*."
+
+#: nublado/users/apps.py:7
+msgid "label_user_config"
+msgstr ""
+
+#: nublado/users/managers.py:9 nublado/users/managers.py:33
+msgid "validation_username_required"
+msgstr ""
+
+#: nublado/users/managers.py:11 nublado/users/managers.py:35
+msgid "validation_email_required"
+msgstr ""
+
+#: nublado/users/models.py:15
+msgid "label_username"
+msgstr ""
+
+#: nublado/users/models.py:20
+msgid "label_email"
+msgstr ""
+
+#: nublado/users/models.py:25
+msgid "label_first_name"
+msgstr ""
+
+#: nublado/users/models.py:29
+msgid "label_last_name"
+msgstr ""
+
+#: nublado/users/models.py:33
+msgid "label_is_active"
+msgstr ""
+
+#: nublado/users/models.py:37
+msgid "label_is_admin"
+msgstr ""
+
+#: nublado/project_app/templates/home.html:4
+msgid "Home"
+msgstr ""
+
+#: nublado/project_app/templates/home.html:11
+msgid "Django async prototype."
+msgstr ""
+
+#: nublado/project_app/templates/home.html:12
+msgid "Testing testing 123..."
+msgstr ""
+
+#: nublado/project_app/templates/includes/_user_nav.html:8
+msgid "label_login"
+msgstr ""
+
+#: nublado/project_app/templates/includes/_user_nav.html:39
+msgid "label_edit_profile"
+msgstr ""
+
+#: nublado/project_app/templates/includes/_user_nav.html:48
+msgid "label_logout"
+msgstr ""
+
+#, python-brace-format
+#~ msgid ""
+#~ "*{sender_name} ({member_sender})* has taken some {points_name} from "
+#~ "*{receiver_name} ({receiver_points})*."
+#~ msgstr ""
+#~ "*{sender_name} ({member_sender})* le ha quitado unas {points_name} a "
+#~ "*{receiver_name} ({receiver_points})*."
