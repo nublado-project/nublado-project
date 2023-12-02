@@ -19,80 +19,77 @@ msgstr ""
 "X-Generator: Poedit 3.0.1\n"
 
 #: config/settings/base.py:115
-msgid "English"
-msgstr "inglés"
+msgid "common.language.en"
+msgstr "English"
 
 #: config/settings/base.py:116
-msgid "Spanish"
-msgstr "español"
+msgid "common.language.es"
+msgstr "Spanish"
 
 #: config/settings/base.py:184
-msgid "Monday"
+msgid "common.monday"
 msgstr "lunes"
 
 #: config/settings/base.py:184
-msgid "Tuesday"
+msgid "common.tuesday"
 msgstr "martes"
 
 #: config/settings/base.py:184
-msgid "Wednesday"
+msgid "common.wednesday"
 msgstr "miércoles"
 
 #: config/settings/base.py:184
-msgid "Thursday"
+msgid "common.thursday"
 msgstr "jueves"
 
 #: config/settings/base.py:185
-msgid "Friday"
+msgid "common.friday"
 msgstr "viernes"
 
 #: config/settings/base.py:185
-msgid "Saturday"
+msgid "common.saturday"
 msgstr "sábado"
 
 #: config/settings/base.py:185
-msgid "Sunday"
+msgid "common.sunday"
 msgstr "domingo"
 
 #: config/settings/base.py:188
-msgid "Mon."
-msgstr ""
+msgid "common.abbr.monday"
+msgstr "lun"
 
 #: config/settings/base.py:188
-msgid "Tue."
-msgstr ""
+msgid "common.abbr.tuesday"
+msgstr "mar"
 
 #: config/settings/base.py:188
-msgid "Wed."
-msgstr ""
+msgid "common.abbr.wednesday"
+msgstr "mié"
 
 #: config/settings/base.py:188
-msgid "Thu."
-msgstr ""
+msgid "common.abbr.thursday"
+msgstr "jue"
 
 #: config/settings/base.py:189
-msgid "Fri."
-msgstr ""
+msgid "common.abbr.friday"
+msgstr "vie"
 
 #: config/settings/base.py:189
-msgid "Sat."
-msgstr ""
+msgid "common.abbr.saturday"
+msgstr "sáb"
 
 #: config/settings/base.py:189
-msgid "Sun."
-msgstr ""
+msgid "common.abbr.sunday"
+msgstr "dom"
 
 #: nublado/bot_misc/bot_messages.py:4
 #, python-brace-format
-msgid "{member} has rolled {dice}."
+msgid "bot.message.dice_roll {member} {dice}"
 msgstr "{member} ha tirado {dice}."
 
 #: nublado/bot_misc/bot_messages.py:5
 #, python-brace-format
-msgid ""
-"{member} has rolled {dice}.\n"
-"\n"
-" Total: {total}"
+msgid "bot.message.dice_roll {member} {dice} {total}"
 msgstr ""
 "{member} ha tirado {dice}.\n"
 "\n"
@@ -100,7 +97,7 @@ msgstr ""
 
 #: nublado/bot_misc/bot_messages.py:6
 #, python-brace-format
-msgid "Please specify the number of dice ({min_dice} - {max_dice})."
+msgid "bot.dice_specify_number {min_dice} {max_dice}"
 msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
 
 #: nublado/bot_misc/bot_messages.py:7

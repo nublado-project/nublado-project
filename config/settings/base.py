@@ -112,8 +112,8 @@ ES = 'es'
 FREE = 'free'
 LANGUAGE_CODE = EN
 LANGUAGES = [
-    (EN, _("English")),
-    (ES, _("Spanish")),
+    (EN, _("common.language.en")),
+    (ES, _("common.language.es")),
 ]
 LANGUAGES_DICT = dict(LANGUAGES)
 
@@ -181,12 +181,12 @@ LOGGING = {
 
 MON, TUE, WED, THU, FRI, SAT, SUN = range(7)
 WEEKDAYS = [
-    _("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"),
-    _("Friday"), _("Saturday"), _("Sunday")
+    _("common.monday"), _("common.tuesday"), _("common.wednesday"), _("common.thursday"),
+    _("common.friday"), _("common.saturday"), _("sommon.sunday")
 ]
 WEEKDAYS_ABBR = [
-    _("Mon."), _("Tue."), _("Wed."), _("Thu."),
-    _("Fri."), _("Sat."), _("Sun.")
+    _("common.abbr.monday"), _("common.abbr.tuesday"), _("common.abbr.wednesday"), _("common.abbr.thursday"),
+    _("common.abbr.friday"), _("common.abbr.saturday"), _("common.abbr.sunday")
 ]
 
 # Telegram bot stuff

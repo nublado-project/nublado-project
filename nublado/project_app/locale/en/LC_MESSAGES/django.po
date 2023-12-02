@@ -20,88 +20,85 @@ msgstr ""
 
 #: config/settings/base.py:115
 msgid "common.language.en"
-msgstr "inglés"
+msgstr "English"
 
 #: config/settings/base.py:116
 msgid "common.language.es"
-msgstr "español"
+msgstr "Spanish"
 
 #: config/settings/base.py:184
-msgid "Monday"
-msgstr "lunes"
+msgid "common.monday"
+msgstr "Monday"
 
 #: config/settings/base.py:184
-msgid "Tuesday"
-msgstr "martes"
+msgid "common.tuesday"
+msgstr "Tuesday"
 
 #: config/settings/base.py:184
-msgid "Wednesday"
-msgstr "miércoles"
+msgid "common.wednesday"
+msgstr "Wednesday"
 
 #: config/settings/base.py:184
-msgid "Thursday"
-msgstr "jueves"
+msgid "common.thursday"
+msgstr "Thursdays"
 
 #: config/settings/base.py:185
-msgid "Friday"
-msgstr "viernes"
+msgid "common.friday"
+msgstr "Friday"
 
 #: config/settings/base.py:185
-msgid "Saturday"
-msgstr "sábado"
+msgid "common.saturday"
+msgstr "Saturday"
 
 #: config/settings/base.py:185
-msgid "Sunday"
-msgstr "domingo"
+msgid "common.sunday"
+msgstr "Sunday"
 
 #: config/settings/base.py:188
-msgid "Mon."
-msgstr ""
+msgid "common.abbr.monday"
+msgstr "Mon."
 
 #: config/settings/base.py:188
-msgid "Tue."
-msgstr ""
+msgid "common.abbr.tuesday"
+msgstr "Tue."
 
 #: config/settings/base.py:188
-msgid "Wed."
-msgstr ""
+msgid "common.abbr.wednesday"
+msgstr "Wed."
 
 #: config/settings/base.py:188
-msgid "Thu."
-msgstr ""
+msgid "common.abbr.thursday"
+msgstr "Thu."
 
 #: config/settings/base.py:189
-msgid "Fri."
-msgstr ""
+msgid "common.abbr.friday"
+msgstr "Fri."
 
 #: config/settings/base.py:189
-msgid "Sat."
-msgstr ""
+msgid "common.abbr.saturday"
+msgstr "Sat."
 
 #: config/settings/base.py:189
-msgid "Sun."
-msgstr ""
+msgid "common.abbr.sunday"
+msgstr "Sun."
 
 #: nublado/bot_misc/bot_messages.py:4
 #, python-brace-format
-msgid "{member} has rolled {dice}."
-msgstr "{member} ha tirado {dice}."
+msgid "bot.message.dice_roll {member} {dice}"
+msgstr "{member} has rolled {dice}."
 
 #: nublado/bot_misc/bot_messages.py:5
 #, python-brace-format
-msgid ""
-"{member} has rolled {dice}.\n"
-"\n"
-" Total: {total}"
+msgid "bot.message.dice_roll {member} {dice} {total}"
 msgstr ""
-"{member} ha tirado {dice}.\n"
+"{member} has rolled {dice}.\n"
 "\n"
 " Total: {total}"
 
 #: nublado/bot_misc/bot_messages.py:6
 #, python-brace-format
-msgid "Please specify the number of dice ({min_dice} - {max_dice})."
-msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
+msgid "bot.dice_specify_number {min_dice} {max_dice}"
+msgstr "Please specify the number of dice ({min_dice} - {max_dice})."
 
 #: nublado/bot_misc/bot_messages.py:7
 #, python-brace-format
