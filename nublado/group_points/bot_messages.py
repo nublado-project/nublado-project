@@ -15,11 +15,11 @@ BOT_MESSAGES = {
         "{points_name} {receiver_name} {receiver_points}"
     ),
     'take_point': _(
-        "*{sender_name} ({member_sender})* has taken a " + \
-        "{points_name} from *{receiver_name} ({receiver_points})*."
+        "bot.message.take_point_member {sender_name} {sender_points} " + \
+        "{points_name} {receiver_name} {receiver_points}"
     ),
     'take_points': _(
-        "*{sender_name} ({member_sender})* has taken {num_points} " + \
-        "{points_name} from *{receiver_name} ({receiver_points})*."
+        "bot.message.take_points_member {sender_name} {sender_points} {num_points} " + \
+        "{points_name} {receiver_name} {receiver_points}"
     ),
 }
