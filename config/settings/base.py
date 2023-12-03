@@ -109,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization and localization
 EN = 'en'
 ES = 'es'
-FREE = 'free'
 LANGUAGE_CODE = EN
 LANGUAGES = [
     (EN, _("common.language.en")),

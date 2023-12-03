@@ -18,8 +18,8 @@ ADD_POINTS_TRIGGER = '+'
 ADD_POINTS_REGEX = '^[' + ADD_POINTS_TRIGGER + '][\s\S]*$'
 REMOVE_POINTS_TRIGGER = '-'
 REMOVE_POINTS_REGEX = '^[' + REMOVE_POINTS_TRIGGER + '][\s\S]*$'
-POINT_NAME = _("raindrop")
-POINTS_NAME = _("raindrops")
+POINT_NAME = _("bot.point_name")
+POINTS_NAME = _("bot.points_name")
 TOP_POINTS_LIMIT = 10
 
 

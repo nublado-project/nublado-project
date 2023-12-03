@@ -7,78 +7,78 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-07 14:03+0000\n"
-"PO-Revision-Date: 2023-12-02 13:02-0800\n"
+"POT-Creation-Date: 2023-12-02 23:25+0000\n"
+"PO-Revision-Date: 2023-12-02 16:09-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: es\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: config/settings/base.py:115
+#: config/settings/base.py:114
 msgid "common.language.en"
 msgstr "English"
 
-#: config/settings/base.py:116
+#: config/settings/base.py:115
 msgid "common.language.es"
 msgstr "Spanish"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.monday"
 msgstr "Monday"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.tuesday"
 msgstr "Tuesday"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.wednesday"
 msgstr "Wednesday"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.thursday"
 msgstr "Thursdays"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "common.friday"
 msgstr "Friday"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "common.saturday"
 msgstr "Saturday"
 
-#: config/settings/base.py:185
-msgid "common.sunday"
+#: config/settings/base.py:184
+msgid "sommon.sunday"
 msgstr "Sunday"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.monday"
 msgstr "Mon."
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.tuesday"
 msgstr "Tue."
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.wednesday"
 msgstr "Wed."
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.thursday"
 msgstr "Thu."
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "common.abbr.friday"
 msgstr "Fri."
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "common.abbr.saturday"
 msgstr "Sat."
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "common.abbr.sunday"
 msgstr "Sun."
 
@@ -97,35 +97,33 @@ msgstr ""
 
 #: nublado/bot_misc/bot_messages.py:6
 #, python-brace-format
-msgid "bot.dice_specify_number {min_dice} {max_dice}"
+msgid "bot.message.dice_specify_number {min_dice} {max_dice}"
 msgstr "Please specify the number of dice ({min_dice} - {max_dice})."
 
 #: nublado/bot_misc/bot_messages.py:7
 #, python-brace-format
 msgid "It's {weekday}, {time} {timezone}."
-msgstr "Es {weekday}, {time} {timezone}."
+msgstr "It's {weekday}, {time} {timezone}."
 
 #: nublado/bot_misc/bot_messages.py:8
 #, python-brace-format
-msgid "Hello, {member}. {bot_name} has started."
-msgstr ""
+msgid "bot.message.bot_start {member} {bot_name}"
+msgstr "Hello, {member}. {bot_name} has started."
 
 #: nublado/bot_misc/bot_messages.py:9
 #, python-brace-format
-msgid ""
+msgid "bot.message.hello {member_receive} {member_send}"
+msgstr ""
 "Hey, {member_receive}.\n"
 "{member_send} says hello."
-msgstr ""
-"Oye, {member_receive}.\n"
-"{member_send} te saluda."
 
 #: nublado/bot_misc/bot_messages.py:10
-msgid "This command requires a text argument."
-msgstr ""
+msgid "bot.message.text_required"
+msgstr "This command requires a text argument."
 
 #: nublado/bot_misc/bot_messages.py:11
-msgid "testing testing"
-msgstr "probando probando"
+msgid "bot.message.testing"
+msgstr "testing testing"
 
 #: nublado/core/models.py:10
 msgid "date created"
@@ -199,8 +197,8 @@ msgstr ""
 
 #: nublado/group_admin/bot_messages.py:20
 #, python-brace-format
-msgid "The bot's language has been changed to {language}."
-msgstr "El idioma del bot ha sido cambiado al {language}."
+msgid "bot.message.language_set {language}"
+msgstr "The bot's language has been changed to {language}."
 
 #: nublado/group_admin/bot_messages.py:21
 #, python-brace-format
@@ -270,17 +268,17 @@ msgid "Group notes"
 msgstr ""
 
 #: nublado/group_points/bot_commands/group_points.py:21
-msgid "raindrop"
-msgstr "gota de lluvia"
+msgid "bot.point_name"
+msgstr "raindrop"
 
 #: nublado/group_points/bot_commands/group_points.py:22
-msgid "raindrops"
-msgstr "gotas de lluvia"
+msgid "bot.points_name"
+msgstr "raindrops"
 
 #: nublado/group_points/bot_messages.py:5
 #, python-brace-format
-msgid "You can't give {points_name} to a bot."
-msgstr "No puedes regalarle {points_name} a un bot."
+msgid "bot.message.no_give_points_bot {points_name}"
+msgstr "You can't give {points_name} to a bot."
 
 #: nublado/group_points/bot_messages.py:6
 #, python-brace-format

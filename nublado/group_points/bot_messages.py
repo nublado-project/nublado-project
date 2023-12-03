@@ -1,8 +1,8 @@
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 BOT_MESSAGES = {
-    'no_give_bot': _("You can't give {points_name} to a bot."),
+    'no_give_bot': _("bot.message.no_give_points_bot {points_name}"),
     'no_take_bot': _("You can't take {points_name} from a bot."),
     'no_give_self': _("You can't give {points_name} to yourself."),
     'no_take_self': _("You can't take {points_name} from yourself."),

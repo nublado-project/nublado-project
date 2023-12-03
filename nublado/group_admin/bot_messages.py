@@ -1,4 +1,4 @@
-from django.utils.translation import activate, gettext as _
+from django.utils.translation import activate, gettext_lazy as _
 
 
 BOT_MESSAGES = {
@@ -17,6 +17,6 @@ BOT_MESSAGES = {
         "This is our our protocol for new members. It helps us filter out fake accounts, trolls, etc.\n\n" \
         "We look forward to hearing from you."
     ),
-    'bot_language_set': _("The bot's language has been changed to {language}."),
+    'bot_language_set': _("bot.message.language_set {language}"),
     'error_invalid_language_key': _("Error: The possible language keys are [{language_keys}].")
 }

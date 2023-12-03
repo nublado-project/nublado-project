@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-07 14:03+0000\n"
-"PO-Revision-Date: 2023-12-02 13:07-0800\n"
+"POT-Creation-Date: 2023-12-02 23:25+0000\n"
+"PO-Revision-Date: 2023-12-02 16:15-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,67 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: config/settings/base.py:115
+#: config/settings/base.py:114
 msgid "common.language.en"
 msgstr "inglés"
 
-#: config/settings/base.py:116
+#: config/settings/base.py:115
 msgid "common.language.es"
 msgstr "español"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.monday"
 msgstr "lunes"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.tuesday"
 msgstr "martes"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.wednesday"
 msgstr "miércoles"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:183
 msgid "common.thursday"
 msgstr "jueves"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "common.friday"
 msgstr "viernes"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:184
 msgid "common.saturday"
 msgstr "sábado"
 
-#: config/settings/base.py:185
-msgid "common.sunday"
+#: config/settings/base.py:184
+msgid "sommon.sunday"
 msgstr "domingo"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.monday"
 msgstr "lun"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.tuesday"
 msgstr "mar"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.wednesday"
 msgstr "mié"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:187
 msgid "common.abbr.thursday"
 msgstr "jue"
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "common.abbr.friday"
 msgstr "vie"
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "common.abbr.saturday"
 msgstr "sáb"
 
-#: config/settings/base.py:189
+#: config/settings/base.py:188
 msgid "common.abbr.sunday"
 msgstr "dom"
 
@@ -97,7 +97,7 @@ msgstr ""
 
 #: nublado/bot_misc/bot_messages.py:6
 #, python-brace-format
-msgid "bot.dice_specify_number {min_dice} {max_dice}"
+msgid "bot.message.dice_specify_number {min_dice} {max_dice}"
 msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
 
 #: nublado/bot_misc/bot_messages.py:7
@@ -107,24 +107,22 @@ msgstr "Es {weekday}, {time} {timezone}."
 
 #: nublado/bot_misc/bot_messages.py:8
 #, python-brace-format
-msgid "Hello, {member}. {bot_name} has started."
-msgstr ""
+msgid "bot.message.bot_start {member} {bot_name}"
+msgstr "Hola, {member}. {bot_name} ha sido iniciado."
 
 #: nublado/bot_misc/bot_messages.py:9
 #, python-brace-format
-msgid ""
-"Hey, {member_receive}.\n"
-"{member_send} says hello."
+msgid "bot.message.hello {member_receive} {member_send}"
 msgstr ""
 "Oye, {member_receive}.\n"
 "{member_send} te saluda."
 
 #: nublado/bot_misc/bot_messages.py:10
-msgid "This command requires a text argument."
-msgstr ""
+msgid "bot.message.text_required"
+msgstr "Este comando requiere un argumento de texto."
 
 #: nublado/bot_misc/bot_messages.py:11
-msgid "testing testing"
+msgid "bot.message.testing"
 msgstr "probando probando"
 
 #: nublado/core/models.py:10
@@ -199,7 +197,7 @@ msgstr ""
 
 #: nublado/group_admin/bot_messages.py:20
 #, python-brace-format
-msgid "The bot's language has been changed to {language}."
+msgid "bot.message.language_set {language}"
 msgstr "El idioma del bot ha sido cambiado al {language}."
 
 #: nublado/group_admin/bot_messages.py:21
@@ -270,16 +268,16 @@ msgid "Group notes"
 msgstr ""
 
 #: nublado/group_points/bot_commands/group_points.py:21
-msgid "raindrop"
+msgid "bot.point_name"
 msgstr "gota de lluvia"
 
 #: nublado/group_points/bot_commands/group_points.py:22
-msgid "raindrops"
+msgid "bot.points_name"
 msgstr "gotas de lluvia"
 
 #: nublado/group_points/bot_messages.py:5
 #, python-brace-format
-msgid "You can't give {points_name} to a bot."
+msgid "bot.message.no_give_points_bot {points_name}"
 msgstr "No puedes regalarle {points_name} a un bot."
 
 #: nublado/group_points/bot_messages.py:6
