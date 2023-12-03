@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-02 23:25+0000\n"
-"PO-Revision-Date: 2023-12-02 18:05-0800\n"
+"PO-Revision-Date: 2023-12-02 18:36-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -188,52 +188,45 @@ msgid "bot.message.invalid_language_key {language_keys}"
 msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
 
 #: nublado/group_notes/bot_messages.py:4
-msgid "There are no saved notes."
-msgstr "No hay notas."
+msgid "bot.message.no_notes"
+msgstr "No hay ninguna nota guardada."
 
 #: nublado/group_notes/bot_messages.py:5
 #, python-brace-format
-msgid ""
-"*Notes*\n"
-"{notes}"
+msgid "bot.message.notes_list {notes}"
 msgstr ""
 "*Notas*\n"
 "{notes}"
 
 #: nublado/group_notes/bot_messages.py:6
 #, python-brace-format
-msgid "The note *{note_tag}* has been saved."
+msgid "bot.message.note_saved {note_tag}"
 msgstr "La nota *{note_tag}* ha sido guardada."
 
 #: nublado/group_notes/bot_messages.py:7
 #, python-brace-format
-msgid "The note *{note_tag}* has been removed."
+msgid "bot.message.note_removed {note_tag}"
 msgstr "La nota *{note_tag}* ha sido eliminada."
 
 #: nublado/group_notes/bot_messages.py:8
 #, python-brace-format
-msgid "The note *{note_tag}* doesn't exist."
+msgid "bot.message.note_no_exist {note_tag}"
 msgstr "La nota *{note_tag}* no existe."
 
 #: nublado/group_notes/bot_messages.py:9
-msgid "A note needs content."
+msgid "bot.message.note_no_content"
 msgstr "Una nota necesita contenido."
 
 #: nublado/group_notes/bot_messages.py:10
-msgid "A note must have a tag."
+msgid "bot.message.note_no_tag"
 msgstr "Una nota necesita una etiqueta."
 
 #: nublado/group_notes/bot_messages.py:11
-msgid "A note needs a tag and content."
+msgid "bot.message.note_no_args"
 msgstr "Una nota necesita una etiqueta y contenido."
 
-#: nublado/group_notes/bot_messages.py:13
+#: nublado/group_notes/bot_messages.py:13 nublado/group_notes/managers.py:14
 #, python-brace-format
-msgid "The content for the note *{note_tag}* was not found in the repo."
-msgstr ""
-"El contenido para la nota *{note_tag}* no fue encontrado en el repositorio."
-
-#: nublado/group_notes/managers.py:14
 msgid "Note tag is required."
 msgstr ""
 
