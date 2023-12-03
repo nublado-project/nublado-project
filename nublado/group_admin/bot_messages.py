@@ -2,21 +2,9 @@ from django.utils.translation import activate, gettext_lazy as _
 
 
 BOT_MESSAGES = {
-    'agree': _("I agree."),
-    'welcome': _(
-        "Welcome to the group, {name}.\n\n" \
-        "Please read the following rules and click the \"I agree\" button to participate.\n\n" \
-        "*Rules*\n" \
-        "- Communicate in only English and Spanish.\n" \
-        "- Be a good example. Help others out with corrections.\n" \
-        "- Introduce yourself with a voice message after joining."
-    ),
-    'welcome_agreed': _(
-        "Welcome to the group, {name}.\n\n" \
-        "*You need to introduce yourself with a voice message or you will be booted from the group.*\n\n" \
-        "This is our our protocol for new members. It helps us filter out fake accounts, trolls, etc.\n\n" \
-        "We look forward to hearing from you."
-    ),
+    'agree': _("bot.message.i_agree"),
+    'welcome': _("bot.message.welcome {name}"),
+    'welcome_agreed': _("bot.message.welcome_agreed {name}"),
     'bot_language_set': _("bot.message.language_set {language}"),
-    'error_invalid_language_key': _("Error: The possible language keys are [{language_keys}].")
+    'error_invalid_language_key': _("bot.message.invalid_language_key {language_keys}")
 }

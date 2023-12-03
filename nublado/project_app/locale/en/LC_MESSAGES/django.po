@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-02 23:25+0000\n"
-"PO-Revision-Date: 2023-12-02 17:26-0800\n"
+"PO-Revision-Date: 2023-12-02 18:05-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -146,12 +146,13 @@ msgid "Bot configuration"
 msgstr ""
 
 #: nublado/group_admin/bot_messages.py:5
-msgid "I agree."
-msgstr "Estoy de acuerdo."
+msgid "bot.message.i_agree"
+msgstr "I agree."
 
 #: nublado/group_admin/bot_messages.py:7
 #, python-brace-format
-msgid ""
+msgid "bot.message.welcome {name}"
+msgstr ""
 "Welcome to the group, {name}.\n"
 "\n"
 "Please read the following rules and click the \"I agree\" button to "
@@ -161,20 +162,11 @@ msgid ""
 "- Communicate in only English and Spanish.\n"
 "- Be a good example. Help others out with corrections.\n"
 "- Introduce yourself with a voice message after joining."
-msgstr ""
-"Bienvenido/a al grupo, {name}.\n"
-"\n"
-"Lee las siguientes reglas y pulsa el botón de  \"Estoy de acuerdo\" para "
-"participar.\n"
-"\n"
-"*Reglas*\n"
-"- Comunícate solo en inglés o español.\n"
-"- Sé un buen ejemplo. Ayuda a los demás con las correcciones.\n"
-"- Preséntate con un mensaje de voz al unirte."
 
 #: nublado/group_admin/bot_messages.py:15
 #, python-brace-format
-msgid ""
+msgid "bot.message.welcome_agreed {name}"
+msgstr ""
 "Welcome to the group, {name}.\n"
 "\n"
 "*You need to introduce yourself with a voice message or you will be booted "
@@ -184,16 +176,6 @@ msgid ""
 "accounts, trolls, etc.\n"
 "\n"
 "We look forward to hearing from you."
-msgstr ""
-"Bienvenido/a al grupo, {name}.\n"
-"\n"
-"*TIENES QUE PRESENTARTE CON UN MENSAJE DE VOZ O SERÁS EXPULSADO/A DEL GRUPO ."
-"* \n"
-"\n"
-"Es nuestro protocolo para filtrar las cuentas falsas, troles, estafadores, "
-"bots, etc.\n"
-"\n"
-"Esperamos tu presentación."
 
 #: nublado/group_admin/bot_messages.py:20
 #, python-brace-format
@@ -202,8 +184,8 @@ msgstr "The bot's language has been changed to {language}."
 
 #: nublado/group_admin/bot_messages.py:21
 #, python-brace-format
-msgid "Error: The possible language keys are [{language_keys}]."
-msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
+msgid "bot.message.invalid_language_key {language_keys}"
+msgstr "Error: The possible language keys are [{language_keys}]."
 
 #: nublado/group_notes/bot_messages.py:4
 msgid "There are no saved notes."

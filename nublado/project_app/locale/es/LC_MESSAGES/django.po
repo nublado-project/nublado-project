@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-02 23:25+0000\n"
-"PO-Revision-Date: 2023-12-02 17:26-0800\n"
+"PO-Revision-Date: 2023-12-02 18:05-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -146,21 +146,12 @@ msgid "Bot configuration"
 msgstr ""
 
 #: nublado/group_admin/bot_messages.py:5
-msgid "I agree."
+msgid "bot.message.i_agree"
 msgstr "Estoy de acuerdo."
 
 #: nublado/group_admin/bot_messages.py:7
 #, python-brace-format
-msgid ""
-"Welcome to the group, {name}.\n"
-"\n"
-"Please read the following rules and click the \"I agree\" button to "
-"participate.\n"
-"\n"
-"*Rules*\n"
-"- Communicate in only English and Spanish.\n"
-"- Be a good example. Help others out with corrections.\n"
-"- Introduce yourself with a voice message after joining."
+msgid "bot.message.welcome {name}"
 msgstr ""
 "Bienvenido/a al grupo, {name}.\n"
 "\n"
@@ -174,16 +165,7 @@ msgstr ""
 
 #: nublado/group_admin/bot_messages.py:15
 #, python-brace-format
-msgid ""
-"Welcome to the group, {name}.\n"
-"\n"
-"*You need to introduce yourself with a voice message or you will be booted "
-"from the group.*\n"
-"\n"
-"This is our our protocol for new members. It helps us filter out fake "
-"accounts, trolls, etc.\n"
-"\n"
-"We look forward to hearing from you."
+msgid "bot.message.welcome_agreed {name}"
 msgstr ""
 "Bienvenido/a al grupo, {name}.\n"
 "\n"
@@ -202,7 +184,7 @@ msgstr "El idioma del bot ha sido cambiado al {language}."
 
 #: nublado/group_admin/bot_messages.py:21
 #, python-brace-format
-msgid "Error: The possible language keys are [{language_keys}]."
+msgid "bot.message.invalid_language_key {language_keys}"
 msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
 
 #: nublado/group_notes/bot_messages.py:4
