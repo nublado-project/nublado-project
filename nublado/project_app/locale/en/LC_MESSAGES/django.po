@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-02 23:25+0000\n"
-"PO-Revision-Date: 2023-12-02 16:09-0800\n"
+"PO-Revision-Date: 2023-12-02 17:07-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -282,53 +282,53 @@ msgstr "You can't give {points_name} to a bot."
 
 #: nublado/group_points/bot_messages.py:6
 #, python-brace-format
-msgid "You can't take {points_name} from a bot."
-msgstr "No puedes quitarle {points_name} a un bot."
+msgid "bot.message.no_take_points_bot {points_name}"
+msgstr "You can't take {points_name} from a bot."
 
 #: nublado/group_points/bot_messages.py:7
 #, python-brace-format
-msgid "You can't give {points_name} to yourself."
-msgstr "No puedes regalarte {points_name} a ti mismo/a."
+msgid "bot.message.no_give_points_self {points_name}"
+msgstr "You can't give {points_name} to yourself."
 
 #: nublado/group_points/bot_messages.py:8
 #, python-brace-format
-msgid "You can't take {points_name} from yourself."
-msgstr "No puedes quitarte {points_name} a ti mismo/a."
+msgid "bot.message.no_take_points_self {points_name}"
+msgstr "You can't take {points_name} from yourself."
 
 #: nublado/group_points/bot_messages.py:10
 #, python-brace-format
 msgid ""
-"*{sender_name} ({member_sender})* has given a {points_name} to "
-"*{receiver_name} ({receiver_points})*."
+"bot.message.give_point_member {sender_name} {sender_points} {points_name} "
+"{receiver_name} {receiver_points}"
 msgstr ""
-"*{sender_name} ({member_sender})* le ha regalado una {points_name} a "
+"*{sender_name} ({sender_points})* has given a {points_name} to "
 "*{receiver_name} ({receiver_points})*."
 
 #: nublado/group_points/bot_messages.py:14
 #, python-brace-format
 msgid ""
-"*{sender_name} ({member_sender})* has given {num_points} {points_name} to "
-"*{receiver_name} ({receiver_points})*."
+"bot.message.give_points_member {sender_name} {sender_points} {num_points} "
+"{points_name} {receiver_name} {receiver_points}"
 msgstr ""
-"*{sender_name} ({member_sender})* le ha regalado {num_points} {points_name} "
-"a *{receiver_name} ({receiver_points})*."
+"*{sender_name} ({sender_points})* has given {num_points} {points_name} a "
+"*{receiver_name} ({receiver_points})*."
 
 #: nublado/group_points/bot_messages.py:18
 #, python-brace-format
 msgid ""
-"*{sender_name} ({member_sender})* has taken a {points_name} from "
+"*{sender_name} ({sender_points})* has taken a {points_name} from "
 "*{receiver_name} ({receiver_points})*."
 msgstr ""
-"*{sender_name} ({member_sender})* le ha quitado una {points_name} a "
+"*{sender_name} ({sender_points})* le ha quitado una {points_name} a "
 "*{receiver_name} ({receiver_points})*."
 
 #: nublado/group_points/bot_messages.py:22
 #, python-brace-format
 msgid ""
-"*{sender_name} ({member_sender})* has taken {num_points} {points_name} from "
+"*{sender_name} ({sender_points})* has taken {num_points} {points_name} from "
 "*{receiver_name} ({receiver_points})*."
 msgstr ""
-"*{sender_name} ({member_sender})* le ha quitado {num_points} {points_name} a "
+"*{sender_name} ({sender_points})* le ha quitado {num_points} {points_name} a "
 "*{receiver_name} ({receiver_points})*."
 
 #: nublado/users/apps.py:7

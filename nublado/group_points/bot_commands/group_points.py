@@ -18,8 +18,8 @@ ADD_POINTS_TRIGGER = '+'
 ADD_POINTS_REGEX = '^[' + ADD_POINTS_TRIGGER + '][\s\S]*$'
 REMOVE_POINTS_TRIGGER = '-'
 REMOVE_POINTS_REGEX = '^[' + REMOVE_POINTS_TRIGGER + '][\s\S]*$'
-POINT_NAME = _("bot.point_name")
-POINTS_NAME = _("bot.points_name")
+POINT_NAME = "bot.point_name"
+POINTS_NAME = "bot.points_name"
 TOP_POINTS_LIMIT = 10
 
 
@@ -92,7 +92,7 @@ async def add_points(
                 if num_points > 1:
                     bot_message = _(BOT_MESSAGES['give_points']).format(
                         sender_name=sender_name,
-                        member_sender=member_sender.points,
+                        sender_points=member_sender.points,
                         num_points=num_points,
                         points_name=_(POINTS_NAME),
                         receiver_name=receiver_name,
@@ -101,7 +101,7 @@ async def add_points(
                 else:
                     bot_message = _(BOT_MESSAGES['give_point']).format(
                         sender_name=sender_name,
-                        member_sender=member_sender.points,
+                        sender_points=member_sender.points,
                         points_name=_(POINT_NAME),
                         receiver_name=receiver_name,
                         receiver_points=member_receiver.points
@@ -144,7 +144,7 @@ async def remove_points(
                 if num_points > 1:
                     bot_message = _(BOT_MESSAGES['take_points']).format(
                         sender_name=sender_name,
-                        member_sender=member_sender.points,
+                        sender_points=member_sender.points,
                         num_points=num_points,
                         points_name=_(POINTS_NAME),
                         receiver_name=receiver_name,
@@ -153,7 +153,7 @@ async def remove_points(
                 else:
                     bot_message = _(BOT_MESSAGES['take_point']).format(
                         sender_name=sender_name,
-                        member_sender=member_sender.points,
+                        sender_points=member_sender.points,
                         points_name=_(POINT_NAME),
                         receiver_name=receiver_name,
                         receiver_points=member_receiver.points
