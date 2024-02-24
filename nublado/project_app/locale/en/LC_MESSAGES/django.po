@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-02 23:25+0000\n"
-"PO-Revision-Date: 2023-12-02 18:29-0800\n"
+"POT-Creation-Date: 2024-02-24 07:02+0000\n"
+"PO-Revision-Date: 2024-02-23 23:03-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -84,10 +84,20 @@ msgstr "Sun."
 
 #: nublado/bot_misc/bot_messages.py:4
 #, python-brace-format
+msgid "bot.message.coin_heads {member}"
+msgstr "{member} has flipped heads."
+
+#: nublado/bot_misc/bot_messages.py:5
+#, python-brace-format
+msgid "bot.message.coin_tails {member}"
+msgstr "{member} has flipped tails."
+
+#: nublado/bot_misc/bot_messages.py:6
+#, python-brace-format
 msgid "bot.message.dice_roll {member} {dice}"
 msgstr "{member} has rolled {dice}."
 
-#: nublado/bot_misc/bot_messages.py:5
+#: nublado/bot_misc/bot_messages.py:7
 #, python-brace-format
 msgid "bot.message.dice_roll_total {member} {dice} {total}"
 msgstr ""
@@ -95,33 +105,33 @@ msgstr ""
 "\n"
 " Total: {total}"
 
-#: nublado/bot_misc/bot_messages.py:6
+#: nublado/bot_misc/bot_messages.py:8
 #, python-brace-format
 msgid "bot.message.dice_specify_number {min_dice} {max_dice}"
 msgstr "Please specify the number of dice ({min_dice} - {max_dice})."
 
-#: nublado/bot_misc/bot_messages.py:7
+#: nublado/bot_misc/bot_messages.py:9
 #, python-brace-format
 msgid "It's {weekday}, {time} {timezone}."
 msgstr "It's {weekday}, {time} {timezone}."
 
-#: nublado/bot_misc/bot_messages.py:8
+#: nublado/bot_misc/bot_messages.py:10
 #, python-brace-format
 msgid "bot.message.bot_start {member} {bot_name}"
 msgstr "Hello, {member}. {bot_name} has started."
 
-#: nublado/bot_misc/bot_messages.py:9
+#: nublado/bot_misc/bot_messages.py:11
 #, python-brace-format
 msgid "bot.message.hello {member_receive} {member_send}"
 msgstr ""
 "Hey, {member_receive}.\n"
 "{member_send} says hello."
 
-#: nublado/bot_misc/bot_messages.py:10
+#: nublado/bot_misc/bot_messages.py:12
 msgid "bot.message.text_required"
 msgstr "This command requires a text argument."
 
-#: nublado/bot_misc/bot_messages.py:11
+#: nublado/bot_misc/bot_messages.py:13
 msgid "bot.message.testing"
 msgstr "testing testing"
 
@@ -149,7 +159,7 @@ msgstr ""
 msgid "bot.message.i_agree"
 msgstr "I agree."
 
-#: nublado/group_admin/bot_messages.py:7
+#: nublado/group_admin/bot_messages.py:6
 #, python-brace-format
 msgid "bot.message.welcome {name}"
 msgstr ""
@@ -163,7 +173,7 @@ msgstr ""
 "- Be a good example. Help others out with corrections.\n"
 "- Introduce yourself with a voice message after joining."
 
-#: nublado/group_admin/bot_messages.py:15
+#: nublado/group_admin/bot_messages.py:7
 #, python-brace-format
 msgid "bot.message.welcome_agreed {name}"
 msgstr ""
@@ -177,12 +187,12 @@ msgstr ""
 "\n"
 "We look forward to hearing from you."
 
-#: nublado/group_admin/bot_messages.py:20
+#: nublado/group_admin/bot_messages.py:8
 #, python-brace-format
 msgid "bot.message.language_set {language}"
 msgstr "The bot's language has been changed to {language}."
 
-#: nublado/group_admin/bot_messages.py:21
+#: nublado/group_admin/bot_messages.py:9
 #, python-brace-format
 msgid "bot.message.invalid_language_key {language_keys}"
 msgstr "Error: The possible language keys are [{language_keys}]."
@@ -225,7 +235,7 @@ msgstr "A note needs a tag."
 msgid "bot.message.note_no_args"
 msgstr "A note needs a tag and content."
 
-#: nublado/group_notes/bot_messages.py:13
+#: nublado/group_notes/bot_messages.py:12
 #, python-brace-format
 msgid "bot.message.note_not_in_repo {note_tag}"
 msgstr "The content for the note *{note_tag}* was not found in the repo."
@@ -245,14 +255,6 @@ msgstr ""
 #: nublado/group_notes/models.py:21
 msgid "Group notes"
 msgstr ""
-
-#: nublado/group_points/bot_commands/group_points.py:21
-msgid "bot.point_name"
-msgstr "raindrop"
-
-#: nublado/group_points/bot_commands/group_points.py:22
-msgid "bot.points_name"
-msgstr "raindrops"
 
 #: nublado/group_points/bot_messages.py:5
 #, python-brace-format
@@ -370,10 +372,8 @@ msgstr ""
 msgid "label_logout"
 msgstr ""
 
-#, python-brace-format
-#~ msgid ""
-#~ "*{sender_name} ({member_sender})* has taken some {points_name} from "
-#~ "*{receiver_name} ({receiver_points})*."
-#~ msgstr ""
-#~ "*{sender_name} ({member_sender})* le ha quitado unas {points_name} a "
-#~ "*{receiver_name} ({receiver_points})*."
+#~ msgid "bot.point_name"
+#~ msgstr "raindrop"
+
+#~ msgid "bot.points_name"
+#~ msgstr "raindrops"

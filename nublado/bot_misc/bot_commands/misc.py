@@ -122,6 +122,27 @@ async def echo(
             )
 
 
+async def flip_coin(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    result = random.randint(0, 1)
+    user = update.effective_user
+
+    if result == 0:
+        bot_message = _(BOT_MESSAGES['coin_heads']).format(
+            member=user.mention_markdown(),
+        )
+    elif result == 1:
+        bot_message = _(BOT_MESSAGES['coin_tails']).format(
+            member=user.mention_markdown(),
+        )
+    else:
+        bot_message = "Error: The result needs to return 0 or 1."
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=bot_message
+    )
+
+
 async def roll_dice_c(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,

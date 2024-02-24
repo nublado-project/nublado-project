@@ -16,6 +16,7 @@ from bot_misc.bot_commands.misc import (
     reverse_text as cmd_reverse_text,
     echo as cmd_echo,
     hello as cmd_hello,
+    flip_coin as cmd_flip_coin,
     roll as cmd_roll,
     roll_sum as cmd_roll_sum
 )
@@ -39,6 +40,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await set_language(BOT_ID)
     await cmd_hello(update, context, GROUP_ID)
+
+
+@restricted_group_member(group_id=GROUP_ID, private_chat=True)
+@send_typing_action
+async def flip_coin(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Flip a coin and display the result as text."""
+    await set_language(BOT_ID)
+    await cmd_flip_coin(update, context)
 
 
 @restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.OWNER)

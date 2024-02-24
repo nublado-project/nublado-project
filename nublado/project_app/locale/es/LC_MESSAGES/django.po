@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-02 23:25+0000\n"
-"PO-Revision-Date: 2023-12-02 18:36-0800\n"
+"POT-Creation-Date: 2024-02-24 07:02+0000\n"
+"PO-Revision-Date: 2024-02-23 23:07-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -84,10 +84,20 @@ msgstr "dom"
 
 #: nublado/bot_misc/bot_messages.py:4
 #, python-brace-format
+msgid "bot.message.coin_heads {member}"
+msgstr "{member} ha lanzado una cara."
+
+#: nublado/bot_misc/bot_messages.py:5
+#, python-brace-format
+msgid "bot.message.coin_tails {member}"
+msgstr "{member} ha lanzado una cruz."
+
+#: nublado/bot_misc/bot_messages.py:6
+#, python-brace-format
 msgid "bot.message.dice_roll {member} {dice}"
 msgstr "{member} ha tirado {dice}."
 
-#: nublado/bot_misc/bot_messages.py:5
+#: nublado/bot_misc/bot_messages.py:7
 #, python-brace-format
 msgid "bot.message.dice_roll_total {member} {dice} {total}"
 msgstr ""
@@ -95,33 +105,33 @@ msgstr ""
 "\n"
 " Total: {total}"
 
-#: nublado/bot_misc/bot_messages.py:6
+#: nublado/bot_misc/bot_messages.py:8
 #, python-brace-format
 msgid "bot.message.dice_specify_number {min_dice} {max_dice}"
 msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
 
-#: nublado/bot_misc/bot_messages.py:7
+#: nublado/bot_misc/bot_messages.py:9
 #, python-brace-format
 msgid "It's {weekday}, {time} {timezone}."
 msgstr "Es {weekday}, {time} {timezone}."
 
-#: nublado/bot_misc/bot_messages.py:8
+#: nublado/bot_misc/bot_messages.py:10
 #, python-brace-format
 msgid "bot.message.bot_start {member} {bot_name}"
 msgstr "Hola, {member}. {bot_name} ha sido iniciado."
 
-#: nublado/bot_misc/bot_messages.py:9
+#: nublado/bot_misc/bot_messages.py:11
 #, python-brace-format
 msgid "bot.message.hello {member_receive} {member_send}"
 msgstr ""
 "Oye, {member_receive}.\n"
 "{member_send} te saluda."
 
-#: nublado/bot_misc/bot_messages.py:10
+#: nublado/bot_misc/bot_messages.py:12
 msgid "bot.message.text_required"
 msgstr "Este comando requiere un argumento de texto."
 
-#: nublado/bot_misc/bot_messages.py:11
+#: nublado/bot_misc/bot_messages.py:13
 msgid "bot.message.testing"
 msgstr "probando probando"
 
@@ -149,7 +159,7 @@ msgstr ""
 msgid "bot.message.i_agree"
 msgstr "Estoy de acuerdo."
 
-#: nublado/group_admin/bot_messages.py:7
+#: nublado/group_admin/bot_messages.py:6
 #, python-brace-format
 msgid "bot.message.welcome {name}"
 msgstr ""
@@ -163,7 +173,7 @@ msgstr ""
 "- Sé un buen ejemplo. Ayuda a los demás con las correcciones.\n"
 "- Preséntate con un mensaje de voz al unirte."
 
-#: nublado/group_admin/bot_messages.py:15
+#: nublado/group_admin/bot_messages.py:7
 #, python-brace-format
 msgid "bot.message.welcome_agreed {name}"
 msgstr ""
@@ -177,12 +187,12 @@ msgstr ""
 "\n"
 "Esperamos tu presentación."
 
-#: nublado/group_admin/bot_messages.py:20
+#: nublado/group_admin/bot_messages.py:8
 #, python-brace-format
 msgid "bot.message.language_set {language}"
 msgstr "El idioma del bot ha sido cambiado al {language}."
 
-#: nublado/group_admin/bot_messages.py:21
+#: nublado/group_admin/bot_messages.py:9
 #, python-brace-format
 msgid "bot.message.invalid_language_key {language_keys}"
 msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
@@ -225,8 +235,13 @@ msgstr "Una nota necesita una etiqueta."
 msgid "bot.message.note_no_args"
 msgstr "Una nota necesita una etiqueta y contenido."
 
-#: nublado/group_notes/bot_messages.py:13 nublado/group_notes/managers.py:14
-#, python-brace-format
+#: nublado/group_notes/bot_messages.py:12
+#, fuzzy, python-brace-format
+#| msgid "bot.message.note_no_exist {note_tag}"
+msgid "bot.message.note_not_in_repo {note_tag}"
+msgstr "La nota *{note_tag}* no existe."
+
+#: nublado/group_notes/managers.py:14
 msgid "Note tag is required."
 msgstr ""
 
@@ -241,14 +256,6 @@ msgstr ""
 #: nublado/group_notes/models.py:21
 msgid "Group notes"
 msgstr ""
-
-#: nublado/group_points/bot_commands/group_points.py:21
-msgid "bot.point_name"
-msgstr "gota de lluvia"
-
-#: nublado/group_points/bot_commands/group_points.py:22
-msgid "bot.points_name"
-msgstr "gotas de lluvia"
 
 #: nublado/group_points/bot_messages.py:5
 #, python-brace-format
@@ -365,3 +372,9 @@ msgstr ""
 #: nublado/project_app/templates/includes/_user_nav.html:48
 msgid "label_logout"
 msgstr ""
+
+#~ msgid "bot.point_name"
+#~ msgstr "gota de lluvia"
+
+#~ msgid "bot.points_name"
+#~ msgstr "gotas de lluvia"
