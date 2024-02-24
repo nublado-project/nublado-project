@@ -6,7 +6,7 @@ from telegram.ext import (
     ContextTypes, MessageHandler, filters
 )
 from django.conf import settings
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from django_telegram.models import GroupMember
 from django_telegram.functions.user import get_username_or_name
@@ -106,6 +106,7 @@ async def add_points(
                         receiver_name=receiver_name,
                         receiver_points=member_receiver.points
                     )
+                    logger.info(bot_message)
             elif receiver.is_bot:
                 bot_message = _(BOT_MESSAGES['no_give_bot']).format(
                     points_name=_(POINTS_NAME)
@@ -114,12 +115,10 @@ async def add_points(
                 bot_message = _(BOT_MESSAGES['no_give_self']).format(
                     points_name=_(POINTS_NAME)
                 )
-
             await context.bot.send_message(
                 chat_id=group_id,
                 text=bot_message
             )
-
 
 async def remove_points(
     update: Update,
