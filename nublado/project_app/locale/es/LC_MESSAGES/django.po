@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-24 09:53+0000\n"
-"PO-Revision-Date: 2024-02-24 01:55-0800\n"
+"PO-Revision-Date: 2024-02-26 13:10-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -85,12 +85,12 @@ msgstr "dom"
 #: nublado/bot_misc/bot_messages.py:4
 #, python-brace-format
 msgid "bot.message.coin_heads {member}"
-msgstr "{member} ha lanzado una cara."
+msgstr "{member} ha sacado cara."
 
 #: nublado/bot_misc/bot_messages.py:5
 #, python-brace-format
 msgid "bot.message.coin_tails {member}"
-msgstr "{member} ha lanzado una cruz."
+msgstr "{member} ha sacado cruz."
 
 #: nublado/bot_misc/bot_messages.py:6
 #, python-brace-format
