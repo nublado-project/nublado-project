@@ -18,7 +18,8 @@ from bot_misc.bot_commands.misc import (
     hello as cmd_hello,
     flip_coin as cmd_flip_coin,
     roll as cmd_roll,
-    roll_sum as cmd_roll_sum
+    roll_sum as cmd_roll_sum,
+    correct_text as cmd_correct_text
 )
 
 logger = logging.getLogger('django')
@@ -88,3 +89,10 @@ async def roll_sum(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Roll specified number of dice and show results as text."""
     await set_language(BOT_ID)
     await cmd_roll_sum(update, context)
+
+
+@restricted_group_member(group_id=GROUP_ID, private_chat=False)
+@send_typing_action
+async def correct_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await set_language(BOT_ID)
+    await cmd_correct_text(update, context)

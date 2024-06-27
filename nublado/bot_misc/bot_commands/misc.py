@@ -2,6 +2,7 @@ import random
 import logging
 
 from telegram import Update
+from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
 from django.conf import settings
@@ -9,7 +10,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from django_telegram.functions.functions import (
-    parse_command_last_arg_text
+    parse_command_last_arg_text, compare_strings
 )
 from django_telegram.functions.group import (
     get_random_group_member
@@ -79,6 +80,47 @@ async def reverse_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             chat_id=update.effective_chat.id,
             text=bot_message
         )
+
+
+async def correct_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Pending description."""
+    if update.message.reply_to_message:
+        if update.message.reply_to_message.text:
+            reply_to_message_id = update.message.reply_to_message.message_id
+            string_a = update.message.reply_to_message.text
+
+            if len(context.args) >= 1:
+                string_b = parse_command_last_arg_text(
+                    update.effective_message,
+                    maxsplit=1
+                )
+                error_text, correction_text = compare_strings(
+                    string_a, string_b
+                )
+
+                bot_message = "{} {}\n\n{} {}".format(
+                    "⭕️",
+                    error_text,
+                    "🟢",
+                    correction_text
+                )
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    parse_mode=ParseMode.HTML,
+                    text=bot_message,
+                    reply_to_message_id=reply_to_message_id
+                )
+            else:
+                bot_message = _(BOT_MESSAGES['text_required'])
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=bot_message
+                )
+        else:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="This command must be a reply to a text message."
+            )
 
 
 async def hello(
