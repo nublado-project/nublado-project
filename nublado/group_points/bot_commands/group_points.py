@@ -78,9 +78,7 @@ async def add_points(
         # Check if the message is a reply to another message.
         if update.message.reply_to_message:
             sender = update.effective_user
-            sender_name = get_username_or_name(sender)
             receiver = update.message.reply_to_message.from_user
-            receiver_name = get_username_or_name(receiver)
 
             # Check if the reply is to another member and not a bot or oneself.
             if not receiver.is_bot and sender != receiver:
@@ -91,19 +89,19 @@ async def add_points(
 
                 if num_points > 1:
                     bot_message = _(BOT_MESSAGES['give_points']).format(
-                        sender_name=sender_name,
+                        sender_name=sender.mention_markdown(),
                         sender_points=member_sender.points,
                         num_points=num_points,
                         points_name=_(POINTS_NAME),
-                        receiver_name=receiver_name,
+                        receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )
                 else:
                     bot_message = _(BOT_MESSAGES['give_point']).format(
-                        sender_name=sender_name,
+                        sender_name=sender.mention_markdown(),
                         sender_points=member_sender.points,
                         points_name=_(POINT_NAME),
-                        receiver_name=receiver_name,
+                        receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )
                     logger.info(bot_message)
@@ -129,11 +127,10 @@ async def remove_points(
     if group_id:
         if update.message.reply_to_message:
             sender = update.effective_user
-            sender_name = get_username_or_name(sender)
             receiver = update.message.reply_to_message.from_user
-            receiver_name = get_username_or_name(receiver)
 
             if not receiver.is_bot and sender != receiver:
+                # Fetch members from project database.
                 member_sender = await get_or_create_group_member(sender.id, group_id)
                 member_receiver = await get_or_create_group_member(receiver.id, group_id)
                 points = member_receiver.points - num_points
@@ -142,19 +139,19 @@ async def remove_points(
 
                 if num_points > 1:
                     bot_message = _(BOT_MESSAGES['take_points']).format(
-                        sender_name=sender_name,
+                        sender_name=sender.mention_markdown(),
                         sender_points=member_sender.points,
                         num_points=num_points,
                         points_name=_(POINTS_NAME),
-                        receiver_name=receiver_name,
+                        receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )
                 else:
                     bot_message = _(BOT_MESSAGES['take_point']).format(
-                        sender_name=sender_name,
+                        sender_name=sender.mention_markdown(),
                         sender_points=member_sender.points,
                         points_name=_(POINT_NAME),
-                        receiver_name=receiver_name,
+                        receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )
             elif receiver.is_bot:

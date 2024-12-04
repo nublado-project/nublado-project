@@ -8,40 +8,69 @@ from ..models import GroupMember
 
 logger = logging.getLogger('django')
 
-
-def tokenize_string(string):
-    return re.split('\s+', string)
+PUNCTUATION = ".,;:_-¿?¡!"
 
 
-def untokenize_string(string):
-    return " ".join(string)
+def tokenize(str, punctuation=False):
+    if punctuation is True:
+        for i in str:
+            if i in PUNCTUATION:
+                str = str.replace(i, " {} ".format(i))
+
+    return re.split('\s+', str)
+
+
+def untokenize(str):
+    return " ".join(str)
 
 
 def compare_strings(string_a, string_b):
-    string_a = tokenize_string(string_a)
-    string_b = tokenize_string(string_b)
-
-    matcher = difflib.SequenceMatcher(a=string_a, b=string_b)
+    matcher = difflib.SequenceMatcher(
+        a=tokenize(string_a, punctuation=True),
+        b=tokenize(string_b, punctuation=True)
+    )
+    result_string_a = ""
+    result_string_b = ""
 
     for tag, a_start, a_end, b_start, b_end in matcher.get_opcodes():
         if tag == "replace":
-            for x in range(a_start, a_end):
-                string_a[x] = "<s>{}</s>".format(string_a[x])
-            for x in range(b_start, b_end):
-                string_b[x] = "<b>{}</b>".format(string_b[x])
+            substr = untokenize(matcher.a[a_start:a_end])
+            result_string_a += "{}{}{}".format(
+                " <s>" if substr not in PUNCTUATION else "<s>",
+                substr,
+                "</s>"
+            )
+            substr = untokenize(matcher.b[b_start:b_end])
+            result_string_b += "{}{}{}".format(
+                " <b>" if substr not in PUNCTUATION else "<b>",
+                substr,
+                "</b>"
+            )
+        elif tag == "equal":
+            substr = untokenize(matcher.a[a_start:a_end])
+            result_string_a += "{}".format(
+                " " + substr if substr.strip() not in PUNCTUATION else substr
+            )
+            substr = untokenize(matcher.b[b_start:b_end])
+            result_string_b += "{}".format(
+                " " + substr if substr.strip() not in PUNCTUATION else substr
+            )
         elif tag == "delete":
-            for x in range(a_start, a_end):
-                string_a[x] = "<s>{}</s>".format(string_a[x])
+            substr = untokenize(matcher.a[a_start:a_end])
+            result_string_a += "{}{}{}".format(
+                " <s>" if substr.strip() not in PUNCTUATION else "<s>",
+                substr,
+                "</s>"
+            )
         elif tag == "insert":
-            for x in range(b_start, b_end):
-                string_b[x] = "<b>{}</b>".format(string_b[x])
+            substr = untokenize(matcher.b[b_start:b_end])
+            result_string_b += "{}{}{}".format(
+                " <b>" if substr.strip() not in PUNCTUATION else "<b>",
+                substr,
+                "</b>"
+            )
 
-    string_a = untokenize_string(string_a)
-    string_b = untokenize_string(string_b)
-
-    print("{}\n{}".format(string_a, string_b))
-
-    return string_a, string_b
+    return result_string_a, result_string_b
 
 
 def parse_command_last_arg_text(
