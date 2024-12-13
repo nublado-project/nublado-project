@@ -32,13 +32,24 @@ REMOVE_POINT_REGEX = '^' + REMOVE_POINT_TRIGGER + '{2}(?!' + REMOVE_POINT_TRIGGE
 REMOVE_POINTS_REGEX = '^' + REMOVE_POINT_TRIGGER + '{3}(?!' + REMOVE_POINT_TRIGGER + ')[\s\S]*$'
 
 GROUP_ID = settings.NUBLADO_GROUP_ID
+POINT_NAME = "bot.nublado.point_name"
+POINTS_NAME="bot.nublado.points_name"
+
 
 # Command handlers 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def add_point(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await set_language(BOT_ID)
-    await cmd_add_points(update, context, num_points=1, group_id=GROUP_ID)
+    await cmd_add_points(
+        update,
+        context,
+        num_points=1,
+        group_id=GROUP_ID,
+        point_name=POINT_NAME,
+        points_name=POINTS_NAME
+    )
+
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
@@ -49,7 +60,9 @@ async def add_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         update,
         context,
         num_points=2,
-        group_id=GROUP_ID
+        group_id=GROUP_ID,
+        point_name=POINT_NAME,
+        points_name=POINTS_NAME
 )
 
 
@@ -57,15 +70,28 @@ async def add_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 @send_typing_action
 async def remove_point(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await set_language(BOT_ID)
-    await cmd_remove_points(update, context, num_points=1, group_id=GROUP_ID)
+    await cmd_remove_points(
+        update,
+        context,
+        num_points=1,
+        group_id=GROUP_ID,
+        point_name=POINT_NAME,
+        points_name=POINTS_NAME
+    )
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def remove_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await set_language(BOT_ID)
-    await cmd_remove_points(update, context, num_points=2, group_id=GROUP_ID)
-
+    await cmd_remove_points(
+        update,
+        context,
+        num_points=2,
+        group_id=GROUP_ID,
+        point_name=POINT_NAME,
+        points_name=POINTS_NAME
+    )
 
 
 # Message handlers to listen for triggers to add or remove points.

@@ -257,11 +257,11 @@ msgstr ""
 
 #: nublado/group_points/bot_commands/group_points.py:21
 msgid "bot.point_name"
-msgstr "raindrop"
+msgstr "point"
 
 #: nublado/group_points/bot_commands/group_points.py:22
 msgid "bot.points_name"
-msgstr "raindrops"
+msgstr "points"
 
 #: nublado/group_points/bot_messages.py:5
 #, python-brace-format
@@ -326,6 +326,12 @@ msgstr "cherry"
 #: nublado/orchard_bot/bot_commands/group_points.py:36
 msgid "bot.orchard.points_name"
 msgstr "cherries"
+
+msgid "bot.nublado.point_name"
+msgstr "raindrop"
+
+msgid "bot.nublado.points_name"
+msgstr "raindrops"
 
 #: nublado/users/apps.py:7
 msgid "label_user_config"

@@ -259,12 +259,12 @@ msgstr ""
 #: nublado/group_points/bot_commands/group_points.py:21
 #| msgid "bot.point_name"
 msgid "bot.point_name"
-msgstr "gota de lluvia"
+msgstr "un punto"
 
 #: nublado/group_points/bot_commands/group_points.py:22
 #| msgid "bot.points_name"
 msgid "bot.points_name"
-msgstr "gotas de lluvia"
+msgstr "puntos"
 
 #: nublado/group_points/bot_messages.py:5
 #, python-brace-format
@@ -292,7 +292,7 @@ msgid ""
 "bot.message.give_point_member {sender_name} {sender_points} {points_name} "
 "{receiver_name} {receiver_points}"
 msgstr ""
-"{sender_name} ({sender_points}) le ha regalado una {points_name} a "
+"{sender_name} ({sender_points}) le ha regalado {points_name} a "
 "{receiver_name} ({receiver_points})."
 
 #: nublado/group_points/bot_messages.py:14
@@ -310,7 +310,7 @@ msgid ""
 "bot.message.take_point_member {sender_name} {sender_points} {points_name} "
 "{receiver_name} {receiver_points}"
 msgstr ""
-"{sender_name} ({sender_points}) le ha quitado una {points_name} a "
+"{sender_name} ({sender_points}) le ha quitado {points_name} a "
 "{receiver_name} ({receiver_points})."
 
 #: nublado/group_points/bot_messages.py:22
@@ -324,11 +324,17 @@ msgstr ""
 
 #: nublado/orchard_bot/bot_commands/group_points.py:35
 msgid "bot.orchard.point_name"
-msgstr "cereza"
+msgstr "una cereza"
 
 #: nublado/orchard_bot/bot_commands/group_points.py:36
 msgid "bot.orchard.points_name"
 msgstr "cerezas"
+
+msgid "bot.nublado.point_name"
+msgstr "una gota de lluvia"
+
+msgid "bot.nublado.points_name"
+msgstr "gotas de lluvia"
 
 #: nublado/users/apps.py:7
 msgid "label_user_config"

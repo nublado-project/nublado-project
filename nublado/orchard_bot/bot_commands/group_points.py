@@ -63,14 +63,26 @@ async def add_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 @send_typing_action
 async def remove_point(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await set_language(BOT_ID)
-    await cmd_remove_points(update, context, num_points=1, group_id=GROUP_ID)
+    await cmd_remove_points(
+        update,
+        context,
+        num_points=1,
+        group_id=GROUP_ID,
+        point_name=POINT_NAME
+    )
 
 
 @restricted_group_member(group_id=GROUP_ID, private_chat=False)
 @send_typing_action
 async def remove_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await set_language(BOT_ID)
-    await cmd_remove_points(update, context, num_points=2, group_id=GROUP_ID)
+    await cmd_remove_points(
+        update,
+        context,
+        num_points=2,
+        group_id=GROUP_ID,
+        points_name=POINTS_NAME
+    )
 
 
 
