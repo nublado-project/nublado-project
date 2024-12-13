@@ -9,9 +9,9 @@ from django_telegram.bot import Bot
 logger = logging.getLogger('django')
 
 
-class NubladoBotConfig(AppConfig):
-    name = "nublado_bot"
-    token = settings.NUBLADO_BOT_TOKEN
+class OrchardBotConfig(AppConfig):
+    name = "orchard_bot"
+    token = settings.ORCHARD_BOT_TOKEN
 
     def ready(self):
         from .bot_commands.group_points import (
@@ -20,12 +20,12 @@ class NubladoBotConfig(AppConfig):
             remove_point_handler,
             remove_points_handler
         )
-        from .bot_commands.group_notes import (
-            group_notes,
-            save_group_note,
-            remove_group_note,
-            get_group_note_handler
-        )
+        # from .bot_commands.group_notes import (
+        #     group_notes,
+        #     save_group_note,
+        #     remove_group_note,
+        #     get_group_note_handler
+        # )
         from .bot_commands.group_admin import(
             member_join_handler,
             member_exit_handler,
@@ -62,10 +62,10 @@ class NubladoBotConfig(AppConfig):
         bot.add_handler(add_points_handler)
         bot.add_handler(remove_point_handler)
         bot.add_handler(remove_points_handler)
-        # notes
-        bot.add_command_handler('group_notes', group_notes)
-        bot.add_command_handler('save_group_note', save_group_note)
-        bot.add_command_handler('remove_group_note', remove_group_note)
-        bot.add_handler(get_group_note_handler)
+        # # notes
+        # bot.add_command_handler('group_notes', group_notes)
+        # bot.add_command_handler('save_group_note', save_group_note)
+        # bot.add_command_handler('remove_group_note', remove_group_note)
+        # bot.add_handler(get_group_note_handler)
         # Add the bot to the registry.
         bot_registry.add_bot(self.name, bot)

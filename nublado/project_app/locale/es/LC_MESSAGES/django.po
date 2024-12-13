@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 09:53+0000\n"
-"PO-Revision-Date: 2024-12-04 13:18-0800\n"
+"POT-Creation-Date: 2024-12-13 00:57+0000\n"
+"PO-Revision-Date: 2024-12-12 17:21-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,67 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: config/settings/base.py:114
+#: config/settings/base.py:115
 msgid "common.language.en"
 msgstr "inglés"
 
-#: config/settings/base.py:115
+#: config/settings/base.py:116
 msgid "common.language.es"
 msgstr "español"
 
-#: config/settings/base.py:183
+#: config/settings/base.py:184
 msgid "common.monday"
 msgstr "lunes"
 
-#: config/settings/base.py:183
+#: config/settings/base.py:184
 msgid "common.tuesday"
 msgstr "martes"
 
-#: config/settings/base.py:183
+#: config/settings/base.py:184
 msgid "common.wednesday"
 msgstr "miércoles"
 
-#: config/settings/base.py:183
+#: config/settings/base.py:184
 msgid "common.thursday"
 msgstr "jueves"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:185
 msgid "common.friday"
 msgstr "viernes"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:185
 msgid "common.saturday"
 msgstr "sábado"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:185
 msgid "sommon.sunday"
 msgstr "domingo"
 
-#: config/settings/base.py:187
+#: config/settings/base.py:188
 msgid "common.abbr.monday"
 msgstr "lun"
 
-#: config/settings/base.py:187
+#: config/settings/base.py:188
 msgid "common.abbr.tuesday"
 msgstr "mar"
 
-#: config/settings/base.py:187
+#: config/settings/base.py:188
 msgid "common.abbr.wednesday"
 msgstr "mié"
 
-#: config/settings/base.py:187
+#: config/settings/base.py:188
 msgid "common.abbr.thursday"
 msgstr "jue"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:189
 msgid "common.abbr.friday"
 msgstr "vie"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:189
 msgid "common.abbr.saturday"
 msgstr "sáb"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:189
 msgid "common.abbr.sunday"
 msgstr "dom"
 
@@ -256,6 +256,16 @@ msgstr ""
 msgid "Group notes"
 msgstr ""
 
+#: nublado/group_points/bot_commands/group_points.py:21
+#| msgid "bot.point_name"
+msgid "bot.point_name"
+msgstr "gota de lluvia"
+
+#: nublado/group_points/bot_commands/group_points.py:22
+#| msgid "bot.points_name"
+msgid "bot.points_name"
+msgstr "gotas de lluvia"
+
 #: nublado/group_points/bot_messages.py:5
 #, python-brace-format
 msgid "bot.message.no_give_points_bot {points_name}"
@@ -311,6 +321,14 @@ msgid ""
 msgstr ""
 "{sender_name} ({sender_points}) le ha quitado {num_points} {points_name} a "
 "{receiver_name} ({receiver_points})."
+
+#: nublado/orchard_bot/bot_commands/group_points.py:35
+msgid "bot.orchard.point_name"
+msgstr "cereza"
+
+#: nublado/orchard_bot/bot_commands/group_points.py:36
+msgid "bot.orchard.points_name"
+msgstr "cerezas"
 
 #: nublado/users/apps.py:7
 msgid "label_user_config"
@@ -371,9 +389,3 @@ msgstr ""
 #: nublado/project_app/templates/includes/_user_nav.html:48
 msgid "label_logout"
 msgstr ""
-
-msgid "bot.point_name"
-msgstr "gota de lluvia"
-
-msgid "bot.points_name"
-msgstr "gotas de lluvia"

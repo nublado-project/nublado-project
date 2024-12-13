@@ -25,7 +25,7 @@ TOP_POINTS_LIMIT = 10
 
 @sync_to_async
 def get_or_create_group_member(user_id, group_id):
-    """Get user's total points in group."""
+    """Get or create group member from db."""
     group_member, group_member_created = GroupMember.objects.get_or_create(
         group_id=group_id,
         user_id=user_id
@@ -34,45 +34,13 @@ def get_or_create_group_member(user_id, group_id):
     return group_member
 
 
-# def group_top_points(update: Update, context: ContextTypes.DEFAULT_TYPE, group_id: int = None) -> None:
-#     if group_id:
-#         member_points = GroupMemberPoints.objects.get_group_top_points(
-#             group_id, TOP_POINTS_LIMIT
-#         )
-
-#         if member_points:
-#             top_points = []
-
-#             for member in member_points:
-#                 points = member.points
-#                 user_id = member.group_member.user_id
-#                 chat_member = get_chat_member(context, user_id, GROUP_ID)
-
-#                 if chat_member:
-#                     user = chat_member.user
-#                     logger.info(user)
-#                     name = get_username_or_name(user)
-#                     name_points = "*{points}: {name}*".format(
-#                         name=name,
-#                         points=points
-#                     )
-#                     top_points.append(name_points)
-
-#             bot_message = _("*Top {point_name} rankings*\n{rankings_list}").format(
-#                 point_name=_(POINT_NAME),
-#                 rankings_list="\n".join(top_points)
-#             )
-#             await context.bot.send_message(
-#                 chat_id=group_id,
-#                 text=bot_message
-#             )
-
-
 async def add_points(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
     num_points: int = 1,
     group_id: int = None,
+    point_name: str = None,
+    points_name: str = None,
 ) -> None:
     if group_id:
         # Check if the message is a reply to another message.
@@ -87,12 +55,19 @@ async def add_points(
                 member_receiver.points += num_points
                 await sync_to_async(member_receiver.save)()
 
+                if point_name is None:
+                    point_name = POINT_NAME
+                if points_name is None:
+                    points_name = POINTS_NAME
+
+                logger.info(point_name)
+
                 if num_points > 1:
                     bot_message = _(BOT_MESSAGES['give_points']).format(
                         sender_name=sender.mention_markdown(),
                         sender_points=member_sender.points,
                         num_points=num_points,
-                        points_name=_(POINTS_NAME),
+                        points_name=_(points_name),
                         receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )
@@ -100,7 +75,7 @@ async def add_points(
                     bot_message = _(BOT_MESSAGES['give_point']).format(
                         sender_name=sender.mention_markdown(),
                         sender_points=member_sender.points,
-                        points_name=_(POINT_NAME),
+                        points_name=_(point_name),
                         receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )

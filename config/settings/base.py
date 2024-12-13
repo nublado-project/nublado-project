@@ -49,6 +49,7 @@ LOCAL_APPS = [
     'group_notes.apps.GroupNotesConfig',
     'group_points.apps.GroupPointsConfig',
     'nublado_bot.apps.NubladoBotConfig',
+    'orchard_bot.apps.OrchardBotConfig',
     'project_app.apps.ProjectAppConfig'
 ]
 THIRD_PARTY_APPS = [
@@ -194,13 +195,24 @@ BOT_MODE_POLLING = "polling"
 
 #NubladoBot
 # Command line arg to run this bot
-NUBLADO_BOT = 'nubladobot'
+NUBLADO_BOT = "nublado_bot"
 NUBLADO_BOT_TOKEN = get_env_variable('NUBLADO_BOT_TOKEN')
 NUBLADO_GROUP_ID = int(get_env_variable('NUBLADO_GROUP_ID'))
 NUBLADO_REPO_ID = int(get_env_variable('NUBLADO_REPO_ID'))
 NUBLADO_GROUP_OWNER_ID = int(get_env_variable('NUBLADO_GROUP_OWNER_ID'))
 NUBLADO_SUDO_LIST = [
     NUBLADO_GROUP_OWNER_ID,
+]
+
+#orchard_group_bot
+# Command line arg to run this bot
+ORCHARD_BOT = "orchard_bot"
+ORCHARD_BOT_TOKEN = get_env_variable('ORCHARD_BOT_TOKEN')
+ORCHARD_GROUP_ID = int(get_env_variable('ORCHARD_GROUP_ID'))
+ORCHARD_REPO_ID = int(get_env_variable('NUBLADO_REPO_ID'))
+ORCHARD_GROUP_OWNER_ID = int(get_env_variable('ORCHARD_GROUP_OWNER_ID'))
+ORCHARD_SUDO_LIST = [
+    ORCHARD_GROUP_OWNER_ID,
 ]
 
 # Command line arg to run this bot
@@ -226,6 +238,13 @@ DJANGO_TELEGRAM = {
             'group_id': NUBLADO_GROUP_ID,
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST
+        },
+        ORCHARD_BOT: {
+            'token': ORCHARD_BOT_TOKEN,
+            'name': ORCHARD_BOT,
+            'group_id': ORCHARD_GROUP_ID,
+            'repo_id': ORCHARD_REPO_ID,
+            'sudo_list': ORCHARD_SUDO_LIST
         },
     }
 }
