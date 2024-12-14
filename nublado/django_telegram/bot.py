@@ -13,7 +13,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 logger = logging.getLogger('django')
 
-bot_mode_error = "Bot mode must be polling or webhooks."
+BOT_MODE_ERROR = "Bot mode must be polling or webhooks."
 
 
 class Bot(object):
@@ -32,7 +32,6 @@ class Bot(object):
         )
         self.application = None
         self.webhook_url = webhook_url
-        self.webhook_set = False
 
         try:
             dt = settings.DJANGO_TELEGRAM
@@ -45,7 +44,7 @@ class Bot(object):
                     webhook_path = remove_lead_and_trail_slash(dt['webhook_path'])
                     self.webhook_url = f"{webhook_site}/{webhook_path}/{self.name}/"
             else:
-                raise ImproperlyConfigured(bot_mode_error)
+                raise ImproperlyConfigured(BOT_MODE_ERROR)
         except Exception as e:
             logger.error(e)
 

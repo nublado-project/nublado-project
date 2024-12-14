@@ -49,18 +49,3 @@ class GroupMember(TimestampModel, UUIDModel):
             self.group_id,
             self.user_id
         )
-
-
-# class TmpMessage(TimestampModel):
-#     message_id = models.BigIntegerField()
-#     chat_id = models.BigIntegerField()
-
-#     objects = TmpMessageManager()
-
-#     class Meta:
-#         verbose_name = _("tmp message")
-#         verbose_name_plural = _("tmp messages")
-#         unique_together = ('message_id', 'chat_id')
-
-#     def __str__(self):
-#         return "message_id: {}".format(self.message_id)
