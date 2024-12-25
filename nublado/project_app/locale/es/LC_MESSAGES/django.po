@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-13 00:57+0000\n"
-"PO-Revision-Date: 2024-12-12 17:21-0800\n"
+"PO-Revision-Date: 2024-12-24 17:05-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -331,10 +331,10 @@ msgid "bot.orchard.points_name"
 msgstr "cerezas"
 
 msgid "bot.nublado.point_name"
-msgstr "una gota de lluvia"
+msgstr "un dardo para libros"
 
 msgid "bot.nublado.points_name"
-msgstr "gotas de lluvia"
+msgstr "dardos para libros"
 
 #: nublado/users/apps.py:7
 msgid "label_user_config"
