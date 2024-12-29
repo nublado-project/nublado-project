@@ -224,19 +224,14 @@ async def roll_dice_c(
                 min_dice=min_dice,
                 max_dice=max_dice
             )
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=bot_message
-            )
+            await update.message.reply_text(text=bot_message)
     else:
         bot_message = _(BOT_MESSAGES['dice_specify_num']).format(
             min_dice=min_dice,
             max_dice=max_dice
         )
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=bot_message
-        )
+        await update.message.reply_text(text=bot_message)
+
 
 async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Roll specified number of dice and show results as text."""
