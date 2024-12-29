@@ -77,19 +77,23 @@ async def add_points(
                         receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )
-                    logger.info(bot_message)
+                await context.bot.send_message(
+                    chat_id=group_id,
+                    text=bot_message
+                )
+
             elif receiver.is_bot:
                 bot_message = _(BOT_MESSAGES['no_give_bot']).format(
                     points_name=_(points_name)
                 )
+                await update.message.reply_text(text=bot_message)
+
             elif receiver == sender:
                 bot_message = _(BOT_MESSAGES['no_give_self']).format(
                     points_name=_(points_name)
                 )
-            await context.bot.send_message(
-                chat_id=group_id,
-                text=bot_message
-            )
+                await update.message.reply_text(text=bot_message)
+
 
 async def remove_points(
     update: Update,
@@ -134,18 +138,20 @@ async def remove_points(
                         receiver_name=receiver.mention_markdown(),
                         receiver_points=member_receiver.points
                     )
+                await context.bot.send_message(
+                    chat_id=group_id,
+                    text=bot_message
+                )
             elif receiver.is_bot:
                 bot_message = _(BOT_MESSAGES['no_take_bot']).format(
                     points_name=_(points_name)
                 )
+                await update.message.reply_text(text=bot_message)
             elif receiver == sender:
                 bot_message = _(BOT_MESSAGES['no_take_self']).format(
                     points_name=_(points_name)
-                )        
-            await context.bot.send_message(
-                chat_id=group_id,
-                text=bot_message
-            )
+                )
+                await update.message.reply_text(text=bot_message)
 
 
 # Message handlers to listen for triggers to add or remove points.

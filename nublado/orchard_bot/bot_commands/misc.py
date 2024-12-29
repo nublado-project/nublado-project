@@ -19,7 +19,9 @@ from bot_misc.bot_commands.misc import (
     flip_coin as cmd_flip_coin,
     roll as cmd_roll,
     roll_sum as cmd_roll_sum,
-    correct_text as cmd_correct_text
+    correct_text as cmd_correct_text,
+    set_timer as cmd_set_timer,
+    unset_timer as cmd_unset_timer
 )
 
 logger = logging.getLogger('django')
@@ -96,3 +98,18 @@ async def roll_sum(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def correct_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await set_language(BOT_ID)
     await cmd_correct_text(update, context)
+
+
+@restricted_group_member(group_id=GROUP_ID, private_chat=False)
+@send_typing_action
+async def set_timer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """"""
+    await set_language(BOT_ID)
+    await cmd_set_timer(update, context)
+
+@restricted_group_member(group_id=GROUP_ID, private_chat=False)
+@send_typing_action
+async def unset_timer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """"""
+    await set_language(BOT_ID)
+    await cmd_unset_timer(update, context)

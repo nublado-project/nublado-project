@@ -85,7 +85,6 @@ async def remove_points(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     )
 
 
-
 # Message handlers to listen for triggers to add or remove points.
 add_point_handler = MessageHandler(
     (filters.Regex(ADD_POINT_REGEX) & filters.REPLY),
