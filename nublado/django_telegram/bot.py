@@ -1,6 +1,7 @@
 import logging
 
 from core.utils import remove_lead_and_trail_slash
+from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import (
     Defaults, ExtBot as TelegramBot,
@@ -54,7 +55,10 @@ class Bot(object):
 
     async def set_webhook(self):
         if self.webhook_url:
-            await self.telegram_bot.set_webhook(self.webhook_url)
+            await self.telegram_bot.set_webhook(
+                self.webhook_url,
+                allowed_updates=Update.ALL_TYPES
+            )
             logger.info(f"Bot {self.name} webhook set.")
         else:
             logger.error(f"Bot {self.name} webhook url isn't set.")
