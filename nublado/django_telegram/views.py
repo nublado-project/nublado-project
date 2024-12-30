@@ -42,7 +42,7 @@ class BotWebhookView(View):
                 raise Http404
             try:
                 await bot.application.update_queue.put(
-                    Update.de_json(data=json.loads(request.body), bot=bot.telegram_bot)
+                    Update.de_json(data=json.loads(request.body), bot=bot.application.bot)
                 )
                 # update = Update.de_json(data, bot.telegram_bot)
                 # async with bot.application:
