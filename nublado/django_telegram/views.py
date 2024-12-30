@@ -45,8 +45,8 @@ class BotWebhookView(View):
                 #     Update.de_json(data=json.loads(request.body), bot=bot.application.bot)
                 # )
                 update = Update.de_json(data, bot.telegram_bot)
-                #async with bot.application:
-                await bot.application.process_update(update)
+                async with bot.application:
+                    await bot.application.process_update(update)
             except Exception as e:
                 logger.error(f"Error in processing update: {e}")
                 raise Http404
