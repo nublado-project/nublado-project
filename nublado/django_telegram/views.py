@@ -41,7 +41,7 @@ class BotWebhookView(View):
                 logger.error(f"Error in decoding update: {e}")
                 raise Http404
             try:
-                await ptb_application.update_queue.put(
+                await bot.application.update_queue.put(
                     Update.de_json(data=json.loads(request.body), bot=bot.telegram_bot)
                 )
                 # update = Update.de_json(data, bot.telegram_bot)
