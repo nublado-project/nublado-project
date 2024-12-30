@@ -34,7 +34,7 @@ Pygments==2.18.0
 pytest==8.3.4
 pytest-asyncio==0.25.0
 pytest-django==4.9.0
-python-telegram-bot==21.9
+python-telegram-bot[job-queue]
 pytz==2024.2
 PyYAML==6.0.2
 rfc3986==2.0.0
