@@ -41,12 +41,12 @@ class BotWebhookView(View):
                 logger.error(f"Error in decoding update: {e}")
                 raise Http404
             try:
-                await bot.application.update_queue.put(
-                    Update.de_json(data=json.loads(request.body), bot=bot.application.bot)
-                )
-                # update = Update.de_json(data, bot.telegram_bot)
-                # async with bot.application:
-                #     await bot.application.process_update(update)
+                # await bot.application.update_queue.put(
+                #     Update.de_json(data=json.loads(request.body), bot=bot.application.bot)
+                # )
+                update = Update.de_json(data, bot.telegram_bot)
+                async with bot.application:
+                    await bot.application.process_update(update)
             except Exception as e:
                 logger.error(f"Error in processing update: {e}")
                 raise Http404
