@@ -3,7 +3,7 @@ import logging
 
 from telegram import Update
 
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.views import View
 
 from .apps import DjangoTelegramConfig
@@ -41,12 +41,16 @@ class BotWebhookView(View):
                 logger.error(f"Error in decoding update: {e}")
                 raise Http404
             try:
-                update = Update.de_json(data, bot.telegram_bot)
-                async with bot.application:
-                    await bot.application.process_update(update)
+                await ptb_application.update_queue.put(
+                    Update.de_json(data=json.loads(request.body), bot=bot.telegram_bot)
+                )
+                # update = Update.de_json(data, bot.telegram_bot)
+                # async with bot.application:
+                #     await bot.application.process_update(update)
             except Exception as e:
                 logger.error(f"Error in processing update: {e}")
                 raise Http404
-            return JsonResponse({})
+            #return JsonResponse({})
+            return HttpResponse()
         else:
             raise Http404
