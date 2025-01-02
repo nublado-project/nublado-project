@@ -272,8 +272,6 @@ async def set_timer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
         job_removed = remove_job_if_exists(str(chat_id), context)
         context.job_queue.run_once(alarm, due, chat_id=chat_id, name=str(chat_id), data=due)
-        logger.info(context)
-        logger.info(context.job_queue)
 
         text = "Timer successfully set!"
         if job_removed:
