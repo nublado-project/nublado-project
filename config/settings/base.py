@@ -49,7 +49,6 @@ LOCAL_APPS = [
     'group_notes.apps.GroupNotesConfig',
     'group_points.apps.GroupPointsConfig',
     'nublado_bot.apps.NubladoBotConfig',
-    'orchard_bot.apps.OrchardBotConfig',
     'project_app.apps.ProjectAppConfig'
 ]
 THIRD_PARTY_APPS = [
@@ -204,27 +203,6 @@ NUBLADO_SUDO_LIST = [
     NUBLADO_GROUP_OWNER_ID,
 ]
 
-#orchard_group_bot
-# Command line arg to run this bot
-ORCHARD_BOT = "orchard_bot"
-ORCHARD_BOT_TOKEN = get_env_variable('ORCHARD_BOT_TOKEN')
-ORCHARD_GROUP_ID = int(get_env_variable('ORCHARD_GROUP_ID'))
-ORCHARD_REPO_ID = int(get_env_variable('NUBLADO_REPO_ID'))
-ORCHARD_GROUP_OWNER_ID = int(get_env_variable('ORCHARD_GROUP_OWNER_ID'))
-ORCHARD_SUDO_LIST = [
-    ORCHARD_GROUP_OWNER_ID,
-]
-
-# Command line arg to run this bot
-TEST_BOT = "testbot"
-TEST_BOT_TOKEN = get_env_variable('TEST_BOT_TOKEN')
-TEST_GROUP_ID = int(get_env_variable('TEST_GROUP_ID'))
-TEST_REPO_ID = int(get_env_variable('TEST_REPO_ID'))
-TEST_GROUP_OWNER_ID = NUBLADO_GROUP_OWNER_ID
-TEST_SUDO_LIST = [
-    TEST_GROUP_OWNER_ID, 
-]
-
 DJANGO_TELEGRAM = {
     'mode': BOT_MODE_WEBHOOK,
     'webhook_port': int(os.environ.get('PORT', 5000)),
@@ -238,13 +216,6 @@ DJANGO_TELEGRAM = {
             'group_id': NUBLADO_GROUP_ID,
             'repo_id': NUBLADO_REPO_ID,
             'sudo_list': NUBLADO_SUDO_LIST
-        },
-        ORCHARD_BOT: {
-            'token': ORCHARD_BOT_TOKEN,
-            'name': ORCHARD_BOT,
-            'group_id': ORCHARD_GROUP_ID,
-            'repo_id': ORCHARD_REPO_ID,
-            'sudo_list': ORCHARD_SUDO_LIST
         },
     }
 }

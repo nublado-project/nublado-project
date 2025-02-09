@@ -69,11 +69,7 @@ async def save_group_note(
                     bot_message = _(BOT_MESSAGES['note_saved']).format(
                         note_tag=note_tag
                     )
-                    await context.bot.send_message(
-                        chat_id=update.effective_chat.id,
-                        reply_to_message_id=update.message.message_id,
-                        text=bot_message
-                    )
+                    await update.message.reply_text(text=bot_message)
                 except Exception as e:
                     logger.error(e)
             else:
@@ -97,27 +93,15 @@ async def save_group_note(
                         bot_message = _(BOT_MESSAGES['note_saved']).format(
                             note_tag=note_tag
                         )
-                        await context.bot.send_message(
-                            chat_id=update.effective_chat.id,
-                            reply_to_message_id=update.message.message_id,
-                            text=bot_message
-                        )
+                        await update.message.reply_text(text=bot_message)
                     except Exception as e:
                         logger.error(e)
                 else:
                     bot_message = _(BOT_MESSAGES['note_no_content'])
-                    await context.bot.send_message(
-                        chat_id=update.effective_chat.id,
-                        reply_to_message_id=update.message.message_id,
-                        text=bot_message
-                    )
+                    await update.message.reply_text(text=bot_message)
         else:
             bot_message = _(BOT_MESSAGES['note_no_tag'])
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                reply_to_message_id=update.message.message_id,
-                text=bot_message
-            )
+            await update.message.reply_text(text=bot_message)
 
 
 async def remove_group_note(
@@ -140,27 +124,15 @@ async def remove_group_note(
                 bot_message = _(BOT_MESSAGES['note_removed']).format(
                     note_tag=note_tag
                 )
-                await context.bot.send_message(
-                    chat_id=update.effective_chat.id,
-                    reply_to_message_id=update.message.message_id,
-                    text=bot_message
-                )
+                await update.message.reply_text(text=bot_message)
             else:
                 bot_message = _(BOT_MESSAGES['note_no_exist']).format(
                     note_tag=note_tag
                 )
-                await context.bot.send_message(
-                    chat_id=update.effective_chat.id,
-                    reply_to_message_id=update.message.message_id,
-                    text=bot_message
-                )
+                await update.message.reply_text(text=bot_message)
         else:
             bot_message = _(BOT_MESSAGES['note_no_tag'])
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                reply_to_message_id=update.message.message_id,
-                text=bot_message
-            )
+            await update.message.reply_text(text=bot_message)
 
 
 async def get_group_note(
@@ -196,11 +168,7 @@ async def get_group_note(
                     bot_message = _(BOT_MESSAGES['note_not_in_repo']).format(
                         note_tag=note_tag
                     )
-                    await context.bot.send_message(
-                        chat_id=update.effective_chat.id,
-                        reply_to_message_id=update.message.message_id,
-                        text=bot_message
-                    )            
+                    await update.message.reply_text(text=bot_message)
             except GroupNote.DoesNotExist:
                 pass
 
