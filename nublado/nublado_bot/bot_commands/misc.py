@@ -19,7 +19,8 @@ from bot_misc.bot_commands.misc import (
     flip_coin as cmd_flip_coin,
     roll as cmd_roll,
     roll_sum as cmd_roll_sum,
-    correct_text as cmd_correct_text
+    correct_text as cmd_correct_text,
+    send_user_message as cmd_send_user_message
 )
 
 logger = logging.getLogger('django')
@@ -96,3 +97,26 @@ async def roll_sum(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def correct_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await set_language(BOT_ID)
     await cmd_correct_text(update, context)
+
+
+@restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.OWNER)
+@send_typing_action
+async def send_invite(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Send group invite."""
+    await set_language(BOT_ID)
+    bot_message = "Hey, this is Christopher. I had to program a bot message to " \
+        "get in touch with you guys. Telegram deleted my account and the group. " \
+        "I created a new group. Here is the invite link. \n\n" \
+        "https://t.me/+OfISTvD1HZ9mNGNh"
+
+
+    await cmd_send_user_message(
+        update,
+        context,
+        bot_message
+    )
+
+    await update.message.reply_text(
+        text=f"The group invite has been sent to {context.args[0]}"
+    )
+

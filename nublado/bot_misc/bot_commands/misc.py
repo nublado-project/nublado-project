@@ -241,3 +241,17 @@ async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def roll_sum(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Roll specified number of dice and show results as text."""
     await roll_dice_c(update, context, dice_sum=True)
+
+
+async def send_user_message(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    bot_message=None
+):
+    if len(context.args) >= 1 and bot_message is not None:
+        user_id = context.args[0]
+
+        await context.bot.send_message(
+            chat_id=user_id,
+            text=bot_message
+        )

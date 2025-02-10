@@ -34,7 +34,8 @@ class NubladoBotConfig(AppConfig):
         )
         from .bot_commands.misc import (
             start, get_time_utc, reverse_text,
-            echo, hello, flip_coin, roll, roll_sum, correct_text
+            echo, hello, flip_coin, roll, roll_sum,
+            correct_text, send_invite
         )
 
         bot_registry = DjangoTelegramConfig.bot_registry
@@ -57,6 +58,8 @@ class NubladoBotConfig(AppConfig):
         bot.add_command_handler('roll_sum', roll_sum)
         bot.add_command_handler('get_time_utc', get_time_utc)
         bot.add_command_handler('correct_text', correct_text)
+        bot.add_command_handler('send_invite', send_invite)
+
         # group_points
         bot.add_handler(add_point_handler)
         bot.add_handler(add_points_handler)
