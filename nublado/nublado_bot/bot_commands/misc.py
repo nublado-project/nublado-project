@@ -104,7 +104,8 @@ async def correct_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def send_invite(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Send group invite."""
     await set_language(BOT_ID)
-    bot_message = "Hey, this is a message from Christopher via the group bot. Telegram deleted my account and the group. " \
+    bot_message = "Hey, this is a message from Christopher via the group bot. " \ 
+        "Telegram deleted my account and the group. " \
         "I created a new account and new group. Here is the invite link. \n\n" \
         "https://t.me/+OfISTvD1HZ9mNGNh"
 
