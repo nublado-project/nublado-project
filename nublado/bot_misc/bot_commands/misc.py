@@ -243,10 +243,9 @@ async def roll_sum(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await roll_dice_c(update, context, dice_sum=True)
 
 
-async def send_user_message(
+async def get_user(
     update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
-    bot_message=None
+    context: ContextTypes.DEFAULT_TYPE
 ):
     if len(context.args) >= 1 and bot_message is not None:
         user_id = context.args[0]

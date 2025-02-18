@@ -20,7 +20,7 @@ from bot_misc.bot_commands.misc import (
     roll as cmd_roll,
     roll_sum as cmd_roll_sum,
     correct_text as cmd_correct_text,
-    send_user_message as cmd_send_user_message
+    get_user as cmd_get_user
 )
 
 logger = logging.getLogger('django')
@@ -101,22 +101,11 @@ async def correct_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @restricted_group_member(group_id=GROUP_ID, member_status=ChatMemberStatus.OWNER)
 @send_typing_action
-async def send_invite(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Send group invite."""
-    await set_language(BOT_ID)
-    bot_message = "Hey, this is a message from Christopher via the group bot. " \
-        "Telegram deleted my account and the group. " \
-        "I created a new account and a new group. Here is the invite link. \n\n" \
-        "https://t.me/+OfISTvD1HZ9mNGNh"
+async def get_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Waffles."""
 
-
-    await cmd_send_user_message(
+    await cmd_get_user(
         update,
-        context,
-        bot_message
-    )
-
-    await update.message.reply_text(
-        text=f"The group invite has been sent to {context.args[0]}"
+        context
     )
 
