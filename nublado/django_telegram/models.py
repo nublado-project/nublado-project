@@ -45,7 +45,8 @@ class GroupMember(TimestampModel, UUIDModel):
         unique_together = ('user_id', 'group_id')
 
     def __str__(self):
-        return "group: {0}, user: {1}".format(
+        return "group: {0}, user: {1}, points: {2}".format(
             self.group_id,
-            self.user_id
+            self.user_id,
+            self.points
         )

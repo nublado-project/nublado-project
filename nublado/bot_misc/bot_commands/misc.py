@@ -195,11 +195,10 @@ async def roll_dice_c(
     dice_sum=False
 ):
     if len(context.args) >= 1:
-        int_arg = int(context.args[0])
-        if int_arg >= min_dice and int_arg <= max_dice:
-            num_dice = int_arg
-            results = []
+        num_dice = int(context.args[0])
+        if num_dice >= min_dice and num_dice <= max_dice:
             user = update.effective_user
+            results = []
             for x in range(num_dice):
                 result = random.randint(dice_min_val, dice_max_val)
                 results.append(result)
