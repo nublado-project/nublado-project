@@ -4,7 +4,7 @@ TESTING = True
 DEBUG = True
 
 TEST_APPS = [
-    'test_bot.apps.TestBotConfig',
+    "test_bot.apps.TestBotConfig",
 ]
 INSTALLED_APPS += TEST_APPS
 
@@ -18,21 +18,20 @@ DATABASES = {
         "PORT": "",
         "TEST": {
             "NAME": os.environ["TEST_DATABASE_NAME"],
-        }
+        },
     }
 }
 
-DJANGO_TELEGRAM['mode'] = BOT_MODE_POLLING
-DJANGO_TELEGRAM['bots'][TEST_BOT] = {
-    'token': TEST_BOT_TOKEN,
-    'group_id': TEST_GROUP_ID,
-    'repo_id': TEST_REPO_ID,
-    'sudo_list': TEST_SUDO_LIST
+DJANGO_TELEGRAM["mode"] = BOT_MODE_POLLING
+DJANGO_TELEGRAM["bots"][TEST_BOT] = {
+    "token": TEST_BOT_TOKEN,
+    "group_id": TEST_GROUP_ID,
+    "repo_id": TEST_REPO_ID,
+    "sudo_list": TEST_SUDO_LIST,
 }
 
-DJANGO_TELEGRAM['testing'] = {
-    'api_id': get_env_variable('TG_API_KEY'),
-    'api_hash': get_env_variable('TG_API_HASH'),
-    'api_session_str': get_env_variable('TG_API_SESSION_STR')
+DJANGO_TELEGRAM["testing"] = {
+    "api_id": get_env_variable("TG_API_KEY"),
+    "api_hash": get_env_variable("TG_API_HASH"),
+    "api_session_str": get_env_variable("TG_API_SESSION_STR"),
 }
-
