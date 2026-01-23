@@ -11,7 +11,7 @@ import asyncio
 
 
 class Command(BaseCommand):
-    help = "Sets bots webhooks asynchronously after they have been initialized."
+    help = "Sets bot webhook."
 
     def handle(self, *args, **options):
         asyncio.run(self.set_webhook())
@@ -19,7 +19,7 @@ class Command(BaseCommand):
     async def set_webhook(self):
         bot = Bot(settings.DJANGO_TELEGRAM_BOT_TOKEN)
         webhook_url = settings.DJANGO_TELEGRAM_WEBHOOK_URL
-        secret_token = getattr(settings, "DJANGO_TELEGRAM_WEBHOOK_SECRET", None)
+        secret_token = settings.DJANGO_TELEGRAM_WEBHOOK_SECRET
 
         await bot.set_webhook(
             url=webhook_url,
