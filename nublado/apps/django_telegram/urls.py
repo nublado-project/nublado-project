@@ -1,24 +1,14 @@
-from django.conf import settings
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
-from .views import telegram_webhook
+from .views import BotWebhookView
 
 app_name = "django_telegram"
 
 urlpatterns = [
-    path("webhook/", telegram_webhook),
+    path(
+        "<bot_id>/webhook/",
+        csrf_exempt(BotWebhookView.as_view()),
+        name="bot_webhook_view"
+    ),
 ]
-
-# urlpatterns = [
-#     re_path(
-#         r"^setwebhook/(?P<bot_id>.+)/$",
-#         csrf_exempt(BotSetWebhookView.as_view()),
-#         name="bot_set_webhook_view",
-#     ),
-#     re_path(
-#         r"^webhook/(?P<bot_id>.+)/$",
-#         csrf_exempt(BotWebhookView.as_view()),
-#         name="bot_webhook_view",
-#     ),
-# ]

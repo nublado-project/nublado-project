@@ -3,32 +3,34 @@ import logging
 
 from telegram import Update
 
-from django.http import JsonResponse #, HttpResponseForbidden
-from django.views.decorators.csrf import csrf_exempt
+from django.http import Http404, JsonResponse
+from django.views import View
 from django.conf import settings
 
-from .bot_application import application, ensure_initialized
 
+class BotWebhookView(View):
+    async def post(self, request, *args, **kwargs):
+        bot_id = kwargs["bot_id"]
+        if bot_id in settings.BOTS:
+            # if request.headers.get(
+            #     "X-Telegram-Bot-Api-Secret-Token"
+            # ) != settings.ALPHA_WEBHOOK_SECRET:
+            #      return HttpResponseForbidden("Invalid secret")
+            await registry.ensure_initialized(bot_id)
 
-logger = logging.getLogger("django")
+            app = registry.get(bot_id)
 
-
-@csrf_exempt
-async def telegram_webhook(request):
-    # Optional: verify secret token
-    # if (
-    #     request.headers.get("X-Telegram-Bot-Api-Secret-Token")
-    #     != settings.DJANGO_TELEGRAM_WEBHOOK_SECRET
-    # ):
-    #     return HttpResponseForbidden("Invalid secret")
-
-    if request.method != "POST":
-        return JsonResponse({"ok": False})
-
-    await ensure_initialized()
-
-    data = json.loads(request.body.decode("utf-8"))
-    update = Update.de_json(data, application.bot)
-
-    await application.process_update(update)
-    return JsonResponse({"ok": True})
+            try: 
+                data = json.loads(request.body.decode("utf-8"))
+            except Exception as e:
+                logger.error(f"Error in decoding update: {e}")
+                raise Http404            
+            try:
+                update = Update.de_json(data, app.bot)
+                await app.process_update(update)
+                return JsonResponse({"ok": True})
+            except Exception as e:
+                logger.error(f"Error in processing update: {e}")
+                raise Http404
+        else:
+            raise Http404

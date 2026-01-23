@@ -3,7 +3,7 @@ import logging
 from django.apps import AppConfig
 from django.conf import settings
 
-from bot_registry.registry import registry
+from django_telegram.bot_registry import registry
 
 from .bot import create_app
 
