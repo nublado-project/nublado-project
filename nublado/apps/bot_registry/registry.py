@@ -16,7 +16,7 @@ class BotRegistry:
     def get(self, name: str) -> Application:
         return self._apps[name]
 
-    async def ensure_initialization(self, name: str):
+    async def ensure_initialized(self, name: str):
         # Skip if app is already initialized.
         if name in self._initialized:
             return
