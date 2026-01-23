@@ -21,9 +21,9 @@ async def telegram_webhook(request):
         return HttpResponseForbidden("Invalid secret")
 
     data = json.loads(request.body)
-    update = Update.de_json(data, application.bot)
+    update = Update.de_json(data, bot_application.bot)
 
-    await application.process_update(update)
+    await bot_application.process_update(update)
 
     return HttpResponse("OK")
 
