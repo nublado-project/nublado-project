@@ -7,6 +7,8 @@ from django.http import Http404, JsonResponse
 from django.views import View
 from django.conf import settings
 
+from .bot_registry import registry
+
 
 class BotWebhookView(View):
     async def post(self, request, *args, **kwargs):
