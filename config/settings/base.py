@@ -43,7 +43,9 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     "core.apps.CoreConfig",
     "users.apps.UserConfig",
-    "django_telegram.apps.DjangoTelegramConfig",
+    # "django_telegram.apps.DjangoTelegramConfig",
+    "bot_registry.apps.BotRegistryConfig",
+    "nublado_bot.apps.NubladoBotConfig",
     "project_app.apps.ProjectAppConfig",
 ]
 THIRD_PARTY_APPS = [
@@ -196,8 +198,19 @@ WEEKDAYS_ABBR = [
 BOT_MODE_WEBHOOK = "webhook"
 BOT_MODE_POLLING = "polling"
 
+NUBLADO_BOT = "nublado_bot"
 NUBLADO_BOT_TOKEN = get_env_variable("NUBLADO_BOT_TOKEN")
+NUBLADO_BOT_WEBHOOK_URL = "https://nubladoproject.onrender.com/bot/nublado/webhook/"
+NUBLADO_BOT_WEBHOOK_SECRET = "supersecretnubladowebhooktoken"
 
 DJANGO_TELEGRAM_BOT_TOKEN = NUBLADO_BOT_TOKEN
 DJANGO_TELEGRAM_WEBHOOK_URL = "https://nubladoproject.onrender.com/bot/webhook/"
 DJANGO_TELEGRAM_WEBHOOK_SECRET = "supersecretwebhooktoken"
+
+BOTS = {
+    NUBLADO_BOT: (
+        NUBLADO_BOT_TOKEN, 
+        NUBLADO_BOT_WEBHOOK_URL,
+        NUBLADO_BOT_WEBHOOK_SECRET
+    ),
+}
