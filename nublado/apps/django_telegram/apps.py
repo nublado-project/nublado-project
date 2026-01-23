@@ -1,5 +1,7 @@
-from django.apps import AppConfig
+import asyncio
 
+from django.apps import AppConfig
+from .bot_application import application
 #from .bot import Bot
 
 
@@ -16,7 +18,7 @@ from django.apps import AppConfig
 
 class DjangoTelegramConfig(AppConfig):
     name = "django_telegram"
-    #bot_registry = None
 
-    # def ready(self):
-    #     DjangoTelegramConfig.bot_registry = BotRegistry()
+    def ready(self):
+        loop = asyncio.get_event_loop()
+        loop.create_task(application.initialize())
