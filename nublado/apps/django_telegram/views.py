@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 # from .apps import DjangoTelegramConfig
-from .bot_application import application
+from .bot_application import application, ensure_initialized
 
 logger = logging.getLogger("django")
 
@@ -20,7 +20,7 @@ async def telegram_webhook(request):
     #     return HttpResponseForbidden("Invalid secret")
     if request.method != "POST":
         return JsonResponse({"ok": False})
-
+    await ensure_initialized()
     data = json.loads(request.body.decode("utf-8"))
     update = Update.de_json(data, application.bot)
 
