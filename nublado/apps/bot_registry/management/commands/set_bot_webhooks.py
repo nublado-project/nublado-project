@@ -20,4 +20,4 @@ class Command(BaseCommand):
                 drop_pending_updates=True
             )
 
-            self.stdout.write(self.style.SUCCESS(f"{name} webhook set"))
+            self.stdout.write(self.style.SUCCESS(f"{bot_name} webhook set"))
