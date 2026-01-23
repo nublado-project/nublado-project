@@ -3,7 +3,6 @@ from django.conf import settings
 
 from ...apps import DjangoTelegramConfig
 
-
 # class Command(BaseCommand):
 #     help = "Initialize and run Telegram bots."
 

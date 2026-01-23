@@ -19,7 +19,7 @@ class Command(BaseCommand):
     async def set_webhook(self):
         bot = Bot(settings.DJANGO_TELEGRAM_BOT_TOKEN)
         webhook_url = settings.DJANGO_TELEGRAM_WEBHOOK_URL
-        secret_token=getattr(settings, "DJANGO_TELEGRAM_WEBHOOK_SECRET", None)
+        secret_token = getattr(settings, "DJANGO_TELEGRAM_WEBHOOK_SECRET", None)
 
         await bot.set_webhook(
             url=webhook_url,
@@ -27,6 +27,4 @@ class Command(BaseCommand):
             drop_pending_updates=True,
         )
 
-        self.stdout.write(
-            self.style.SUCCESS(f"Webhook set to {webhook_url}")
-        )
+        self.stdout.write(self.style.SUCCESS(f"Webhook set to {webhook_url}"))

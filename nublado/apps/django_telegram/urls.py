@@ -4,14 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .views import telegram_webhook
 
-
 app_name = "django_telegram"
 
 urlpatterns = [
-    path(
-        "webhook/",
-        telegram_webhook
-    ),
+    path("webhook/", telegram_webhook),
 ]
 
 # urlpatterns = [
