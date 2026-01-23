@@ -199,4 +199,5 @@ BOT_MODE_POLLING = "polling"
 NUBLADO_BOT_TOKEN = get_env_variable("NUBLADO_BOT_TOKEN")
 
 DJANGO_TELEGRAM_BOT_TOKEN = NUBLADO_BOT_TOKEN
+DJANGO_TELEGRAM_WEBHOOK_URL = "https://nubladoproject.onrender.com/bot/webhook/"
 DJANGO_TELEGRAM_WEBHOOK_SECRET = "supersecretwebhooktoken"

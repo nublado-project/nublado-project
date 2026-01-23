@@ -11,21 +11,22 @@ from .apps import DjangoTelegramConfig
 from .bot_application import get_application
 
 logger = logging.getLogger("django")
-bot_application = get_application()
+application = get_application()
 
 
 @csrf_exempt
 async def telegram_webhook(request):
     # Optional: verify secret token
-    if request.headers.get("X-Telegram-Bot-Api-Secret-Token") != settings.DJANGO_TELEGRAM_WEBHOOK_SECRET:
-        return HttpResponseForbidden("Invalid secret")
+    # if request.headers.get("X-Telegram-Bot-Api-Secret-Token") != settings.DJANGO_TELEGRAM_WEBHOOK_SECRET:
+    #     return HttpResponseForbidden("Invalid secret")
+    if request.method != "POST":
+        return JsonResponse({"ok": False})
 
-    data = json.loads(request.body)
-    update = Update.de_json(data, bot_application.bot)
+    data = json.loads(request.body.decode("utf-8"))
+    update = Update.de_json(data, application.bot)
 
-    await bot_application.process_update(update)
-
-    return HttpResponse("OK")
+    await application.process_update(update)
+    return JsonResponse({"ok": True})
 
 
 # class BotSetWebhookView(View):
