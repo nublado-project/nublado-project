@@ -44,11 +44,6 @@ LOCAL_APPS = [
     "core.apps.CoreConfig",
     "users.apps.UserConfig",
     "django_telegram.apps.DjangoTelegramConfig",
-    # "bot_misc.apps.BotMiscConfig",
-    # "group_admin.apps.GroupAdminConfig",
-    # "group_notes.apps.GroupNotesConfig",
-    # "group_points.apps.GroupPointsConfig",
-    # "nublado_bot.apps.NubladoBotConfig",
     "project_app.apps.ProjectAppConfig",
 ]
 THIRD_PARTY_APPS = [
@@ -201,33 +196,7 @@ WEEKDAYS_ABBR = [
 BOT_MODE_WEBHOOK = "webhook"
 BOT_MODE_POLLING = "polling"
 
-# NubladoBot
-# Command line arg to run this bot
-# NUBLADO_BOT = "nublado_bot"
 NUBLADO_BOT_TOKEN = get_env_variable("NUBLADO_BOT_TOKEN")
-# NUBLADO_GROUP_ID = int(get_env_variable("NUBLADO_GROUP_ID"))
-# NUBLADO_REPO_ID = int(get_env_variable("NUBLADO_REPO_ID"))
-# NUBLADO_GROUP_OWNER_ID = int(get_env_variable("NUBLADO_GROUP_OWNER_ID"))
-# NUBLADO_SUDO_LIST = [
-#     NUBLADO_GROUP_OWNER_ID,
-# ]
-
-# DJANGO_TELEGRAM = {
-#     "mode": BOT_MODE_WEBHOOK,
-#     "webhook_port": int(os.environ.get("PORT", 5000)),
-#     "webhook_site": "https://nubladoproject.onrender.com",
-#     "webhook_path": "bot/webhook",
-#     "set_webhook_path": "bot/setwebhook",
-#     "bots": {
-#         NUBLADO_BOT: {
-#             "token": NUBLADO_BOT_TOKEN,
-#             "name": NUBLADO_BOT,
-#             "group_id": NUBLADO_GROUP_ID,
-#             "repo_id": NUBLADO_REPO_ID,
-#             "sudo_list": NUBLADO_SUDO_LIST,
-#         },
-#     },
-# }
 
 DJANGO_TELEGRAM_BOT_TOKEN = NUBLADO_BOT_TOKEN
 DJANGO_TELEGRAM_WEBHOOK_SECRET = "supersecretwebhooktoken"

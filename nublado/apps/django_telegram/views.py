@@ -2,10 +2,10 @@ import json
 import logging
 
 from telegram import Update
-
 from django.http import Http404, JsonResponse, HttpResponse
 # from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 from .apps import DjangoTelegramConfig
 from .bot_application import get_application
