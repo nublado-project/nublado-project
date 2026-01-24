@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 from core.models import TimestampModel
 from .managers import (
@@ -25,15 +26,10 @@ class TelegramUser(TimestampModel):
 
 
 class TelegramChat(TimestampModel):
-
-    class ChatType(models.TextChoices):
-        PRIVATE = "private", _("private")
-        GROUP = "group", _("group")
-        SUPERGROUP = "supergroup", _("supergroup")
-        CHANNEL = "channel", _("channel")
+    CHAT_TYPES = settings.DJANGO_TELEGRAM_CHAT_TYPES
 
     telegram_id = models.BigIntegerField(unique=True, db_index=True)
-    chat_type = models.CharField(max_length=20, choices=ChatType)
+    chat_type = models.CharField(max_length=20, choices=CHAT_TYPES)
     title = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, null=True, blank=True)
 

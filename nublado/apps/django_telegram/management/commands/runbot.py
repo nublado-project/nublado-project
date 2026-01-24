@@ -22,6 +22,8 @@ class Command(BaseCommand):
             else:
                 for bot_name, bot in registry.get_all().items():
                     self.stdout.write(
-                        self.style.SUCCESS(f"Now starting bot {bot_name} in polling mode.")
+                        self.style.SUCCESS(
+                            f"Now starting bot {bot_name} in polling mode."
+                        )
                     )
                     bot.run_polling()

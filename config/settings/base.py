@@ -3,7 +3,10 @@ import sys
 import datetime as dt
 from pathlib import Path
 
+from telegram.constants import ChatType
+
 from django.utils.translation import gettext_noop as _
+from django.db import models
 
 
 # Get key env values from the virtual environment.
@@ -199,14 +202,18 @@ BOT_MODE_POLLING = "polling"
 
 DJANGO_TELEGRAM_BOT_MODE = BOT_MODE_WEBHOOK
 
+class ChatType(models.TextChoices):
+    PRIVATE = ChatType.PRIVATE, _("private")
+    GROUP = ChatType.GROUP, _("group")
+    SUPERGROUP = ChatType.SUPERGROUP, _("supergroup")
+    CHANNEL = ChatType.CHANNEL, _("channel")
+
+DJANGO_TELEGRAM_CHAT_TYPES = ChatType
+
 NUBLADO_BOT = "nublado"
 NUBLADO_BOT_TOKEN = get_env_variable("NUBLADO_BOT_TOKEN")
 NUBLADO_BOT_WEBHOOK_URL = "https://nubladoproject.onrender.com/bot/nublado/webhook/"
 NUBLADO_BOT_WEBHOOK_SECRET = "supersecretnubladowebhooktoken"
-
-# DJANGO_TELEGRAM_BOT_TOKEN = NUBLADO_BOT_TOKEN
-# DJANGO_TELEGRAM_WEBHOOK_URL = "https://nubladoproject.onrender.com/bot/webhook/"
-# DJANGO_TELEGRAM_WEBHOOK_SECRET = "supersecretwebhooktoken"
 
 BOTS = {
     NUBLADO_BOT: (
