@@ -9,6 +9,6 @@ urlpatterns = [
     path(
         "<bot_id>/webhook/",
         csrf_exempt(BotWebhookView.as_view()),
-        name="bot_webhook_view"
+        name="bot_webhook_view",
     ),
 ]

@@ -197,6 +197,8 @@ WEEKDAYS_ABBR = [
 BOT_MODE_WEBHOOK = "webhook"
 BOT_MODE_POLLING = "polling"
 
+DJANGO_TELEGRAM_BOT_MODE = BOT_MODE_WEBHOOK
+
 NUBLADO_BOT = "nublado"
 NUBLADO_BOT_TOKEN = get_env_variable("NUBLADO_BOT_TOKEN")
 NUBLADO_BOT_WEBHOOK_URL = "https://nubladoproject.onrender.com/bot/nublado/webhook/"
@@ -208,8 +210,8 @@ NUBLADO_BOT_WEBHOOK_SECRET = "supersecretnubladowebhooktoken"
 
 BOTS = {
     NUBLADO_BOT: (
-        NUBLADO_BOT_TOKEN, 
+        NUBLADO_BOT_TOKEN,
         NUBLADO_BOT_WEBHOOK_URL,
-        NUBLADO_BOT_WEBHOOK_SECRET
+        NUBLADO_BOT_WEBHOOK_SECRET,
     ),
 }

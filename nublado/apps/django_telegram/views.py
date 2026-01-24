@@ -22,11 +22,11 @@ class BotWebhookView(View):
 
             app = registry.get(bot_id)
 
-            try: 
+            try:
                 data = json.loads(request.body.decode("utf-8"))
             except Exception as e:
                 logger.error(f"Error in decoding update: {e}")
-                raise Http404            
+                raise Http404
             try:
                 update = Update.de_json(data, app.bot)
                 await app.process_update(update)

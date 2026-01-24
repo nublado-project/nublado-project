@@ -2,6 +2,7 @@ import asyncio
 
 from telegram.ext import Application
 
+
 class BotRegistry:
 
     def __init__(self):
@@ -15,6 +16,9 @@ class BotRegistry:
 
     def get(self, name: str) -> Application:
         return self._apps[name]
+
+    def get_all(self) -> dict:
+        return self._apps
 
     async def ensure_initialized(self, name: str):
         # Skip if app is already initialized.

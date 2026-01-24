@@ -50,7 +50,6 @@ class TelegramGroupMember(TimestampModel):
         ADMIN = "admin", _("admin")
         OWNER = "owner", _("owner")
 
-
     user = models.ForeignKey(
         TelegramUser,
         on_delete=models.CASCADE,

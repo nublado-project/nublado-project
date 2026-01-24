@@ -8,6 +8,7 @@ class TelegramUserQuerySet(models.QuerySet):
     """
     QuerySet for TelegramUserManager
     """
+
     pass
 
 
@@ -15,6 +16,7 @@ class TelegramUserManagerBase(models.Manager):
     """
     Manager for TelegramUser
     """
+
     async def get_or_create_user(self, tg_user: User):
         """
         Get or create a TelegramUser object from telegram.User.
@@ -39,6 +41,7 @@ class TelegramChatQuerySet(models.QuerySet):
     """
     QuerySet for TelegramChatManager
     """
+
     pass
 
 
@@ -63,15 +66,14 @@ class TelegramChatManagerBase(models.Manager):
         return chat
 
 
-TelegramChatManager = TelegramChatManagerBase.from_queryset(
-    TelegramChatQuerySet
-)
+TelegramChatManager = TelegramChatManagerBase.from_queryset(TelegramChatQuerySet)
 
 
 class TelegramGroupMemberQuerySet(models.QuerySet):
     """
     QuerySet for TelegramGroupMemberManager
     """
+
     pass
 
 
@@ -79,14 +81,14 @@ class TelegramGroupMemberManagerBase(models.Manager):
     """
     Manager for TelegramGroupMember
     """
-    
+
     async def ensure_membership(
         self,
         user,
         chat,
-        # Not good. I need to get GroupRole.MEMBER from 
+        # Not good. I need to get GroupRole.MEMBER from
         # django_telegram.models.GroupMember without a circular import.
-        role="member"
+        role="member",
     ):
         await self.aupdate_or_create(
             user=user,
@@ -96,7 +98,8 @@ class TelegramGroupMemberManagerBase(models.Manager):
                 "is_active": True,
                 "left_at": None,
             },
-    )
+        )
+
 
 TelegramGroupMemberManager = TelegramGroupMemberManagerBase.from_queryset(
     TelegramGroupMemberQuerySet

@@ -8,8 +8,8 @@ from django_telegram.bot_registry import registry
 from .bot import create_app
 
 logger = logging.getLogger("django")
-
 BOT_NAME = settings.NUBLADO_BOT
+
 
 class NubladoBotConfig(AppConfig):
     name = "nublado_bot"
