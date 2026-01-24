@@ -58,7 +58,7 @@ class TelegramChatManagerBase(models.Manager):
         chat, _ = await self.aget_or_create(
             telegram_id=tg_chat.id,
             defaults={
-                "type": tg_chat.chat_type,
+                "chat_type": tg_chat.chat_type,
                 "title": tg_chat.title,
                 "username": tg_chat.username,
             },
@@ -86,8 +86,6 @@ class TelegramGroupMemberManagerBase(models.Manager):
         self,
         user,
         chat,
-        # Not good. I need to get GroupRole.MEMBER from
-        # django_telegram.models.GroupMember without a circular import.
         role="member",
     ):
         await self.aupdate_or_create(
