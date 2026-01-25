@@ -14,27 +14,16 @@ from .managers import (
 
 class TelegramUser(TimestampModel):
     """
-    Represents a Telegram user.
+    Model for a Telegram user.
 
-    Data ownership:
-    - telegram_id: authoritative (Telegram)
-    - username / names / language: cached snapshot (Telegram-owne)
-    - is_bot: cached snapshot, used for bot-side logic (e.g. karma blocking)
-
-    This model exists to provide stable identity and historical continuity
-    even if Telegram-side data changes or disappears.
+    This is just a basic model for bot development purposes. 
     """
 
     telegram_id = models.BigIntegerField(primary_key=True)
+
     username = models.CharField(max_length=255, null=True, blank=True)
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
-    language_code = models.CharField(
-        max_length=10,
-        null=True,
-        blank=True,
-        default=settings.LANGUAGE_CODE,
-    )
     is_bot = models.BooleanField(default=False)
 
     objects = TelegramUserManager()
@@ -46,15 +35,7 @@ class TelegramUser(TimestampModel):
 
 class TelegramChat(TimestampModel):
     """
-    Represents a Telegram chat (private, group, supergroup, channel).
-
-    Data ownership:
-    - telegram_id: authoritative (Telegram)
-    - chat_type: authoritative (Telegram)
-    - title / username: cached snapshot (Telegram-owned)
-
-    This model exists to anchor group-scoped features such as
-    memberships, points, and settings.
+    Model for a Telegram chat
     """
 
     class TelegramChatType(models.TextChoices):
@@ -64,6 +45,8 @@ class TelegramChat(TimestampModel):
         CHANNEL = ChatType.CHANNEL, _("channel")
 
     telegram_id = models.BigIntegerField(primary_key=True)
+
+    # These fields are "snapshots" of their respective values derived from Telegram.
     chat_type = models.CharField(max_length=20, choices=TelegramChatType)
     title = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, null=True, blank=True)
@@ -76,15 +59,7 @@ class TelegramChat(TimestampModel):
 
 class TelegramGroupMember(TimestampModel):
     """
-    Represents a user's membership in a specific Telegram chat.
-
-    Data ownership:
-    - user / chat: authoritative relational links
-    - role: cached snapshot of last known Telegram role (NOT authoritative)
-    - is_active / joined_at / left_at: authoritative (application-owned)
-    - points: authoritative (application-owned gamification state)
-
-    This model is the core domain entity for per-group features.
+    Model for a member of a Telegram group.
     """
 
     class GroupRole(models.TextChoices):
@@ -103,15 +78,17 @@ class TelegramGroupMember(TimestampModel):
         related_name="members",
     )
 
-    # Cached snapshot — never authoritative for permissions
+    # This is just a "snapshot" of the group member's role. Don't 
+    # use it for permissions. Rather, use the role data from Telegram
+    # that this field is derived from.
     role = models.CharField(max_length=20, choices=GroupRole)
 
-    # Application-owned membership state
     is_active = models.BooleanField(default=True)
     joined_at = models.DateTimeField(auto_now_add=True)
     left_at = models.DateTimeField(null=True, blank=True)
 
-    # Gamification (application-owned)
+    # Optional for group "karma points." This can be extracted to its own
+    # table if more elaborate point features are needed.
     points = models.IntegerField(default=0)
 
     objects = TelegramGroupMemberManager()
