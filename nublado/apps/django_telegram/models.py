@@ -57,6 +57,15 @@ class TelegramChat(TimestampModel):
         return f"{self.chat_type}:{self.telegram_id}"
 
 
+class GroupSettings(models.Model):
+    chat = models.OneToOneField(
+        TelegramChat,
+        on_delete=models.CASCADE,
+        related_name="settings",
+    )
+    language = models.CharField(max_length=10, default="en")
+
+
 class TelegramGroupMember(TimestampModel):
     """
     Model for a member of a Telegram group.
