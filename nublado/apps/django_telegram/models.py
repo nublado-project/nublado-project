@@ -18,7 +18,7 @@ class TelegramUser(TimestampModel):
 
     Data ownership:
     - telegram_id: authoritative (Telegram)
-    - username / names / language: cached snapshot (Telegram-owned, DB-cached)
+    - username / names / language: cached snapshot (Telegram-owne)
     - is_bot: cached snapshot, used for bot-side logic (e.g. karma blocking)
 
     This model exists to provide stable identity and historical continuity
@@ -63,7 +63,7 @@ class TelegramChat(TimestampModel):
         SUPERGROUP = ChatType.SUPERGROUP, _("supergroup")
         CHANNEL = ChatType.CHANNEL, _("channel")
 
-    telegram_id = models.BigIntegerField(unique=True, db_index=True)
+    telegram_id = models.BigIntegerField(primary_key=True)
     chat_type = models.CharField(max_length=20, choices=TelegramChatType)
     title = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, null=True, blank=True)

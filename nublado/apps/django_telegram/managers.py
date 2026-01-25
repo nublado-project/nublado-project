@@ -17,7 +17,7 @@ class TelegramUserManagerBase(models.Manager):
     Manager for TelegramUser
     """
 
-    async def get_or_create_user(self, tg_user: User):
+    async def aget_or_create_from_telegram_user(self, tg_user: User):
         """
         Get or create a TelegramUser object from telegram.User.
         """
@@ -50,7 +50,7 @@ class TelegramChatManagerBase(models.Manager):
     Manager for TelegramChat
     """
 
-    async def get_or_create_chat(self, tg_chat: Chat):
+    async def aget_or_create_from_telegram_chat(self, tg_chat: Chat):
         """
         Get or create a TelegramChat object from telegram.Chat.
         """
@@ -58,7 +58,7 @@ class TelegramChatManagerBase(models.Manager):
         chat, _ = await self.aget_or_create(
             telegram_id=tg_chat.id,
             defaults={
-                "chat_type": tg_chat.chat_type,
+                "chat_type": tg_chat.type,
                 "title": tg_chat.title,
                 "username": tg_chat.username,
             },

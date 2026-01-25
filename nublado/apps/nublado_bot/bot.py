@@ -1,10 +1,8 @@
 import logging
 
-from telegram.ext import Application, CommandHandler
+from telegram.ext import Application
 
 from django.conf import settings
-
-from .handlers import start, hello
 
 logger = logging.getLogger("django")
 
@@ -21,9 +19,5 @@ def create_app() -> Application:
         .post_init(post_init)
         .build()
     )
-
-    # Add the command handlers.
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("hello", hello))
 
     return app
