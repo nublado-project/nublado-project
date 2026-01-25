@@ -32,7 +32,7 @@ msg_give_point = _(
     "{points_name} to {receiver_name} ({receiver_points})."
 )
 msg_give_points = _(
-    "{sender_name} ({sender_points}) has given some " + \
+    "{sender_name} ({sender_points}) has given {num_points} " + \
     "{points_name} to {receiver_name} ({receiver_points})."
 )
 
@@ -87,7 +87,7 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if point_symbol_count not in POINTS_MAP:
         return
 
-    points_to_add = POINTS_MAP[point_symbol_count]
+    num_points = POINTS_MAP[point_symbol_count]
 
     # Database
 
@@ -109,13 +109,14 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     # Increment points
-    receiver_member.points += points_to_add
+    receiver_member.points += num_points
     await receiver_member.asave()
 
-    if points_to_add > 1:
+    if num_points > 1:
         reply_message = _(msg_give_points).format(
             sender_name=get_username_or_name(tg_sender_user),
             sender_points=sender_member.points,
+            num_points=num_points,
             points_name=_(POINTS_NAME),
             receiver_name=get_username_or_name(tg_receiver_user),
             receiver_points=receiver_member.points
