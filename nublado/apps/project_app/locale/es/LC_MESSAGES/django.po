@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-13 00:57+0000\n"
-"PO-Revision-Date: 2025-01-02 02:57-0800\n"
+"POT-Creation-Date: 2026-01-26 23:31+0000\n"
+"PO-Revision-Date: 2026-01-26 15:36-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,275 +16,135 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
-#: config/settings/base.py:115
+#: config/settings/base.py:112
 msgid "common.language.en"
 msgstr "inglés"
 
-#: config/settings/base.py:116
+#: config/settings/base.py:113
 msgid "common.language.es"
 msgstr "español"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:185
 msgid "common.monday"
 msgstr "lunes"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:186
 msgid "common.tuesday"
 msgstr "martes"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:187
 msgid "common.wednesday"
 msgstr "miércoles"
 
-#: config/settings/base.py:184
+#: config/settings/base.py:188
 msgid "common.thursday"
 msgstr "jueves"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:189
 msgid "common.friday"
 msgstr "viernes"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:190
 msgid "common.saturday"
 msgstr "sábado"
 
-#: config/settings/base.py:185
+#: config/settings/base.py:191
 msgid "sommon.sunday"
 msgstr "domingo"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:194
 msgid "common.abbr.monday"
 msgstr "lun"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:195
 msgid "common.abbr.tuesday"
 msgstr "mar"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:196
 msgid "common.abbr.wednesday"
 msgstr "mié"
 
-#: config/settings/base.py:188
+#: config/settings/base.py:197
 msgid "common.abbr.thursday"
 msgstr "jue"
 
-#: config/settings/base.py:189
+#: config/settings/base.py:198
 msgid "common.abbr.friday"
 msgstr "vie"
 
-#: config/settings/base.py:189
+#: config/settings/base.py:199
 msgid "common.abbr.saturday"
 msgstr "sáb"
 
-#: config/settings/base.py:189
+#: config/settings/base.py:200
 msgid "common.abbr.sunday"
 msgstr "dom"
 
-#: nublado/bot_misc/bot_messages.py:4
-#, python-brace-format
-msgid "bot.message.coin_heads {member}"
-msgstr "{member} ha sacado cara."
-
-#: nublado/bot_misc/bot_messages.py:5
-#, python-brace-format
-msgid "bot.message.coin_tails {member}"
-msgstr "{member} ha sacado cruz."
-
-#: nublado/bot_misc/bot_messages.py:6
-#, python-brace-format
-msgid "bot.message.dice_roll {member} {dice}"
-msgstr "{member} ha tirado {dice}."
-
-#: nublado/bot_misc/bot_messages.py:7
-#, python-brace-format
-msgid "bot.message.dice_roll_total {member} {dice} {total}"
-msgstr ""
-"{member} ha tirado {dice}.\n"
-"\n"
-" Total: {total}"
-
-#: nublado/bot_misc/bot_messages.py:8
-#, python-brace-format
-msgid "bot.message.dice_specify_number {min_dice} {max_dice}"
-msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
-
-#: nublado/bot_misc/bot_messages.py:9
-#, python-brace-format
-msgid "It's {weekday}, {time} {timezone}."
-msgstr "Es {weekday}, {time} {timezone}."
-
-#: nublado/bot_misc/bot_messages.py:10
-#, python-brace-format
-msgid "bot.message.bot_start {member} {bot_name}"
-msgstr "Hola, {member}. {bot_name} ha sido iniciado."
-
-#: nublado/bot_misc/bot_messages.py:11
-#, python-brace-format
-msgid "bot.message.hello {member_receive} {member_send}"
-msgstr "Oye, {member_receive}, {member_send} te saluda."
-
-#: nublado/bot_misc/bot_messages.py:12
-msgid "bot.message.text_required"
-msgstr "Este comando requiere un argumento de texto."
-
-#: nublado/bot_misc/bot_messages.py:13
-msgid "bot.message.testing"
-msgstr "probando probando"
-
-#: nublado/core/models.py:10
-msgid "date created"
+#: nublado/apps/core/models.py:88
+msgid "Draft"
 msgstr ""
 
-#: nublado/core/models.py:15
-msgid "date updated"
+#: nublado/apps/core/models.py:89
+msgid "Published"
 msgstr ""
 
-#: nublado/django_telegram/managers.py:16 nublado/group_notes/managers.py:16
-msgid "Group id is required."
+#: nublado/apps/django_telegram/models.py:40
+msgid "private"
 msgstr ""
 
-#: nublado/django_telegram/managers.py:18
-msgid "User id is required."
+#: nublado/apps/django_telegram/models.py:41
+msgid "group"
 msgstr ""
 
-#: nublado/django_telegram/models.py:29
-msgid "Bot configuration"
+#: nublado/apps/django_telegram/models.py:42
+msgid "supergroup"
 msgstr ""
 
-#: nublado/group_admin/bot_messages.py:5
-msgid "bot.message.i_agree"
-msgstr "Estoy de acuerdo."
-
-#: nublado/group_admin/bot_messages.py:6
-#, python-brace-format
-msgid "bot.message.welcome {name}"
-msgstr ""
-"Bienvenido/a al grupo, {name}.\n"
-"\n"
-"Lee lo siguiente y pulsa el botón de  \"Estoy de acuerdo\" para participar.\n"
-"\n"
-" \n"
-"- **Este grupo es solo para hablantes nativos de  inglés o español.**\n"
-"- Contribuye y ayuda a los demás con las correcciones.\n"
-"- Preséntate con un mensaje de voz al unirte."
-
-#: nublado/group_admin/bot_messages.py:7
-#, python-brace-format
-msgid "bot.message.welcome_agreed {name}"
-msgstr ""
-"Bienvenido/a al grupo, {name}.\n"
-"\n"
-"*TIENES QUE PRESENTARTE CON UN MENSAJE DE VOZ O SERÁS EXPULSADO/A DEL GRUPO ."
-"* \n"
-"\n"
-"Es nuestro protocolo para filtrar las cuentas falsas, troles, estafadores, "
-"bots, etc.\n"
-"\n"
-"Esperamos tu presentación."
-
-#: nublado/group_admin/bot_messages.py:8
-#, python-brace-format
-msgid "bot.message.language_set {language}"
-msgstr "El idioma del bot ha sido cambiado al {language}."
-
-#: nublado/group_admin/bot_messages.py:9
-#, python-brace-format
-msgid "bot.message.invalid_language_key {language_keys}"
-msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
-
-#: nublado/group_notes/bot_messages.py:4
-msgid "bot.message.no_notes"
-msgstr "No hay ninguna nota guardada."
-
-#: nublado/group_notes/bot_messages.py:5
-#, python-brace-format
-msgid "bot.message.notes_list {notes}"
-msgstr ""
-"*Notas*\n"
-"{notes}"
-
-#: nublado/group_notes/bot_messages.py:6
-#, python-brace-format
-msgid "bot.message.note_saved {note_tag}"
-msgstr "La nota *{note_tag}* ha sido guardada."
-
-#: nublado/group_notes/bot_messages.py:7
-#, python-brace-format
-msgid "bot.message.note_removed {note_tag}"
-msgstr "La nota *{note_tag}* ha sido eliminada."
-
-#: nublado/group_notes/bot_messages.py:8
-#, python-brace-format
-msgid "bot.message.note_no_exist {note_tag}"
-msgstr "La nota *{note_tag}* no existe."
-
-#: nublado/group_notes/bot_messages.py:9
-msgid "bot.message.note_no_content"
-msgstr "Una nota necesita contenido."
-
-#: nublado/group_notes/bot_messages.py:10
-msgid "bot.message.note_no_tag"
-msgstr "Una nota necesita una etiqueta."
-
-#: nublado/group_notes/bot_messages.py:11
-msgid "bot.message.note_no_args"
-msgstr "Una nota necesita una etiqueta y contenido."
-
-#: nublado/group_notes/bot_messages.py:12
-#, fuzzy, python-brace-format
-#| msgid "bot.message.note_no_exist {note_tag}"
-msgid "bot.message.note_not_in_repo {note_tag}"
-msgstr "La nota *{note_tag}* no existe."
-
-#: nublado/group_notes/managers.py:14
-msgid "Note tag is required."
+#: nublado/apps/django_telegram/models.py:43
+msgid "channel"
 msgstr ""
 
-#: nublado/group_notes/managers.py:41
-msgid "Message id or content is required."
+#: nublado/apps/django_telegram/models.py:72
+msgid "member"
 msgstr ""
 
-#: nublado/group_notes/models.py:20
-msgid "Group note"
+#: nublado/apps/django_telegram/models.py:73
+msgid "admin"
 msgstr ""
 
-#: nublado/group_notes/models.py:21
-msgid "Group notes"
+#: nublado/apps/django_telegram/models.py:74
+msgid "owner"
 msgstr ""
 
-#: nublado/group_points/bot_commands/group_points.py:21
-#| msgid "bot.point_name"
-msgid "bot.point_name"
-msgstr "un punto"
+#: nublado/apps/django_telegram/permissions.py:27
+msgid "This command can only be used in groups."
+msgstr ""
 
-#: nublado/group_points/bot_commands/group_points.py:22
-#| msgid "bot.points_name"
-msgid "bot.points_name"
-msgstr "puntos"
+#: nublado/apps/django_telegram/permissions.py:40
+msgid "This command can only be used in a private chat."
+msgstr ""
 
-#: nublado/group_points/bot_messages.py:5
+#: nublado/apps/django_telegram/permissions.py:63
+msgid "This command is for admins only."
+msgstr ""
+
+#: nublado/apps/django_telegram/permissions.py:84
+msgid "This command is for the group owner only."
+msgstr ""
+
+#: nublado/apps/nublado_bot/handlers/group_points.py:30
 #, python-brace-format
 msgid "bot.message.no_give_points_bot {points_name}"
 msgstr "No puedes regalarle {points_name} a un bot."
 
-#: nublado/group_points/bot_messages.py:6
-#, python-brace-format
-msgid "bot.message.no_take_points_bot {points_name}"
-msgstr "No puedes quitarle {points_name} a un bot."
-
-#: nublado/group_points/bot_messages.py:7
+#: nublado/apps/nublado_bot/handlers/group_points.py:32
 #, python-brace-format
 msgid "bot.message.no_give_points_self {points_name}"
 msgstr "No puedes regalarte {points_name} a ti mismo/a."
 
-#: nublado/group_points/bot_messages.py:8
-#, python-brace-format
-msgid "bot.message.no_take_points_self {points_name}"
-msgstr "No puedes quitarte {points_name} a ti mismo/a."
-
-#: nublado/group_points/bot_messages.py:10
+#: nublado/apps/nublado_bot/handlers/group_points.py:35
 #, python-brace-format
 msgid ""
 "bot.message.give_point_member {sender_name} {sender_points} {points_name} "
@@ -293,7 +153,7 @@ msgstr ""
 "{sender_name} ({sender_points}) le ha regalado {points_name} a "
 "{receiver_name} ({receiver_points})."
 
-#: nublado/group_points/bot_messages.py:14
+#: nublado/apps/nublado_bot/handlers/group_points.py:39
 #, python-brace-format
 msgid ""
 "bot.message.give_points_member {sender_name} {sender_points} {num_points} "
@@ -302,94 +162,235 @@ msgstr ""
 "{sender_name} ({sender_points}) le ha regalado {num_points} {points_name} a "
 "{receiver_name} ({receiver_points})."
 
-#: nublado/group_points/bot_messages.py:18
+#: nublado/apps/nublado_bot/handlers/group_settings.py:15
 #, python-brace-format
-msgid ""
-"bot.message.take_point_member {sender_name} {sender_points} {points_name} "
-"{receiver_name} {receiver_points}"
-msgstr ""
-"{sender_name} ({sender_points}) le ha quitado {points_name} a "
-"{receiver_name} ({receiver_points})."
+msgid "bot.message.language_set {language}"
+msgstr "El idioma del bot ha sido cambiado al {language}."
 
-#: nublado/group_points/bot_messages.py:22
+#: nublado/apps/nublado_bot/handlers/group_settings.py:16
 #, python-brace-format
-msgid ""
-"bot.message.take_points_member {sender_name} {sender_points} {num_points} "
-"{points_name} {receiver_name} {receiver_points}"
+msgid "bot.message.language_already_active {language}"
+msgstr "El idioma  {language} ya está activo."
+
+#: nublado/apps/nublado_bot/handlers/group_settings.py:18
+#, python-brace-format
+msgid "bot.message.invalid_language_key: {language_keys}"
+msgstr "Error: Las posibles claves de idioma son [{language_keys}]."
+
+#: nublado/apps/nublado_bot/handlers/group_settings.py:33
+msgid "Usage: /set_bot_language <language_code>"
 msgstr ""
-"{sender_name} ({sender_points}) le ha quitado {num_points} {points_name} a "
-"{receiver_name} ({receiver_points})."
 
-#: nublado/orchard_bot/bot_commands/group_points.py:35
-msgid "bot.orchard.point_name"
-msgstr "una cereza"
+#: nublado/apps/nublado_bot/handlers/misc.py:14
+msgid "bot.message.start"
+msgstr "El bot ha sido iniciado."
 
-#: nublado/orchard_bot/bot_commands/group_points.py:36
-msgid "bot.orchard.points_name"
-msgstr "cerezas"
+#: nublado/apps/nublado_bot/handlers/misc.py:16
+msgid "bot.message.hello"
+msgstr "Hola a todos."
 
-msgid "bot.nublado.point_name"
-msgstr "una gota de lluvia"
-
-msgid "bot.nublado.points_name"
-msgstr "gotas de lluvia"
-
-#: nublado/users/apps.py:7
+#: nublado/apps/users/apps.py:7
 msgid "label_user_config"
 msgstr ""
 
-#: nublado/users/managers.py:9 nublado/users/managers.py:33
+#: nublado/apps/users/managers.py:9 nublado/apps/users/managers.py:32
 msgid "validation_username_required"
 msgstr ""
 
-#: nublado/users/managers.py:11 nublado/users/managers.py:35
+#: nublado/apps/users/managers.py:11 nublado/apps/users/managers.py:34
 msgid "validation_email_required"
 msgstr ""
 
-#: nublado/users/models.py:15
+#: nublado/apps/users/models.py:12
 msgid "label_username"
 msgstr ""
 
-#: nublado/users/models.py:20
+#: nublado/apps/users/models.py:17
 msgid "label_email"
 msgstr ""
 
-#: nublado/users/models.py:25
+#: nublado/apps/users/models.py:22
 msgid "label_first_name"
 msgstr ""
 
-#: nublado/users/models.py:29
+#: nublado/apps/users/models.py:26
 msgid "label_last_name"
 msgstr ""
 
-#: nublado/users/models.py:33
+#: nublado/apps/users/models.py:29
 msgid "label_is_active"
 msgstr ""
 
-#: nublado/users/models.py:37
+#: nublado/apps/users/models.py:30
 msgid "label_is_admin"
 msgstr ""
 
-#: nublado/project_app/templates/home.html:4
+#: nublado/apps/project_app/templates/home.html:4
 msgid "Home"
 msgstr ""
 
-#: nublado/project_app/templates/home.html:11
+#: nublado/apps/project_app/templates/home.html:11
 msgid "Django async prototype."
 msgstr ""
 
-#: nublado/project_app/templates/home.html:12
+#: nublado/apps/project_app/templates/home.html:12
 msgid "Testing testing 123..."
 msgstr ""
 
-#: nublado/project_app/templates/includes/_user_nav.html:8
+#: nublado/apps/project_app/templates/includes/_user_nav.html:8
 msgid "label_login"
 msgstr ""
 
-#: nublado/project_app/templates/includes/_user_nav.html:39
+#: nublado/apps/project_app/templates/includes/_user_nav.html:39
 msgid "label_edit_profile"
 msgstr ""
 
-#: nublado/project_app/templates/includes/_user_nav.html:48
+#: nublado/apps/project_app/templates/includes/_user_nav.html:48
 msgid "label_logout"
 msgstr ""
+
+#, python-brace-format
+#~ msgid "bot.message.coin_heads {member}"
+#~ msgstr "{member} ha sacado cara."
+
+#, python-brace-format
+#~ msgid "bot.message.coin_tails {member}"
+#~ msgstr "{member} ha sacado cruz."
+
+#, python-brace-format
+#~ msgid "bot.message.dice_roll {member} {dice}"
+#~ msgstr "{member} ha tirado {dice}."
+
+#, python-brace-format
+#~ msgid "bot.message.dice_roll_total {member} {dice} {total}"
+#~ msgstr ""
+#~ "{member} ha tirado {dice}.\n"
+#~ "\n"
+#~ " Total: {total}"
+
+#, python-brace-format
+#~ msgid "bot.message.dice_specify_number {min_dice} {max_dice}"
+#~ msgstr "Por favor, especifica el número de dados ({min_dice} - {max_dice})."
+
+#, python-brace-format
+#~ msgid "It's {weekday}, {time} {timezone}."
+#~ msgstr "Es {weekday}, {time} {timezone}."
+
+#, python-brace-format
+#~ msgid "bot.message.bot_start {member} {bot_name}"
+#~ msgstr "Hola, {member}. {bot_name} ha sido iniciado."
+
+#, python-brace-format
+#~ msgid "bot.message.hello {member_receive} {member_send}"
+#~ msgstr "Oye, {member_receive}, {member_send} te saluda."
+
+#~ msgid "bot.message.text_required"
+#~ msgstr "Este comando requiere un argumento de texto."
+
+#~ msgid "bot.message.i_agree"
+#~ msgstr "Estoy de acuerdo."
+
+#, python-brace-format
+#~ msgid "bot.message.welcome {name}"
+#~ msgstr ""
+#~ "Bienvenido/a al grupo, {name}.\n"
+#~ "\n"
+#~ "Lee lo siguiente y pulsa el botón de  \"Estoy de acuerdo\" para "
+#~ "participar.\n"
+#~ "\n"
+#~ " \n"
+#~ "- **Este grupo es solo para hablantes nativos de  inglés o español.**\n"
+#~ "- Contribuye y ayuda a los demás con las correcciones.\n"
+#~ "- Preséntate con un mensaje de voz al unirte."
+
+#, python-brace-format
+#~ msgid "bot.message.welcome_agreed {name}"
+#~ msgstr ""
+#~ "Bienvenido/a al grupo, {name}.\n"
+#~ "\n"
+#~ "*TIENES QUE PRESENTARTE CON UN MENSAJE DE VOZ O SERÁS EXPULSADO/A DEL "
+#~ "GRUPO .* \n"
+#~ "\n"
+#~ "Es nuestro protocolo para filtrar las cuentas falsas, troles, "
+#~ "estafadores, bots, etc.\n"
+#~ "\n"
+#~ "Esperamos tu presentación."
+
+#~ msgid "bot.message.no_notes"
+#~ msgstr "No hay ninguna nota guardada."
+
+#, python-brace-format
+#~ msgid "bot.message.notes_list {notes}"
+#~ msgstr ""
+#~ "*Notas*\n"
+#~ "{notes}"
+
+#, python-brace-format
+#~ msgid "bot.message.note_saved {note_tag}"
+#~ msgstr "La nota *{note_tag}* ha sido guardada."
+
+#, python-brace-format
+#~ msgid "bot.message.note_removed {note_tag}"
+#~ msgstr "La nota *{note_tag}* ha sido eliminada."
+
+#, python-brace-format
+#~ msgid "bot.message.note_no_exist {note_tag}"
+#~ msgstr "La nota *{note_tag}* no existe."
+
+#~ msgid "bot.message.note_no_content"
+#~ msgstr "Una nota necesita contenido."
+
+#~ msgid "bot.message.note_no_tag"
+#~ msgstr "Una nota necesita una etiqueta."
+
+#~ msgid "bot.message.note_no_args"
+#~ msgstr "Una nota necesita una etiqueta y contenido."
+
+#, fuzzy, python-brace-format
+#~| msgid "bot.message.note_no_exist {note_tag}"
+#~ msgid "bot.message.note_not_in_repo {note_tag}"
+#~ msgstr "La nota *{note_tag}* no existe."
+
+#~| msgid "bot.point_name"
+#~ msgid "bot.point_name"
+#~ msgstr "un punto"
+
+#~| msgid "bot.points_name"
+#~ msgid "bot.points_name"
+#~ msgstr "puntos"
+
+#, python-brace-format
+#~ msgid "bot.message.no_take_points_bot {points_name}"
+#~ msgstr "No puedes quitarle {points_name} a un bot."
+
+#, python-brace-format
+#~ msgid "bot.message.no_take_points_self {points_name}"
+#~ msgstr "No puedes quitarte {points_name} a ti mismo/a."
+
+#, python-brace-format
+#~ msgid ""
+#~ "bot.message.take_point_member {sender_name} {sender_points} {points_name} "
+#~ "{receiver_name} {receiver_points}"
+#~ msgstr ""
+#~ "{sender_name} ({sender_points}) le ha quitado {points_name} a "
+#~ "{receiver_name} ({receiver_points})."
+
+#, python-brace-format
+#~ msgid ""
+#~ "bot.message.take_points_member {sender_name} {sender_points} {num_points} "
+#~ "{points_name} {receiver_name} {receiver_points}"
+#~ msgstr ""
+#~ "{sender_name} ({sender_points}) le ha quitado {num_points} {points_name} "
+#~ "a {receiver_name} ({receiver_points})."
+
+#~ msgid "bot.orchard.point_name"
+#~ msgstr "una cereza"
+
+#~ msgid "bot.orchard.points_name"
+#~ msgstr "cerezas"
+
+#~ msgid "bot.nublado.point_name"
+#~ msgstr "una gota de lluvia"
+
+#~ msgid "bot.nublado.points_name"
+#~ msgstr "gotas de lluvia"
