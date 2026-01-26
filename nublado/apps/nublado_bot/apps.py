@@ -19,11 +19,15 @@ class NubladoBotConfig(AppConfig):
     name = "nublado_bot"
 
     def ready(self):
+        from .handlers.misc import start, hello
         from .handlers.group_points import give_points
+        from .handlers.group_settings import set_bot_language
 
         app = create_app()
         registry.register(BOT_NAME, app)
+
         # Add the command handlers.
         app.add_handler(CommandHandler("start", start))
         app.add_handler(CommandHandler("hello", hello))
+        app.add_handler(CommandHandler("set_bot_language", set_bot_language))
         app.add_handler(MessageHandler(TEXT_ONLY, give_points))

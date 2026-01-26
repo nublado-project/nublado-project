@@ -112,7 +112,13 @@ LANGUAGES = [
     (EN, _("common.language.en")),
     (ES, _("common.language.es")),
 ]
-LANGUAGES_DICT = dict(LANGUAGES)
+
+# Variations of LANGUAGES in different data types.
+LANGUAGES_DICT = {key: value for key, value in LANGUAGES}
+
+# Language Enums
+languages_members = [(key.upper(), (key, label)) for key, label in LANGUAGES]
+LANGUAGES_ENUM = models.TextChoices("LanguagesEnum", languages_members)
 
 LOCALE_PATHS = (APPS_ROOT / "project_app" / "locale",)
 

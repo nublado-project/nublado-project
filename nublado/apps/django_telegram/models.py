@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-from core.models import TimestampModel
+from core.models import TimestampModel, LanguageModel
 from .managers import (
     TelegramUserManager,
     TelegramChatManager,
@@ -57,13 +57,12 @@ class TelegramChat(TimestampModel):
         return f"{self.chat_type}:{self.telegram_id}"
 
 
-class GroupSettings(models.Model):
+class TelegramGroupSettings(LanguageModel, TimestampModel):
     chat = models.OneToOneField(
         TelegramChat,
         on_delete=models.CASCADE,
         related_name="settings",
     )
-    language = models.CharField(max_length=10, default="en")
 
 
 class TelegramGroupMember(TimestampModel):
