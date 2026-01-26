@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-26 23:31+0000\n"
-"PO-Revision-Date: 2026-01-26 15:36-0800\n"
+"PO-Revision-Date: 2026-01-26 15:47-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -249,6 +249,12 @@ msgstr ""
 msgid "label_logout"
 msgstr ""
 
+msgid "bot.nublado.point_name"
+msgstr "una gota de lluvia"
+
+msgid "bot.nublado.points_name"
+msgstr "gotas de lluvia"
+
 #, python-brace-format
 #~ msgid "bot.message.coin_heads {member}"
 #~ msgstr "{member} ha sacado cara."
@@ -388,9 +394,3 @@ msgstr ""
 
 #~ msgid "bot.orchard.points_name"
 #~ msgstr "cerezas"
-
-#~ msgid "bot.nublado.point_name"
-#~ msgstr "una gota de lluvia"
-
-#~ msgid "bot.nublado.points_name"
-#~ msgstr "gotas de lluvia"

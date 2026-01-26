@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-26 23:31+0000\n"
-"PO-Revision-Date: 2026-01-26 15:35-0800\n"
+"PO-Revision-Date: 2026-01-26 15:48-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -249,6 +249,12 @@ msgstr ""
 msgid "label_logout"
 msgstr ""
 
+msgid "bot.nublado.point_name"
+msgstr "raindrop"
+
+msgid "bot.nublado.points_name"
+msgstr "raindrops"
+
 #, python-brace-format
 #~ msgid "bot.message.coin_heads {member}"
 #~ msgstr "{member} has flipped heads."
@@ -385,9 +391,3 @@ msgstr ""
 
 #~ msgid "bot.orchard.points_name"
 #~ msgstr "cherries"
-
-#~ msgid "bot.nublado.point_name"
-#~ msgstr "raindrop"
-
-#~ msgid "bot.nublado.points_name"
-#~ msgstr "raindrops"
