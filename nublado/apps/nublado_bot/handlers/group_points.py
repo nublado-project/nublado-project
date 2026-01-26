@@ -23,6 +23,7 @@ MAX_POINT_SYMBOLS = 3
 POINTS_MAP = {
     2: 1,
     3: 2,
+    4: 4,
 }
 
 BOT_MESSAGES = {
