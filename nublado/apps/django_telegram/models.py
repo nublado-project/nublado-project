@@ -84,7 +84,7 @@ class TelegramGroupMember(TimestampModel):
         related_name="members",
     )
 
-    # This is just a "snapshot" of the group member's role. Don't 
+    # This is just a "snapshot" of the group member's role. Don't
     # use it for permissions. Rather, use the role data from Telegram
     # that this field is derived from.
     role = models.CharField(max_length=20, choices=GroupRole)

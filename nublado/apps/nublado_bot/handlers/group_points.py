@@ -9,12 +9,12 @@ from django_telegram.models import (
     TelegramGroupMember,
 )
 from django_telegram.permissions import group_only
-from django_telegram.chat_language import chat_language
+from django_telegram.handlers import BaseTelegramHandler
 
 # singular
-POINT_NAME = "raindrop"
+POINT_NAME = "bot.nublado.point_name"
 # plural
-POINTS_NAME = "raindrops"
+POINTS_NAME = "bot.nublado.points_name"
 POINT_SYMBOL = "+"
 MIN_POINT_SYMBOLS = 2
 MAX_POINT_SYMBOLS = 3
@@ -25,17 +25,28 @@ POINTS_MAP = {
     3: 2,
 }
 
-# Bot messages
-msg_no_give_points_self = _("You can't give {points_name} to yourself.")
-msg_no_give_points_bot = _("You can't give {points_name} to a bot.")
-msg_give_point = _(
-    "{sender_name} ({sender_points}) has given a " + \
-    "{points_name} to {receiver_name} ({receiver_points})."
-)
-msg_give_points = _(
-    "{sender_name} ({sender_points}) has given {num_points} " + \
-    "{points_name} to {receiver_name} ({receiver_points})."
-)
+BOT_MESSAGES = {
+    "no_give_bot": _("bot.message.no_give_points_bot {points_name}"),
+    #'no_take_bot': _("bot.message.no_take_points_bot {points_name}"),
+    "no_give_self": _("bot.message.no_give_points_self {points_name}"),
+    # 'no_take_self': _("bot.message.no_take_points_self {points_name}"),
+    "give_point": _(
+        "bot.message.give_point_member {sender_name} {sender_points} "
+        + "{points_name} {receiver_name} {receiver_points}"
+    ),
+    "give_points": _(
+        "bot.message.give_points_member {sender_name} {sender_points} {num_points} "
+        + "{points_name} {receiver_name} {receiver_points}"
+    ),
+    # 'take_point': _(
+    #     "bot.message.take_point_member {sender_name} {sender_points} " + \
+    #     "{points_name} {receiver_name} {receiver_points}"
+    # ),
+    # 'take_points': _(
+    #     "bot.message.take_points_member {sender_name} {sender_points} {num_points} " + \
+    #     "{points_name} {receiver_name} {receiver_points}"
+    # ),
+}
 
 
 def get_username_or_name(user: User) -> str:
@@ -48,97 +59,98 @@ def get_username_or_name(user: User) -> str:
         return user.first_name
 
 
-@group_only
-@chat_language
-async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    Give points to another group member by replying to his or her message 
-    with a message prefixed by a specified symbol(s) (e.g., ++).
+class GivePointsHandler(BaseTelegramHandler):
+    @group_only
+    async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """
+        Give points to another group member by replying to his or her message
+        with a message prefixed by a specified symbol(s) (e.g., ++).
 
-    ++ Thanks for the correction!
-    """
+        ++ Thanks for the correction!
+        """
 
-    # Variables prefixed with tg are from Telegram.
-    tg_message = update.effective_message
-    tg_chat = update.effective_chat
+        # Variables prefixed with tg are from Telegram.
+        tg_message = update.effective_message
+        tg_chat = update.effective_chat
 
-    # The user sending the point(s).
-    tg_sender_user = update.effective_user
+        # The user sending the point(s).
+        tg_sender_user = update.effective_user
 
-    # Must be a reply.
-    if not tg_message.reply_to_message:
-        return
+        # The message must be a reply.
+        if not tg_message.reply_to_message:
+            return
 
-    # The user receiving the point(s).
-    tg_receiver_user = tg_message.reply_to_message.from_user
+        # The user receiving the point(s).
+        tg_receiver_user = tg_message.reply_to_message.from_user
 
-   # Prevent giving points to self.
-    if tg_sender_user.id == tg_receiver_user.id:
-        reply_message = _(msg_no_give_points_self).format(
-            points_name=_(POINTS_NAME)
-        )     
-        await tg_message.reply_text(reply_message)
-        return
+        # Prevent giving points to self.
+        if tg_sender_user.id == tg_receiver_user.id:
+            bot_message = BOT_MESSAGES["no_give_self"].format(
+                points_name=_(POINTS_NAME)
+            )
+            await tg_message.reply_text(bot_message)
+            return
 
-    # Prevent giving points to bots.
-    if tg_receiver_user.is_bot:
-        reply_message = _(msg_no_give_points_bot).format(
-            points_name=_(POINTS_NAME)
-        )  
-        await tg_message.reply_text(reply_message)
-        return
+        # Prevent giving points to bots.
+        if tg_receiver_user.is_bot:
+            bot_message = BOT_MESSAGES["no_give_bot"].format(points_name=_(POINTS_NAME))
+            await tg_message.reply_text(bot_message)
+            return
 
-    # Text must start with the minimun number of point symbols.
-    text = tg_message.text.strip()
-    if not text or not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
-        return
+        # Text must start with the minimun number of point symbols.
+        text = tg_message.text.strip()
+        if not text or not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
+            return
 
-    point_symbol_count = len(text) - len(text.lstrip(POINT_SYMBOL))
-    if point_symbol_count not in POINTS_MAP:
-        return
+        point_symbol_count = len(text) - len(text.lstrip(POINT_SYMBOL))
+        if point_symbol_count not in POINTS_MAP:
+            return
 
-    num_points = POINTS_MAP[point_symbol_count]
+        num_points = POINTS_MAP[point_symbol_count]
 
-    # Database
+        # Database
 
-    # TelegramChat
-    chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
-    
-    # TelegramUser
-    sender_user = await TelegramUser.objects.aget_or_create_from_telegram_user(tg_sender_user)
-    receiver_user = await TelegramUser.objects.aget_or_create_from_telegram_user(tg_receiver_user)
+        # TelegramChat
+        chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
 
-    # TelegramGroupMember
-    sender_member, created = await TelegramGroupMember.objects.aget_or_create(
-        user=sender_user,
-        chat=chat,
-    )
-    receiver_member, created = await TelegramGroupMember.objects.aget_or_create(
-        user=receiver_user,
-        chat=chat,
-    )
-
-    # Increment points
-    receiver_member.points += num_points
-    await receiver_member.asave()
-
-    if num_points > 1:
-        reply_message = _(msg_give_points).format(
-            sender_name=get_username_or_name(tg_sender_user),
-            sender_points=sender_member.points,
-            num_points=num_points,
-            points_name=_(POINTS_NAME),
-            receiver_name=get_username_or_name(tg_receiver_user),
-            receiver_points=receiver_member.points
+        # TelegramUser
+        sender_user = await TelegramUser.objects.aget_or_create_from_telegram_user(
+            tg_sender_user
         )
-    else:
-        reply_message = _(msg_give_point).format(
-            sender_name=get_username_or_name(tg_sender_user),
-            sender_points=sender_member.points,
-            points_name=_(POINT_NAME),
-            receiver_name=get_username_or_name(tg_receiver_user),
-            receiver_points=receiver_member.points
+        receiver_user = await TelegramUser.objects.aget_or_create_from_telegram_user(
+            tg_receiver_user
         )
 
-    await tg_message.reply_text(reply_message)
- 
+        # TelegramGroupMember
+        sender_member, created = await TelegramGroupMember.objects.aget_or_create(
+            user=sender_user,
+            chat=chat,
+        )
+        receiver_member, created = await TelegramGroupMember.objects.aget_or_create(
+            user=receiver_user,
+            chat=chat,
+        )
+
+        # Increment points
+        receiver_member.points += num_points
+        await receiver_member.asave()
+
+        if num_points > 1:
+            bot_message = BOT_MESSAGES["give_points"].format(
+                sender_name=get_username_or_name(tg_sender_user),
+                sender_points=sender_member.points,
+                num_points=num_points,
+                points_name=_(POINTS_NAME),
+                receiver_name=get_username_or_name(tg_receiver_user),
+                receiver_points=receiver_member.points,
+            )
+        else:
+            bot_message = BOT_MESSAGES["give_point"].format(
+                sender_name=get_username_or_name(tg_sender_user),
+                sender_points=sender_member.points,
+                points_name=_(POINT_NAME),
+                receiver_name=get_username_or_name(tg_receiver_user),
+                receiver_points=receiver_member.points,
+            )
+
+        await tg_message.reply_text(bot_message)
