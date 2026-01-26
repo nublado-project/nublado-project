@@ -9,6 +9,7 @@ from django_telegram.models import (
     TelegramGroupMember,
 )
 from django_telegram.permissions import group_only
+from django_telegram.chat_language import chat_language
 
 # singular
 POINT_NAME = "raindrop"
@@ -48,26 +49,35 @@ def get_username_or_name(user: User) -> str:
 
 
 @group_only
+@chat_language
 async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = update.effective_message
+    """
+    Give points to another group member by replying to his or her message 
+    with a message prefixed by a specified symbol(s) (e.g., ++).
+
+    ++ Thanks for the correction!
+    """
+
+    # Variables prefixed with tg are from Telegram.
+    tg_message = update.effective_message
     tg_chat = update.effective_chat
 
     # The user sending the point(s).
     tg_sender_user = update.effective_user
 
     # Must be a reply.
-    if not message.reply_to_message:
+    if not tg_message.reply_to_message:
         return
 
     # The user receiving the point(s).
-    tg_receiver_user = message.reply_to_message.from_user
+    tg_receiver_user = tg_message.reply_to_message.from_user
 
    # Prevent giving points to self.
     if tg_sender_user.id == tg_receiver_user.id:
         reply_message = _(msg_no_give_points_self).format(
             points_name=_(POINTS_NAME)
         )     
-        await message.reply_text(reply_message)
+        await tg_message.reply_text(reply_message)
         return
 
     # Prevent giving points to bots.
@@ -75,11 +85,11 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_message = _(msg_no_give_points_bot).format(
             points_name=_(POINTS_NAME)
         )  
-        await message.reply_text(reply_message)
+        await tg_message.reply_text(reply_message)
         return
 
     # Text must start with the minimun number of point symbols.
-    text = message.text.strip()
+    text = tg_message.text.strip()
     if not text or not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
         return
 
@@ -130,4 +140,5 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
             receiver_points=receiver_member.points
         )
 
-    await message.reply_text(reply_message)
+    await tg_message.reply_text(reply_message)
+ 

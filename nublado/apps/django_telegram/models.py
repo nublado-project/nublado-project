@@ -15,8 +15,6 @@ from .managers import (
 class TelegramUser(TimestampModel):
     """
     Model for a Telegram user.
-
-    This is just a basic model for bot development purposes. 
     """
 
     telegram_id = models.BigIntegerField(primary_key=True)
