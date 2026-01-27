@@ -88,3 +88,49 @@ class PrivateOnly(HandlerPolicy):
         if not tg_chat or not _is_private(tg_chat):
             return await self.reply_and_block(update, _(BOT_MESSAGES["bot_private_only"]))
         return True
+
+
+# To do: Convert these into policies.
+# def admin_required(func):
+#     @wraps(func)
+#     async def wrapper(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+#         chat = update.effective_chat
+#         user = update.effective_user
+
+#         if not _is_group(chat):
+#             return
+
+#         member = await chat.get_member(user.id)
+#         if member.status not in {
+#             ChatMemberStatus.ADMINISTRATOR,
+#             ChatMemberStatus.OWNER,
+#         }:
+#             await update.effective_message.reply_text(
+#                 _("This command is for admins only.")
+#             )
+#             return
+
+#         return await func(self, update, context)
+
+#     return wrapper
+
+
+# def owner_required(func):
+#     @wraps(func)
+#     async def wrapper(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+#         chat = update.effective_chat
+#         user = update.effective_user
+
+#         if not _is_group(chat):
+#             return
+
+#         member = await chat.get_member(user.id)
+#         if member.status != ChatMemberStatus.OWNER:
+#             await update.effective_message.reply_text(
+#                 _("This command is for the group owner only.")
+#             )
+#             return
+
+#         return await func(self, update, context)
+
+#     return wrapper
