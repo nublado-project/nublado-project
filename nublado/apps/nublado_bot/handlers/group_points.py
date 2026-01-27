@@ -84,6 +84,11 @@ class GivePointsHandler(BaseTelegramHandler):
         # The user receiving the point(s).
         tg_receiver_user = tg_message.reply_to_message.from_user
 
+        # Text must start with the minimun number of point symbols.
+        text = tg_message.text.strip()
+        if not text or not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
+            return
+
         # Prevent giving points to self.
         if tg_sender_user.id == tg_receiver_user.id:
             bot_message = BOT_MESSAGES["no_give_self"].format(
@@ -96,11 +101,6 @@ class GivePointsHandler(BaseTelegramHandler):
         if tg_receiver_user.is_bot:
             bot_message = BOT_MESSAGES["no_give_bot"].format(points_name=_(POINTS_NAME))
             await tg_message.reply_text(bot_message)
-            return
-
-        # Text must start with the minimun number of point symbols.
-        text = tg_message.text.strip()
-        if not text or not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
             return
 
         point_symbol_count = len(text) - len(text.lstrip(POINT_SYMBOL))
