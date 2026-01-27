@@ -43,15 +43,16 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tg_sender_user = update.effective_user
 
     # The message must be a reply.
-    if not tg_message.reply_to_message:
+    if not tg_message or not tg_message.reply_to_message:
         return
 
     # The user receiving the point(s).
     tg_receiver_user = tg_message.reply_to_message.from_user
 
     # Text must start with the minimun number of point symbols.
-    text = tg_message.text.strip()
-    if not text or not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
+    raw_text = tg_message.text or ""
+    text = raw_text.strip()
+    if not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
         return
 
     # Prevent giving points to self.
@@ -90,11 +91,11 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     # TelegramGroupMember
-    sender_member, created = await TelegramGroupMember.objects.aget_or_create(
+    sender_member, sender_created = await TelegramGroupMember.objects.aget_or_create(
         user=sender_user,
         chat=chat,
     )
-    receiver_member, created = await TelegramGroupMember.objects.aget_or_create(
+    receiver_member, receiver_created = await TelegramGroupMember.objects.aget_or_create(
         user=receiver_user,
         chat=chat,
     )

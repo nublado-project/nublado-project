@@ -5,7 +5,7 @@ from django.utils.translation import activate, get_language, gettext as _
 from django.conf import settings
 
 from django_telegram.policies import GroupOnly
-from django_telegram.utils import set_chat_language, normalize_language_code
+from django_telegram.utils import set_chat_language, normalize_language_code, safe_reply
 
 from ..bot_messages import BOT_MESSAGES
 
@@ -27,7 +27,7 @@ async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot_message = _(BOT_MESSAGES["error_invalid_language_code"]).format(
             language_keys=keys
         )
-        await tg_message.reply_text(bot_message)
+        await safe_reply(update, bot_message)
         return
 
     current_language = get_language()
@@ -37,7 +37,7 @@ async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot_message = _(BOT_MESSAGES["bot_language_already_active"]).format(
             language=_(settings.LANGUAGES_DICT[language_code])
         )
-        await tg_message.reply_text(bot_message)
+        await safe_reply(update, bot_message)
         return
 
     await set_chat_language(update, context, language_code)
@@ -46,6 +46,6 @@ async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot_message = _(BOT_MESSAGES["bot_language_set"]).format(
         language=_(settings.LANGUAGES_DICT[language_code])
     )
-    await tg_message.reply_text(bot_message)
+    await safe_reply(update, bot_message)
 
 
