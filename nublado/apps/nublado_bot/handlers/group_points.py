@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes
 
 from django.utils.translation import gettext as _
 
-from django_telegram.utils import get_username_or_name
+from django_telegram.utils import get_username_or_name, safe_reply
 from django_telegram.models import (
     TelegramChat,
     TelegramUser,
@@ -59,13 +59,13 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot_message = _(BOT_MESSAGES["no_give_self"]).format(
             points_name=_(POINTS_NAME)
         )
-        await tg_message.reply_text(bot_message)
+        await safe_reply(update, bot_message)
         return
 
     # Prevent giving points to bots.
     if tg_receiver_user.is_bot:
         bot_message = _(BOT_MESSAGES["no_give_bot"]).format(points_name=_(POINTS_NAME))
-        await tg_message.reply_text(bot_message)
+        await safe_reply(update, bot_message)
         return
 
     # Get the number of point symbols at the beginning of the message.
@@ -121,4 +121,4 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
             receiver_points=receiver_member.points,
         )
 
-    await tg_message.reply_text(bot_message)
+    await safe_reply(update, bot_message)
