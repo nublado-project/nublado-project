@@ -14,10 +14,6 @@ class BotWebhookView(View):
     async def post(self, request, *args, **kwargs):
         bot_id = kwargs["bot_id"]
         if bot_id in settings.BOTS:
-            # if request.headers.get(
-            #     "X-Telegram-Bot-Api-Secret-Token"
-            # ) != settings.ALPHA_WEBHOOK_SECRET:
-            #      return HttpResponseForbidden("Invalid secret")
             await registry.ensure_initialized(bot_id)
 
             app = registry.get(bot_id)

@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
+from functools import wraps
 
 from telegram import Update
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ApplicationHandlerStop
 
-from django.utils.translation import gettext as _
+from django.utils.translation import activate, get_language, gettext as _
+from django.conf import settings
 
 from .utils import _is_group, _is_private
 
@@ -14,11 +16,36 @@ BOT_MESSAGES = {
 }
 
 
+def with_policies(*policies):
+    def decorator(callback):
+        @wraps(callback)
+        async def wrapped(update: Update, context: ContextTypes.DEFAULT_TYPE):
+            language_resolver = context.application.bot_data.get("language_resolver")
+            old_language = get_language() or settings.LANGUAGE_CODE
+
+            try:
+                if language_resolver:
+                    language_code = await language_resolver(update, context)
+                    activate(language_code)
+
+                for policy in policies:
+                    allowed = await policy.check(update, context)
+                    if not allowed:
+                        raise ApplicationHandlerStop
+
+                return await callback(update, context)
+
+            finally:
+                activate(old_language)
+
+        return wrapped
+    return decorator
+
+
 class HandlerPolicy(ABC):
     @abstractmethod
     async def check(
         self,
-        handler,
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
     ) -> bool:
@@ -26,17 +53,17 @@ class HandlerPolicy(ABC):
         Return True to allow execution, False to block it.
         Policies may send replies before returning False.
         """
-        raise NotImplementedError
+        ...
 
 
 class GroupOnly(HandlerPolicy):
     async def check(
-        self, 
-        handler,
+        self,
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
     ) -> bool:
-        if not _is_group(update.effective_chat):
+        tg_chat = update.effective_chat
+        if not tg_chat or not _is_group(tg_chat):
             tg_message = update.effective_message
             if tg_message:
                 bot_message = _(BOT_MESSAGES["bot_group_only"])
@@ -50,11 +77,11 @@ class GroupOnly(HandlerPolicy):
 class PrivateOnly(HandlerPolicy):
     async def check(
         self, 
-        handler,
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
     ) -> bool:
-        if not _is_private(update.effective_chat):
+        tg_chat = update.effective_chat
+        if not tg_chat or not _is_private(tg_chat):
             tg_message = update.effective_message
             if tg_message:
                 bot_message = _(BOT_MESSAGES["bot_private_only"])
