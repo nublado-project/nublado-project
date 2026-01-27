@@ -7,17 +7,7 @@ from django.conf import settings
 from django_telegram.policies import GroupOnly
 from django_telegram.utils import set_chat_language, normalize_language_code
 
-
-BOT_MESSAGES = {
-    # 'agree': _("bot.message.i_agree"),
-    # 'welcome': _("bot.message.welcome {name}"),
-    # 'welcome_agreed': _("bot.message.welcome_agreed {name}"),
-    "bot_language_set": "bot.message.language_set {language}",
-    "bot_language_already_active": "bot.message.language_already_active {language}",
-    "error_invalid_language_code":
-        "bot.message.invalid_language_key: {language_keys}"
-    ,
-}
+from ..bot_messages import BOT_MESSAGES
 
 
 async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE):

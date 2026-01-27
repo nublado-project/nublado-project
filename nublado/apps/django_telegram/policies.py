@@ -7,7 +7,7 @@ from telegram.ext import ContextTypes, ApplicationHandlerStop
 from django.utils.translation import activate, get_language, gettext as _
 from django.conf import settings
 
-from .utils import _is_group, _is_private
+from .utils import _is_group, _is_private, safe_reply
 
 
 BOT_MESSAGES = {
@@ -24,15 +24,18 @@ def with_policies(*policies):
             old_language = get_language() or settings.LANGUAGE_CODE
 
             try:
+                # Activate language.
                 if language_resolver:
                     language_code = await language_resolver(update, context)
                     activate(language_code)
 
+                # Check policies.
                 for policy in policies:
                     allowed = await policy.check(update, context)
                     if not allowed:
                         raise ApplicationHandlerStop
 
+                # Call original handler.
                 return await callback(update, context)
 
             finally:
@@ -43,6 +46,13 @@ def with_policies(*policies):
 
 
 class HandlerPolicy(ABC):
+    async def reply(self, update: Update, message: str):
+        await safe_reply(update, message)
+
+    async def reply_and_block(self, update: Update, message: str) -> bool:
+        await self.reply(update, message)
+        return False
+
     @abstractmethod
     async def check(
         self,
@@ -64,13 +74,7 @@ class GroupOnly(HandlerPolicy):
     ) -> bool:
         tg_chat = update.effective_chat
         if not tg_chat or not _is_group(tg_chat):
-            tg_message = update.effective_message
-            if tg_message:
-                bot_message = _(BOT_MESSAGES["bot_group_only"])
-                await tg_message.reply_text(
-                    bot_message
-                )
-            return False
+            return await self.reply_and_block(update, _(BOT_MESSAGES["bot_group_only"]))
         return True
 
 
@@ -82,11 +86,5 @@ class PrivateOnly(HandlerPolicy):
     ) -> bool:
         tg_chat = update.effective_chat
         if not tg_chat or not _is_private(tg_chat):
-            tg_message = update.effective_message
-            if tg_message:
-                bot_message = _(BOT_MESSAGES["bot_private_only"])
-                await tg_message.reply_text(
-                    bot_message
-                )
-            return False
+            return await self.reply_and_block(update, _(BOT_MESSAGES["bot_private_only"]))
         return True

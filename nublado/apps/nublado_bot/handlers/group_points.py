@@ -9,6 +9,7 @@ from django_telegram.models import (
     TelegramUser,
     TelegramGroupMember,
 )
+from ..bot_messages import BOT_MESSAGES
 
 # singular
 POINT_NAME = "bot.nublado.point_name"
@@ -23,29 +24,6 @@ POINTS_MAP = {
     2: 1,
     3: 2,
     4: 4,
-}
-
-BOT_MESSAGES = {
-    "no_give_bot": "bot.message.no_give_points_bot {points_name}",
-    # "no_take_bot": _("bot.message.no_take_points_bot {points_name}"),
-    "no_give_self": "bot.message.no_give_points_self {points_name}",
-    # "no_take_self": _("bot.message.no_take_points_self {points_name}"),
-    "give_point":
-        "bot.message.give_point_member {sender_name} {sender_points} "
-        + "{points_name} {receiver_name} {receiver_points}"
-    ,
-    "give_points":
-        "bot.message.give_points_member {sender_name} {sender_points} {num_points} "
-        + "{points_name} {receiver_name} {receiver_points}"
-    ,
-    # "take_point": _(
-    #     "bot.message.take_point_member {sender_name} {sender_points} " + \
-    #     "{points_name} {receiver_name} {receiver_points}"
-    # ),
-    # "take_points": _(
-    #     "bot.message.take_points_member {sender_name} {sender_points} {num_points} " + \
-    #     "{points_name} {receiver_name} {receiver_points}"
-    # ),
 }
 
 

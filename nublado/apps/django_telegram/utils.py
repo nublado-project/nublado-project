@@ -75,3 +75,13 @@ async def set_chat_language(
 
     # Set context data to store language_code
     context.chat_data[LANGUAGE_KEY] = language_code
+
+
+async def safe_reply(update: Update, text: str):
+    """
+    Safely reply to a message if it exists.
+    """
+
+    message = update.effective_message
+    if message:
+        await message.reply_text(text)

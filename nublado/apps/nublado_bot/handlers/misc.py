@@ -3,10 +3,7 @@ from telegram.ext import ContextTypes
 
 from django.utils.translation import gettext as _
 
-BOT_MESSAGES = {
-    "bot_start": "bot.message.start",
-    "bot_hello": "bot.message.hello"
-}
+from ..bot_messages import BOT_MESSAGES
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
