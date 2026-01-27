@@ -2,18 +2,10 @@ from functools import wraps
 
 from telegram import Update
 from telegram.ext import ContextTypes
-from telegram.constants import ChatType, ChatMemberStatus
 
 from django.utils.translation import gettext as _
 
-
-# Helper functions
-def _is_group(chat):
-    return chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
-
-
-def _is_private(chat):
-    return chat.type == ChatType.PRIVATE
+from .utils import _is_group, _is_private
 
 
 # Decorators

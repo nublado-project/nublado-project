@@ -4,7 +4,7 @@ from telegram.ext import ContextTypes
 from django.utils.translation import activate, get_language, gettext_lazy as _
 from django.conf import settings
 
-from django_telegram.permissions import group_only
+from django_telegram.policies import GroupOnly
 from django_telegram.handlers import BaseTelegramHandler
 from django_telegram.models import TelegramChat, TelegramGroupSettings
 
@@ -23,7 +23,8 @@ CONTEXT_DATA_BOT_LANGUAGE_KEY = "bot_language"
 
 
 class SetBotLanguageHandler(BaseTelegramHandler):
-    @group_only
+    policies = [GroupOnly()]
+
     async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         tg_message = update.effective_message
         tg_chat = update.effective_chat

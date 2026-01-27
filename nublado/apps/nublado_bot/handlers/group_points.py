@@ -1,14 +1,15 @@
 from telegram import Update, User
 from telegram.ext import ContextTypes
 
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 from django_telegram.models import (
     TelegramChat,
     TelegramUser,
     TelegramGroupMember,
 )
-from django_telegram.permissions import group_only
+
+from django_telegram.policies import GroupOnly
 from django_telegram.handlers import BaseTelegramHandler
 
 # singular
@@ -27,23 +28,23 @@ POINTS_MAP = {
 }
 
 BOT_MESSAGES = {
-    "no_give_bot": _("bot.message.no_give_points_bot {points_name}"),
-    #'no_take_bot': _("bot.message.no_take_points_bot {points_name}"),
-    "no_give_self": _("bot.message.no_give_points_self {points_name}"),
-    # 'no_take_self': _("bot.message.no_take_points_self {points_name}"),
-    "give_point": _(
+    "no_give_bot": "bot.message.no_give_points_bot {points_name}",
+    # "no_take_bot": _("bot.message.no_take_points_bot {points_name}"),
+    "no_give_self": "bot.message.no_give_points_self {points_name}",
+    # "no_take_self": _("bot.message.no_take_points_self {points_name}"),
+    "give_point":
         "bot.message.give_point_member {sender_name} {sender_points} "
         + "{points_name} {receiver_name} {receiver_points}"
-    ),
-    "give_points": _(
+    ,
+    "give_points":
         "bot.message.give_points_member {sender_name} {sender_points} {num_points} "
         + "{points_name} {receiver_name} {receiver_points}"
-    ),
-    # 'take_point': _(
+    ,
+    # "take_point": _(
     #     "bot.message.take_point_member {sender_name} {sender_points} " + \
     #     "{points_name} {receiver_name} {receiver_points}"
     # ),
-    # 'take_points': _(
+    # "take_points": _(
     #     "bot.message.take_points_member {sender_name} {sender_points} {num_points} " + \
     #     "{points_name} {receiver_name} {receiver_points}"
     # ),
@@ -59,9 +60,9 @@ def get_username_or_name(user: User) -> str:
     else:
         return user.first_name
 
-
 class GivePointsHandler(BaseTelegramHandler):
-    @group_only
+    policies = [GroupOnly()]
+
     async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """
         Give points to another group member by replying to his or her message
@@ -91,7 +92,7 @@ class GivePointsHandler(BaseTelegramHandler):
 
         # Prevent giving points to self.
         if tg_sender_user.id == tg_receiver_user.id:
-            bot_message = BOT_MESSAGES["no_give_self"].format(
+            bot_message = _(BOT_MESSAGES["no_give_self"]).format(
                 points_name=_(POINTS_NAME)
             )
             await tg_message.reply_text(bot_message)
@@ -99,7 +100,7 @@ class GivePointsHandler(BaseTelegramHandler):
 
         # Prevent giving points to bots.
         if tg_receiver_user.is_bot:
-            bot_message = BOT_MESSAGES["no_give_bot"].format(points_name=_(POINTS_NAME))
+            bot_message = _(BOT_MESSAGES["no_give_bot"]).format(points_name=_(POINTS_NAME))
             await tg_message.reply_text(bot_message)
             return
 
@@ -137,7 +138,7 @@ class GivePointsHandler(BaseTelegramHandler):
         await receiver_member.asave()
 
         if num_points > 1:
-            bot_message = BOT_MESSAGES["give_points"].format(
+            bot_message = _(BOT_MESSAGES["give_points"]).format(
                 sender_name=get_username_or_name(tg_sender_user),
                 sender_points=sender_member.points,
                 num_points=num_points,
@@ -146,7 +147,7 @@ class GivePointsHandler(BaseTelegramHandler):
                 receiver_points=receiver_member.points,
             )
         else:
-            bot_message = BOT_MESSAGES["give_point"].format(
+            bot_message = _(BOT_MESSAGES["give_point"]).format(
                 sender_name=get_username_or_name(tg_sender_user),
                 sender_points=sender_member.points,
                 points_name=_(POINT_NAME),

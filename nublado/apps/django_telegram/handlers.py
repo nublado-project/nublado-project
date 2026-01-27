@@ -13,6 +13,7 @@ CONTEXT_DATA_BOT_LANGUAGE_KEY = "bot_language"
 
 class BaseTelegramHandler:
     default_language_code = settings.LANGUAGE_CODE
+    policies: list = []
 
     async def get_chat_language(
         self, update: Update, context: ContextTypes.DEFAULT_TYPE
@@ -42,10 +43,18 @@ class BaseTelegramHandler:
 
     async def __call__(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         language_code = await self.get_chat_language(update, context)
-
         old_language_code = get_language()
+
         try:
+            # Activate language from language_code.
             activate(language_code)
+
+            # Check policies
+            for policy in self.policies:
+                allowed = await policy.check(self, update, context)
+                if not allowed:
+                    return
+
             return await self.handle(update, context)
         finally:
             activate(old_language_code)
