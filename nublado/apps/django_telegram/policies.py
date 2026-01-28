@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from functools import wraps
+# from functools import wraps
 
 from telegram import Update
-from telegram.ext import ContextTypes, ApplicationHandlerStop
+from telegram.ext import ContextTypes
 
-from django.utils.translation import activate, get_language, gettext as _
+from django.utils.translation import gettext as _
 from django.conf import settings
 
 from .utils import _is_group, _is_private, safe_reply
@@ -14,35 +14,6 @@ BOT_MESSAGES = {
     "bot_group_only": "bot.message.group_only",
     "bot_private_only": "bot.message.private_only"
 }
-
-
-def with_policies(*policies):
-    def decorator(callback):
-        @wraps(callback)
-        async def wrapped(update: Update, context: ContextTypes.DEFAULT_TYPE):
-            language_resolver = context.application.bot_data.get("language_resolver")
-            old_language = get_language() or settings.LANGUAGE_CODE
-
-            try:
-                # Activate language.
-                if language_resolver:
-                    language_code = await language_resolver(update, context)
-                    activate(language_code)
-
-                # Check policies.
-                for policy in policies:
-                    allowed = await policy.check(update, context)
-                    if not allowed:
-                        raise ApplicationHandlerStop
-
-                # Call original handler.
-                return await callback(update, context)
-
-            finally:
-                activate(old_language)
-
-        return wrapped
-    return decorator
 
 
 class HandlerPolicy(ABC):

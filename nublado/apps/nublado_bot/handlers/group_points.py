@@ -1,5 +1,7 @@
+import re
+
 from telegram import Update
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, filters
 
 from django.utils.translation import gettext as _
 
@@ -9,6 +11,7 @@ from django_telegram.models import (
     TelegramUser,
     TelegramGroupMember,
 )
+from django_telegram.filters import TEXT_ONLY
 from ..bot_messages import BOT_MESSAGES
 
 # singular
@@ -26,6 +29,12 @@ POINTS_MAP = {
     4: 4,
 }
 
+escaped_point_symbol = re.escape(POINT_SYMBOL)
+POINT_FILTER = (
+    TEXT_ONLY
+    & filters.ChatType.GROUPS
+    & filters.Regex(rf"^{escaped_point_symbol}{{{MIN_POINT_SYMBOLS},{MAX_POINT_SYMBOLS}}}")
+)
 
 async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
