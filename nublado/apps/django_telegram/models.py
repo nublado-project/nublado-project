@@ -36,7 +36,7 @@ class TelegramChat(TimestampModel):
     Model for a Telegram chat
     """
 
-    class TelegramChatType(models.TextChoices):
+    class ChatType(models.TextChoices):
         PRIVATE = ChatType.PRIVATE, _("private")
         GROUP = ChatType.GROUP, _("group")
         SUPERGROUP = ChatType.SUPERGROUP, _("supergroup")
@@ -45,7 +45,7 @@ class TelegramChat(TimestampModel):
     telegram_id = models.BigIntegerField(primary_key=True)
 
     # These fields are "snapshots" of their respective values derived from Telegram.
-    chat_type = models.CharField(max_length=20, choices=TelegramChatType)
+    chat_type = models.CharField(max_length=20, choices=ChatType)
     title = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, null=True, blank=True)
 
@@ -61,6 +61,9 @@ class TelegramGroupSettings(LanguageModel, TimestampModel):
         on_delete=models.CASCADE,
         related_name="settings",
     )
+
+    def __str__(self):
+        return f"Settings: {self.chat} (language={self.language})"
 
 
 class TelegramGroupMember(TimestampModel):
