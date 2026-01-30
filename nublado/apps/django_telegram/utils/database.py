@@ -15,8 +15,8 @@ async def resolve_chat_language(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> str:
 
-    if CONTEXT_LANGUAGE_KEY in context.chat_data:
-        return get_context_language(context)
+    # if CONTEXT_LANGUAGE_KEY in context.chat_data:
+    #     return get_context_language(context)
 
     tg_chat = update.effective_chat
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)

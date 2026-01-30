@@ -25,7 +25,11 @@ def with_language(callback):
 
         else:
             # Resolve the language.
-            await language_resolver(update, context)
+            try:
+                await language_resolver(update, context)
+            except Exception as e:
+                logger.exception("Error resolving chat language, using default")
+                set_context_language(context, settings.LANGUAGE_CODE)
 
         return await callback(update, context)
 
