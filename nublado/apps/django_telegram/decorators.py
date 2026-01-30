@@ -4,8 +4,9 @@ from functools import wraps
 from telegram import Update
 from telegram.ext import ApplicationHandlerStop, ContextTypes
 
-from django.utils.translation import activate, get_language
 from django.conf import settings
+
+from .utils.helpers import set_context_language
 
 logger = logging.getLogger("django")
 
@@ -20,12 +21,11 @@ def with_language(callback):
                 "language_resolver not found in application.bot_data. "
                 "Falling back to default language"
             )
-            activate(settings.LANGUAGE_CODE)
+            set_context_language(context, settings.LANGUAGE_CODE)
+
         else:
             # Resolve the language.
-            language_code = await language_resolver(update, context)
-            # Activate the resolved language for the duration of handler.
-            activate(language_code)
+            await language_resolver(update, context)
 
         return await callback(update, context)
 

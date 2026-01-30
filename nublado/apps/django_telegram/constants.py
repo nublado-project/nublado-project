@@ -1,0 +1,1 @@
+CONTEXT_LANGUAGE_KEY = "bot_language"

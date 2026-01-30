@@ -23,7 +23,7 @@ class NubladoBotConfig(AppConfig):
         from .handlers.misc import start, hello
         from .handlers.group_settings import set_bot_language
         from .handlers.group_points import give_points, POINT_FILTER
-        from django_telegram.utils import resolve_chat_language
+        from django_telegram.utils.database import resolve_chat_language
 
         app = create_app()
         app.bot_data["language_resolver"] = resolve_chat_language

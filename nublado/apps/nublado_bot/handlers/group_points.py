@@ -3,9 +3,9 @@ import re
 from telegram import Update
 from telegram.ext import ContextTypes, filters
 
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
-from django_telegram.utils import get_username_or_name, safe_reply
+from django_telegram.utils.helpers import get_username_or_name, safe_reply
 from django_telegram.models import (
     TelegramChat,
     TelegramUser,
@@ -69,14 +69,22 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Prevent giving points to self.
     if tg_sender_user.id == tg_receiver_user.id:
-        bot_message = _(BOT_MESSAGES["no_give_self"]).format(points_name=_(POINTS_NAME))
-        await safe_reply(update, bot_message)
+        await safe_reply(
+            update,
+            context,
+            BOT_MESSAGES["no_give_self"],
+            points_name=_(POINTS_NAME),
+        )
         return
 
     # Prevent giving points to bots.
     if tg_receiver_user.is_bot:
-        bot_message = _(BOT_MESSAGES["no_give_bot"]).format(points_name=_(POINTS_NAME))
-        await safe_reply(update, bot_message)
+        await safe_reply(
+            update,
+            context,
+            BOT_MESSAGES["no_give_bot"],
+            points_name=_(POINTS_NAME),
+        )
         return
 
     # Get the number of point symbols at the beginning of the message.
@@ -117,7 +125,10 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await receiver_member.asave()
 
     if num_points > 1:
-        bot_message = _(BOT_MESSAGES["give_points"]).format(
+        await safe_reply(
+            update,
+            context,
+            BOT_MESSAGES["give_points"],
             sender_name=get_username_or_name(tg_sender_user),
             sender_points=sender_member.points,
             num_points=num_points,
@@ -126,7 +137,10 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
             receiver_points=receiver_member.points,
         )
     else:
-        bot_message = _(BOT_MESSAGES["give_point"]).format(
+        await safe_reply(
+            update,
+            context,
+            BOT_MESSAGES["give_point"],
             sender_name=get_username_or_name(tg_sender_user),
             sender_points=sender_member.points,
             points_name=_(POINT_NAME),
@@ -134,4 +148,3 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
             receiver_points=receiver_member.points,
         )
 
-    await safe_reply(update, bot_message)

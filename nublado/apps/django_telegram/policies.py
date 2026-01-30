@@ -8,7 +8,7 @@ from telegram.ext import ContextTypes
 from django.utils.translation import gettext as _
 from django.conf import settings
 
-from .utils import _is_group, _is_private, safe_reply
+from .utils.helpers import _is_group, _is_private, safe_reply
 
 BOT_MESSAGES = {
     "bot_group_only": "bot.message.group_only",
