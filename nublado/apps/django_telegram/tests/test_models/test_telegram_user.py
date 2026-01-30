@@ -1,4 +1,4 @@
-import pytest 
+import pytest
 
 from django_telegram.models import TelegramUser
 
@@ -7,6 +7,7 @@ class TestTelegramUser:
     """
     Tests for the TelegramUser model.
     """
+
     pytestmark = pytest.mark.django_db
 
     def test_pk(self):
@@ -35,5 +36,7 @@ class TestTelegramUser:
         assert str(user_no_username) == "123"
 
         # The string value is username.
-        user_with_username = TelegramUser.objects.create(telegram_id=333, username="foo")
+        user_with_username = TelegramUser.objects.create(
+            telegram_id=333, username="foo"
+        )
         assert str(user_with_username) == "foo"

@@ -1,12 +1,13 @@
-import pytest 
+import pytest
 
-from django_telegram.models import TelegramChat 
+from django_telegram.models import TelegramChat
 
 
 class TestTelegramChat:
     """
     Tests for the TelegramChat model.
     """
+
     pytestmark = pytest.mark.django_db
 
     def test_pk(self):
@@ -14,7 +15,7 @@ class TestTelegramChat:
         telegram_id is the primary key
         """
         assert TelegramChat._meta.pk.name == "telegram_id"
-    
+
     @pytest.mark.parametrize(
         "chat_type",
         TelegramChat.ChatType.values,

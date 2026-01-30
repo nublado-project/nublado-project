@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 # from functools import wraps
 
 from telegram import Update
@@ -9,10 +10,9 @@ from django.conf import settings
 
 from .utils import _is_group, _is_private, safe_reply
 
-
 BOT_MESSAGES = {
     "bot_group_only": "bot.message.group_only",
-    "bot_private_only": "bot.message.private_only"
+    "bot_private_only": "bot.message.private_only",
 }
 
 
@@ -51,13 +51,15 @@ class GroupOnly(HandlerPolicy):
 
 class PrivateOnly(HandlerPolicy):
     async def check(
-        self, 
+        self,
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
     ) -> bool:
         tg_chat = update.effective_chat
         if not tg_chat or not _is_private(tg_chat):
-            return await self.reply_and_block(update, _(BOT_MESSAGES["bot_private_only"]))
+            return await self.reply_and_block(
+                update, _(BOT_MESSAGES["bot_private_only"])
+            )
         return True
 
 

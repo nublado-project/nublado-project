@@ -8,6 +8,7 @@ from .models import TelegramChat, TelegramGroupSettings
 
 LANGUAGE_KEY = "bot_language"
 
+
 # Helper functions
 def _is_group(tg_chat):
     return tg_chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
@@ -37,8 +38,7 @@ def normalize_language_code(language_code: str) -> str | None:
 
 
 async def resolve_chat_language(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE
+    update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> str:
 
     if LANGUAGE_KEY in context.chat_data:
@@ -47,9 +47,9 @@ async def resolve_chat_language(
     tg_chat = update.effective_chat
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
 
-    group_settings = await TelegramGroupSettings.objects.filter(
-        chat=chat
-    ).only("language").afirst()
+    group_settings = (
+        await TelegramGroupSettings.objects.filter(chat=chat).only("language").afirst()
+    )
 
     language_code = (
         group_settings.language
@@ -62,14 +62,16 @@ async def resolve_chat_language(
 
 
 async def set_chat_language(
-    update: Update, 
+    update: Update,
     context: ContextTypes.DEFAULT_TYPE,
     language_code: str,
 ) -> None:
     tg_chat = update.effective_chat
 
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
-    group_settings, created = await TelegramGroupSettings.objects.aget_or_create(chat=chat)
+    group_settings, created = await TelegramGroupSettings.objects.aget_or_create(
+        chat=chat
+    )
     group_settings.language = language_code
     await group_settings.asave()
 

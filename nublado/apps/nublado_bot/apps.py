@@ -36,25 +36,24 @@ class NubladoBotConfig(AppConfig):
                 with_policies(PrivateOnly())(start),
             )
         )
+
         app.add_handler(
             CommandHandler(
                 "hello",
-                # with_policies(GroupOnly())(hello),
-                with_language(with_policies(GroupOnly())(hello))
-
+                with_policies(GroupOnly())(with_language(hello)),
             )
         )
+
         app.add_handler(
             CommandHandler(
                 "set_bot_language",
-                # with_policies(GroupOnly())(set_bot_language),
-                with_language(with_policies(GroupOnly())(set_bot_language))
+                with_policies(GroupOnly())(with_language(set_bot_language)),
             )
         )
+
         app.add_handler(
             MessageHandler(
                 POINT_FILTER,
                 with_language(give_points),
             )
         )
- 

@@ -33,8 +33,11 @@ escaped_point_symbol = re.escape(POINT_SYMBOL)
 POINT_FILTER = (
     TEXT_ONLY
     & filters.ChatType.GROUPS
-    & filters.Regex(rf"^{escaped_point_symbol}{{{MIN_POINT_SYMBOLS},{MAX_POINT_SYMBOLS}}}")
+    & filters.Regex(
+        rf"^{escaped_point_symbol}{{{MIN_POINT_SYMBOLS},{MAX_POINT_SYMBOLS}}}"
+    )
 )
+
 
 async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
@@ -66,9 +69,7 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Prevent giving points to self.
     if tg_sender_user.id == tg_receiver_user.id:
-        bot_message = _(BOT_MESSAGES["no_give_self"]).format(
-            points_name=_(POINTS_NAME)
-        )
+        bot_message = _(BOT_MESSAGES["no_give_self"]).format(points_name=_(POINTS_NAME))
         await safe_reply(update, bot_message)
         return
 
@@ -104,9 +105,11 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user=sender_user,
         chat=chat,
     )
-    receiver_member, receiver_created = await TelegramGroupMember.objects.aget_or_create(
-        user=receiver_user,
-        chat=chat,
+    receiver_member, receiver_created = (
+        await TelegramGroupMember.objects.aget_or_create(
+            user=receiver_user,
+            chat=chat,
+        )
     )
 
     # Increment points

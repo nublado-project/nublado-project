@@ -11,6 +11,5 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await safe_reply(update, _(BOT_MESSAGES["bot_start"]))
 
 
-
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await safe_reply(update, _(BOT_MESSAGES["bot_hello"]))

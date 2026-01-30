@@ -1,4 +1,4 @@
-import pytest 
+import pytest
 
 from django.db import transaction, IntegrityError
 
@@ -7,6 +7,7 @@ from django_telegram.models import (
     TelegramChat,
     TelegramGroupMember,
 )
+
 
 @pytest.fixture
 def telegram_user():
@@ -29,6 +30,7 @@ class TestTelegramGroupMember:
     """
     Tests for the TelegramGroupMember model.
     """
+
     pytestmark = pytest.mark.django_db
 
     def test_create_member(self, telegram_user, telegram_chat):
@@ -38,7 +40,7 @@ class TestTelegramGroupMember:
         member = TelegramGroupMember.objects.create(
             user=telegram_user,
             chat=telegram_chat,
-            role=TelegramGroupMember.GroupRole.MEMBER
+            role=TelegramGroupMember.GroupRole.MEMBER,
         )
         assert member.user == telegram_user
         assert member.chat == telegram_chat
@@ -60,9 +62,7 @@ class TestTelegramGroupMember:
         The TelegramChatMember enum values can be saved and retrieved correctly.
         """
         member = TelegramGroupMember.objects.create(
-            user=telegram_user,
-            chat=telegram_chat,
-            role=role
+            user=telegram_user, chat=telegram_chat, role=role
         )
         assert member.role == role
 
@@ -73,7 +73,7 @@ class TestTelegramGroupMember:
         TelegramGroupMember.objects.create(
             user=telegram_user,
             chat=telegram_chat,
-            role=TelegramGroupMember.GroupRole.MEMBER
+            role=TelegramGroupMember.GroupRole.MEMBER,
         )
         # Attempt to create another group member with the same
         # user and chat
@@ -94,6 +94,6 @@ class TestTelegramGroupMember:
         member = TelegramGroupMember.objects.create(
             user=telegram_user,
             chat=telegram_chat,
-            role=TelegramGroupMember.GroupRole.ADMIN
+            role=TelegramGroupMember.GroupRole.ADMIN,
         )
         assert str(member) == f"{member.user} in {member.chat} ({member.role})"

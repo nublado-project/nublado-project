@@ -5,6 +5,7 @@ from django.conf import settings as django_settings
 
 from django_telegram.models import TelegramChat, TelegramGroupSettings
 
+
 @pytest.fixture
 def telegram_chat():
     return TelegramChat.objects.create(
@@ -18,6 +19,7 @@ class TestTelegramGroupSettings:
     """
     Tests for the TelegramGroupSettings model.
     """
+
     pytestmark = pytest.mark.django_db
 
     def test_create_group_settings(self, telegram_chat):
@@ -55,5 +57,7 @@ class TestTelegramGroupSettings:
         __str__ returns f"Settings: {chat} (language={language})"
         """
         group_settings = TelegramGroupSettings.objects.create(chat=telegram_chat)
-        assert str(group_settings) == f"Settings: {group_settings.chat} (language={group_settings.language})"
-
+        assert (
+            str(group_settings)
+            == f"Settings: {group_settings.chat} (language={group_settings.language})"
+        )
