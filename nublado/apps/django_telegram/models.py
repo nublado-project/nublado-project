@@ -52,7 +52,7 @@ class TelegramChat(TimestampModel):
     objects = TelegramChatManager()
 
     def __str__(self):
-        return f"{self.chat_type}:{self.telegram_id}"
+        return f"{self.telegram_id}: {self.title}: {self.chat_type}"
 
 
 class TelegramGroupSettings(LanguageModel, TimestampModel):
