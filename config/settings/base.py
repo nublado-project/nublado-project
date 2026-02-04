@@ -42,7 +42,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 LOCAL_APPS = [
-    "core.apps.CoreConfig",
+    "django_nublado_core",
     "users.apps.UserConfig",
     "django_telegram.apps.DjangoTelegramConfig",
     "nublado_bot.apps.NubladoBotConfig",
@@ -161,7 +161,6 @@ LOGGING = {
         },
         "console": {
             "level": "INFO",
-            # 'filters': ['require_debug_true'],
             "class": "logging.StreamHandler",
             "formatter": "simple",
         },
@@ -169,14 +168,11 @@ LOGGING = {
     # Loggers
     "loggers": {
         "django": {
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": True,
         },
-        "django-debug": {
-            "handlers": ["file"],
-            "level": "DEBUG",
-            "propagate": True,
-        },
+
     },
 }
 

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from core.models import TimestampModel, UUIDModel
+from django_nublado_core.models import TimestampModel, UUIDModel
 from .managers import UserManager
 
 
