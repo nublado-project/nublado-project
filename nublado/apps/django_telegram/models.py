@@ -27,8 +27,7 @@ class TelegramUser(TimestampModel):
     objects = TelegramUserManager()
 
     def __str__(self):
-        # In case username doesn't exist, just return the id.
-        return self.username or str(self.telegram_id)
+        return self.username or self.first_name or str(self.telegram_id)
 
 
 class TelegramChat(TimestampModel):
@@ -103,7 +102,9 @@ class TelegramGroupMember(TimestampModel):
     objects = TelegramGroupMemberManager()
 
     class Meta:
-        unique_together = ("user", "chat")
+        constraints = [
+            models.UniqueConstraint(fields=["user", "chat"], name="unique_group_membership")
+        ]
         indexes = [
             models.Index(fields=["chat", "-points"]),
         ]

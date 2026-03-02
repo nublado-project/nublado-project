@@ -6,23 +6,29 @@ from ..constants import CONTEXT_LANGUAGE_KEY
 from .helpers import get_context_language, set_context_language
 
 
-"""
-Helpers that can touch the database. I put them here to avoid AppRegristry errors.
-"""
+# Helpers that can touch the database. I put them here to avoid AppRegristry errors.
 
 
-async def resolve_chat_language(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> str:
+async def resolve_chat_language(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
+    """
+    Resolve language once per chat lifecycle.
+    chat_data is authoritative during runtime.
+    DB is used only for initial bootstrapping.
+    """
 
-    # if CONTEXT_LANGUAGE_KEY in context.chat_data:
-    #     return get_context_language(context)
+    # TODO: Check on this. There have been some issues.
+    if CONTEXT_LANGUAGE_KEY in context.chat_data:
+        return get_context_language(context)
 
     tg_chat = update.effective_chat
+
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
 
     group_settings = (
-        await TelegramGroupSettings.objects.filter(chat=chat).only("language").afirst()
+        await TelegramGroupSettings.objects
+        .filter(chat=chat)
+        .only("language")
+        .afirst()
     )
 
     language_code = (

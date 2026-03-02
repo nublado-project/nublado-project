@@ -17,11 +17,11 @@ BOT_MESSAGES = {
 
 
 class HandlerPolicy(ABC):
-    async def reply(self, update: Update, message: str):
-        await safe_reply(update, message)
+    async def _reply(self, update: Update, context: ContextTypes.DEFAULT_TYPE, message: str):
+        await safe_reply(update, context, message)
 
-    async def reply_and_block(self, update: Update, message: str) -> bool:
-        await self.reply(update, message)
+    async def _reply_and_block(self, update: Update, context: ContextTypes.DEFAULT_TYPE,  message: str) -> bool:
+        await self._reply(update, context, message)
         return False
 
     @abstractmethod
@@ -45,7 +45,7 @@ class GroupOnly(HandlerPolicy):
     ) -> bool:
         tg_chat = update.effective_chat
         if not tg_chat or not _is_group(tg_chat):
-            return await self.reply_and_block(update, _(BOT_MESSAGES["bot_group_only"]))
+            return await self._reply_and_block(update, context, _(BOT_MESSAGES["bot_group_only"]))
         return True
 
 
@@ -57,8 +57,8 @@ class PrivateOnly(HandlerPolicy):
     ) -> bool:
         tg_chat = update.effective_chat
         if not tg_chat or not _is_private(tg_chat):
-            return await self.reply_and_block(
-                update, _(BOT_MESSAGES["bot_private_only"])
+            return await self._reply_and_block(
+                update, context, _(BOT_MESSAGES["bot_private_only"])
             )
         return True
 
