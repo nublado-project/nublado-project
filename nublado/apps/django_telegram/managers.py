@@ -21,7 +21,7 @@ class TelegramUserManagerBase(models.Manager):
         """
         Get or create a TelegramUser object from telegram.User.
         """
-        user, _ = await self.aget_or_create(
+        user, created = await self.aget_or_create(
             telegram_id=tg_user.id,
             defaults={
                 "username": tg_user.username,
@@ -54,7 +54,7 @@ class TelegramChatManagerBase(models.Manager):
         Get or create a TelegramChat object from telegram.Chat.
         """
 
-        chat, _ = await self.aget_or_create(
+        chat, created = await self.aget_or_create(
             telegram_id=tg_chat.id,
             defaults={
                 "chat_type": tg_chat.type,

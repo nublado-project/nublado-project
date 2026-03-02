@@ -33,6 +33,7 @@ escaped_point_symbol = re.escape(POINT_SYMBOL)
 POINT_FILTER = (
     TEXT_ONLY
     & filters.ChatType.GROUPS
+    & filters.UpdateType.MESSAGE
     & filters.Regex(
         rf"^{escaped_point_symbol}{{{MIN_POINT_SYMBOLS},{MAX_POINT_SYMBOLS}}}"
     )
