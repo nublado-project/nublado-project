@@ -10,7 +10,8 @@ from .utils.database import resolve_chat_language
 class LanguageHandler(BaseHandler):
     """
     Middleware-style handler that ensures language is resolved
-    before any other handler executes.
+    before any other handler executes. To ensure the proper flow, assign this handler
+    first with group=MIDDLEWARE from constants.
     """
 
     def __init__(self):

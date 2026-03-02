@@ -31,7 +31,9 @@ def get_context_language(context: ContextTypes.DEFAULT_TYPE) -> str:
     return context.chat_data.get(CONTEXT_LANGUAGE_KEY, settings.LANGUAGE_CODE)
 
 
-def set_context_language(context: ContextTypes.DEFAULT_TYPE, language_code: str) -> None:
+def set_context_language(
+    context: ContextTypes.DEFAULT_TYPE, language_code: str
+) -> None:
     context.chat_data[CONTEXT_LANGUAGE_KEY] = language_code
 
 
@@ -44,7 +46,9 @@ def normalize_language_code(language_code: str) -> str | None:
     return language_code if validate_language_code(language_code) else None
 
 
-async def safe_reply(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, **kwargs):
+async def safe_reply(
+    update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, **kwargs
+):
     """
     Safely reply to a message using the chat's current language.
     Accepts lazy strings.

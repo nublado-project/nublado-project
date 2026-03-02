@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-
-# from functools import wraps
+from functools import wraps
 
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -17,10 +16,14 @@ BOT_MESSAGES = {
 
 
 class HandlerPolicy(ABC):
-    async def _reply(self, update: Update, context: ContextTypes.DEFAULT_TYPE, message: str):
+    async def _reply(
+        self, update: Update, context: ContextTypes.DEFAULT_TYPE, message: str
+    ):
         await safe_reply(update, context, message)
 
-    async def _reply_and_block(self, update: Update, context: ContextTypes.DEFAULT_TYPE,  message: str) -> bool:
+    async def _reply_and_block(
+        self, update: Update, context: ContextTypes.DEFAULT_TYPE, message: str
+    ) -> bool:
         await self._reply(update, context, message)
         return False
 
@@ -45,7 +48,9 @@ class GroupOnly(HandlerPolicy):
     ) -> bool:
         tg_chat = update.effective_chat
         if not tg_chat or not _is_group(tg_chat):
-            return await self._reply_and_block(update, context, _(BOT_MESSAGES["bot_group_only"]))
+            return await self._reply_and_block(
+                update, context, _(BOT_MESSAGES["bot_group_only"])
+            )
         return True
 
 
@@ -61,6 +66,25 @@ class PrivateOnly(HandlerPolicy):
                 update, context, _(BOT_MESSAGES["bot_private_only"])
             )
         return True
+
+
+def with_policies(*policies):
+    def decorator(callback):
+        @wraps(callback)
+        async def wrapped(update: Update, context: ContextTypes.DEFAULT_TYPE):
+            # Check policies.
+            for policy in policies:
+                allowed = await policy.check(update, context)
+                if not allowed:
+                    # Stop further handlers from processing.
+                    raise ApplicationHandlerStop
+
+            # Call original handler.
+            return await callback(update, context)
+
+        return wrapped
+
+    return decorator
 
 
 # To do: Convert these into policies.

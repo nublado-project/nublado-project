@@ -1,140 +1,68 @@
 import re
-
 from telegram import Update
-from telegram.ext import ContextTypes, filters
+from telegram.ext import ContextTypes, MessageHandler, filters
 
 from django.utils.translation import gettext_lazy as _
 
+from group_points.point_engine import PointsEngine
+from group_points.services import transfer_points
+from group_points.constants import PointTransferError
+
 from django_telegram.utils.helpers import get_username_or_name, safe_reply
-from django_telegram.models import (
-    TelegramChat,
-    TelegramUser,
-    TelegramGroupMember,
-)
-from django_telegram.filters import TEXT_ONLY
+from ..constants import POINT_SYMBOL, DEFAULT_POINTS_MAP, POINT_NAME, POINTS_NAME
 from ..bot_messages import BOT_MESSAGES
 
-# singular
-POINT_NAME = "bot.nublado.point_name"
-# plural
-POINTS_NAME = "bot.nublado.points_name"
-POINT_SYMBOL = "+"
-MIN_POINT_SYMBOLS = 2
-MAX_POINT_SYMBOLS = 3
-
-# Map number of point symbols to respective number of points.
-POINTS_MAP = {
-    2: 1,
-    3: 2,
-    4: 4,
-}
-
+# Filter for group text messages starting with point symbols
 escaped_point_symbol = re.escape(POINT_SYMBOL)
 POINT_FILTER = (
-    TEXT_ONLY
+    filters.TEXT
+    & ~filters.COMMAND
     & filters.ChatType.GROUPS
     & filters.UpdateType.MESSAGE
-    & filters.Regex(
-        rf"^{escaped_point_symbol}{{{MIN_POINT_SYMBOLS},{MAX_POINT_SYMBOLS}}}"
-    )
+    & filters.Regex(rf"^{escaped_point_symbol}+")
 )
 
-
 async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    Give points to another group member by replying to his or her message
-    with a message prefixed by a specified symbol(s) (e.g., ++).
-
-    ++ Thanks for the correction!
-    """
-
-    # Variables prefixed with tg are from Telegram.
     tg_message = update.effective_message
     tg_chat = update.effective_chat
+    tg_sender = update.effective_user
 
-    # The user sending the point(s).
-    tg_sender_user = update.effective_user
-
-    # The message must be a reply.
     if not tg_message or not tg_message.reply_to_message:
         return
 
-    # The user receiving the point(s).
-    tg_receiver_user = tg_message.reply_to_message.from_user
+    tg_receiver = tg_message.reply_to_message.from_user
 
-    # Text must start with the minimun number of point symbols.
-    raw_text = tg_message.text or ""
-    text = raw_text.strip()
-    if not text.startswith(POINT_SYMBOL * MIN_POINT_SYMBOLS):
+    # Initialize engine per bot config
+    points_engine = PointsEngine(point_symbol=POINT_SYMBOL, points_map=DEFAULT_POINTS_MAP)
+
+    # Validate transfer
+    error = points_engine.validate_point_transfer(tg_sender, tg_receiver)
+    if error == PointTransferError.SELF:
+        await safe_reply(update, context, BOT_MESSAGES["no_give_self"], points_name=_(POINTS_NAME))
+        return
+    if error == PointTransferError.BOT:
+        await safe_reply(update, context, BOT_MESSAGES["no_give_bot"], points_name=_(POINTS_NAME))
         return
 
-    # Prevent giving points to self.
-    if tg_sender_user.id == tg_receiver_user.id:
-        await safe_reply(
-            update,
-            context,
-            BOT_MESSAGES["no_give_self"],
-            points_name=_(POINTS_NAME),
-        )
+    # Extract number of points
+    num_points = points_engine.extract_points(tg_message.text)
+    if not num_points:
         return
 
-    # Prevent giving points to bots.
-    if tg_receiver_user.is_bot:
-        await safe_reply(
-            update,
-            context,
-            BOT_MESSAGES["no_give_bot"],
-            points_name=_(POINTS_NAME),
-        )
-        return
+    # Persist points
+    sender_member, receiver_member = await transfer_points(tg_chat, tg_sender, tg_receiver, num_points)
 
-    # Get the number of point symbols at the beginning of the message.
-    point_symbol_count = len(text) - len(text.lstrip(POINT_SYMBOL))
-    if point_symbol_count not in POINTS_MAP:
-        return
-
-    # The number of points for the respective number of point symbols.
-    num_points = POINTS_MAP[point_symbol_count]
-
-    # Database
-
-    # TelegramChat
-    chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
-
-    # TelegramUser
-    sender_user = await TelegramUser.objects.aget_or_create_from_telegram_user(
-        tg_sender_user
-    )
-    receiver_user = await TelegramUser.objects.aget_or_create_from_telegram_user(
-        tg_receiver_user
-    )
-
-    # TelegramGroupMember
-    sender_member, sender_created = await TelegramGroupMember.objects.aget_or_create(
-        user=sender_user,
-        chat=chat,
-    )
-    receiver_member, receiver_created = (
-        await TelegramGroupMember.objects.aget_or_create(
-            user=receiver_user,
-            chat=chat,
-        )
-    )
-
-    # Increment points
-    receiver_member.points += num_points
-    await receiver_member.asave()
-
+    # Reply with bot-specific message
     if num_points > 1:
         await safe_reply(
             update,
             context,
             BOT_MESSAGES["give_points"],
-            sender_name=get_username_or_name(tg_sender_user),
+            sender_name=get_username_or_name(tg_sender),
             sender_points=sender_member.points,
             num_points=num_points,
             points_name=_(POINTS_NAME),
-            receiver_name=get_username_or_name(tg_receiver_user),
+            receiver_name=get_username_or_name(tg_receiver),
             receiver_points=receiver_member.points,
         )
     else:
@@ -142,10 +70,9 @@ async def give_points(update: Update, context: ContextTypes.DEFAULT_TYPE):
             update,
             context,
             BOT_MESSAGES["give_point"],
-            sender_name=get_username_or_name(tg_sender_user),
+            sender_name=get_username_or_name(tg_sender),
             sender_points=sender_member.points,
             points_name=_(POINT_NAME),
-            receiver_name=get_username_or_name(tg_receiver_user),
+            receiver_name=get_username_or_name(tg_receiver),
             receiver_points=receiver_member.points,
         )
-

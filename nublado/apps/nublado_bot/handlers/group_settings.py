@@ -36,7 +36,7 @@ async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     current_language = get_context_language(context)
- 
+
     if language_code == current_language:
         bot_message = BOT_MESSAGES["bot_language_already_active"].format(
             language=_(settings.LANGUAGES_DICT[language_code])
@@ -52,7 +52,5 @@ async def set_bot_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
         update,
         context,
         BOT_MESSAGES["bot_language_set"],
-        language=_(settings.LANGUAGES_DICT[language_code])
+        language=_(settings.LANGUAGES_DICT[language_code]),
     )
-
-

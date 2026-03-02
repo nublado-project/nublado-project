@@ -7,7 +7,6 @@ from django.conf import settings
 
 from django_telegram.bot_registry import registry
 from django_telegram.filters import TEXT_ONLY
-from django_telegram.decorators import with_policies
 
 from .bot import create_app
 
@@ -19,10 +18,10 @@ class NubladoBotConfig(AppConfig):
     name = "nublado_bot"
 
     def ready(self):
-        from django_telegram.policies import GroupOnly, PrivateOnly
+        from django_telegram.policies import GroupOnly, PrivateOnly, with_policies
+        from .handlers.group_points import give_points, POINT_FILTER
         from .handlers.misc import start, hello
         from .handlers.group_settings import set_bot_language
-        from .handlers.group_points import give_points, POINT_FILTER
         from django_telegram.utils.database import resolve_chat_language
         from django_telegram.handlers import LanguageHandler
         from django_telegram.constants import MIDDLEWARE_GROUP, HANDLER_GROUP
@@ -39,9 +38,8 @@ class NubladoBotConfig(AppConfig):
             CommandHandler(
                 "start",
                 with_policies(PrivateOnly())(start),
-
             ),
-            group=HANDLER_GROUP
+            group=HANDLER_GROUP,
         )
 
         app.add_handler(
@@ -49,7 +47,7 @@ class NubladoBotConfig(AppConfig):
                 "hello",
                 with_policies(GroupOnly())(hello),
             ),
-            group=HANDLER_GROUP
+            group=HANDLER_GROUP,
         )
 
         app.add_handler(
@@ -57,14 +55,15 @@ class NubladoBotConfig(AppConfig):
                 "set_bot_language",
                 with_policies(GroupOnly())(set_bot_language),
             ),
-            group=HANDLER_GROUP
+            group=HANDLER_GROUP,
         )
 
         # Message handlers.
+        group_give_points = with_policies(GroupOnly())(give_points)
         app.add_handler(
             MessageHandler(
                 POINT_FILTER,
-                give_points,
+                group_give_points,
             ),
-            group=HANDLER_GROUP
+            group=HANDLER_GROUP,
         )

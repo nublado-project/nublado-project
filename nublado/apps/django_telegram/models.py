@@ -103,7 +103,9 @@ class TelegramGroupMember(TimestampModel):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["user", "chat"], name="unique_group_membership")
+            models.UniqueConstraint(
+                fields=["user", "chat"], name="unique_group_membership"
+            )
         ]
         indexes = [
             models.Index(fields=["chat", "-points"]),

@@ -30,21 +30,3 @@ logger = logging.getLogger("django")
 
 #     return wrapped
 
-
-def with_policies(*policies):
-    def decorator(callback):
-        @wraps(callback)
-        async def wrapped(update: Update, context: ContextTypes.DEFAULT_TYPE):
-            # Check policies.
-            for policy in policies:
-                allowed = await policy.check(update, context)
-                if not allowed:
-                    # Stop further handlers from processing.
-                    raise ApplicationHandlerStop
-
-            # Call original handler.
-            return await callback(update, context)
-
-        return wrapped
-
-    return decorator

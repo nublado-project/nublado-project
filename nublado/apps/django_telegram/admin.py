@@ -33,9 +33,7 @@ class TelegramChatAdmin(admin.ModelAdmin):
         "username",
     )
 
-    ordering = (
-        "-date_created",
-    )
+    ordering = ("-date_created",)
 
 
 @admin.register(TelegramUser)
@@ -64,9 +62,7 @@ class TelegramUserAdmin(admin.ModelAdmin):
         "date_updated",
     )
 
-    list_filter = (
-        "is_bot",
-    )
+    list_filter = ("is_bot",)
 
 
 @admin.register(TelegramGroupSettings)
@@ -93,9 +89,7 @@ class TelegramGroupMemberAdmin(admin.ModelAdmin):
         "date_created",
     )
 
-    list_filter = (
-        "chat",
-    )
+    list_filter = ("chat",)
 
     search_fields = (
         "chat__title",
@@ -104,5 +98,3 @@ class TelegramGroupMemberAdmin(admin.ModelAdmin):
     )
 
     ordering = ("-points",)
-
-

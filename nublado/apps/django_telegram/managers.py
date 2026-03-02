@@ -86,7 +86,7 @@ class TelegramChatManagerBase(models.Manager):
             },
         )
         if not created:
-            # Update snapshot fields in db. 
+            # Update snapshot fields in db.
             updated_fields = []
 
             if chat.chat_type != tg_chat.type:
