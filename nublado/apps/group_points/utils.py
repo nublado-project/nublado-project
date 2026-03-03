@@ -1,4 +1,3 @@
-
 def extract_points(text: str, point_symbol: str, points_map: dict):
     if not text:
         return None

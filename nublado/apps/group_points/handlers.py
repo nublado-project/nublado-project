@@ -10,8 +10,8 @@ def make_give_points_handler(
     *,
     point_symbol: str,
     points_map: dict,
-    on_success=None,   # async callback(update, context, result)
-    on_error=None,     # async callback(update, context, error)
+    on_success=None,  # async callback(update, context, result)
+    on_error=None,  # async callback(update, context, error)
 ):
     """
     Factory that returns: (POINT_FILTER, give_points_handler)

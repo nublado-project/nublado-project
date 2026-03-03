@@ -5,7 +5,6 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from django.utils.translation import gettext as _
-from django.conf import settings
 
 from .utils.helpers import _is_group, _is_private, safe_reply
 

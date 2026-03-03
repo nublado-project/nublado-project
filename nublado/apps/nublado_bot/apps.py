@@ -6,7 +6,6 @@ from django.apps import AppConfig
 from django.conf import settings
 
 from django_telegram.bot_registry import registry
-from django_telegram.filters import TEXT_ONLY
 
 from .bot import create_app
 

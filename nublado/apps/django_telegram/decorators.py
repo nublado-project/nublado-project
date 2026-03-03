@@ -1,12 +1,4 @@
 import logging
-from functools import wraps
-
-from telegram import Update
-from telegram.ext import ApplicationHandlerStop, ContextTypes
-
-from django.conf import settings
-
-from .utils.helpers import set_context_language
 
 logger = logging.getLogger("django")
 
@@ -29,4 +21,3 @@ logger = logging.getLogger("django")
 #         return await callback(update, context)
 
 #     return wrapped
-

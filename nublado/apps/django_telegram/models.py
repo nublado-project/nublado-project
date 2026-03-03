@@ -2,7 +2,6 @@ from telegram.constants import ChatType, ChatMemberStatus
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.conf import settings
 
 from django_nublado_core.models import TimestampModel, LanguageModel
 from .managers import (

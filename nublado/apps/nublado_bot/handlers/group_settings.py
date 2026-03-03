@@ -4,7 +4,6 @@ from telegram.ext import ContextTypes
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-from django_telegram.policies import GroupOnly
 from django_telegram.utils.database import set_chat_language
 from django_telegram.utils.helpers import (
     get_context_language,

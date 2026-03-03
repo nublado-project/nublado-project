@@ -1,15 +1,12 @@
 from telegram import User, Chat
 
 from django.db import models
-from django.apps import apps
 
 
 class TelegramUserQuerySet(models.QuerySet):
     """
     QuerySet for TelegramUserManager
     """
-
-    pass
 
 
 class TelegramUserManagerBase(models.Manager):
@@ -64,8 +61,6 @@ class TelegramChatQuerySet(models.QuerySet):
     QuerySet for TelegramChatManager
     """
 
-    pass
-
 
 class TelegramChatManagerBase(models.Manager):
     """
@@ -113,8 +108,6 @@ class TelegramGroupMemberQuerySet(models.QuerySet):
     """
     QuerySet for TelegramGroupMemberManager
     """
-
-    pass
 
 
 class TelegramGroupMemberManagerBase(models.Manager):

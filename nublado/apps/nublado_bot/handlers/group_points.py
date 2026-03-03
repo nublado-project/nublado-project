@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import ContextTypes, MessageHandler
+from telegram.ext import ContextTypes
 
 from django.utils.translation import gettext_lazy as _
 
@@ -24,7 +24,7 @@ POINT_NAME = "bot.nublado.point_name"
 POINTS_NAME = "bot.nublado.points_name"
 
 
-async def on_success(update: Update, context:ContextTypes.DEFAULT_TYPE, result):
+async def on_success(update: Update, context: ContextTypes.DEFAULT_TYPE, result):
     tg_sender = result["tg_sender"]
     sender_member = result["sender_member"]
     tg_receiver = result["tg_receiver"]
@@ -61,9 +61,13 @@ async def on_success(update: Update, context:ContextTypes.DEFAULT_TYPE, result):
 
 async def on_error(update, context, error):
     if error == PointTransferError.SELF:
-        await safe_reply(update, context, BOT_MESSAGES["no_give_self"], points_name=_(POINTS_NAME))
+        await safe_reply(
+            update, context, BOT_MESSAGES["no_give_self"], points_name=_(POINTS_NAME)
+        )
     elif error == PointTransferError.BOT:
-        await safe_reply(update, context, BOT_MESSAGES["no_give_bot"], points_name=_(POINTS_NAME))
+        await safe_reply(
+            update, context, BOT_MESSAGES["no_give_bot"], points_name=_(POINTS_NAME)
+        )
 
 
 POINT_FILTER, give_points = make_give_points_handler(

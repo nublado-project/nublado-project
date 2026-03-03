@@ -1,6 +1,5 @@
 import os
 import sys
-import datetime as dt
 from pathlib import Path
 
 from django.utils.translation import gettext_noop as _
@@ -173,7 +172,6 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": True,
         },
-
     },
 }
 
