@@ -1,8 +1,9 @@
 import re
 from telegram import Update
 from telegram.ext import ContextTypes, filters
-from .point_engine import PointEngine
 from .services import transfer_points
+from .utils import extract_points
+from .validators import validate_point_transfer
 
 
 def make_give_points_handler(
@@ -47,14 +48,8 @@ def make_give_points_handler(
         # The user reeiving the points.
         tg_receiver = tg_message.reply_to_message.from_user
 
-        # Initialize engine with injected configuration
-        engine = PointEngine(
-            point_symbol=point_symbol,
-            points_map=points_map,
-        )
-
         # Validate point transfer.
-        error = engine.validate_point_transfer(tg_sender, tg_receiver)
+        error = validate_point_transfer(tg_sender, tg_receiver)
 
         if error:
             # Core does NOT decide what to say.
@@ -62,7 +57,7 @@ def make_give_points_handler(
                 await on_error(update, context, error)
             return
 
-        num_points = engine.extract_points(tg_message.text)
+        num_points = extract_points(tg_message.text, point_symbol, points_map)
 
         # If symbol count doesn't map to valid value, do nothing.
         if not num_points:
