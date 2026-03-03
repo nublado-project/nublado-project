@@ -32,26 +32,23 @@ SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = []
 
 # Installed apps
-DJANGO_APPS = [
+INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
-LOCAL_APPS = [
+
     "django_nublado_core",
     "users.apps.UserConfig",
     "django_telegram.apps.DjangoTelegramConfig",
     "group_points.apps.GroupPointsConfig",
     "nublado_bot.apps.NubladoBotConfig",
     "project_app.apps.ProjectAppConfig",
-]
-THIRD_PARTY_APPS = [
+
     "import_export",
 ]
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 AUTH_USER_MODEL = "users.User"
 
@@ -174,26 +171,6 @@ LOGGING = {
         },
     },
 }
-
-MON, TUE, WED, THU, FRI, SAT, SUN = range(7)
-WEEKDAYS = [
-    _("common.monday"),
-    _("common.tuesday"),
-    _("common.wednesday"),
-    _("common.thursday"),
-    _("common.friday"),
-    _("common.saturday"),
-    _("sommon.sunday"),
-]
-WEEKDAYS_ABBR = [
-    _("common.abbr.monday"),
-    _("common.abbr.tuesday"),
-    _("common.abbr.wednesday"),
-    _("common.abbr.thursday"),
-    _("common.abbr.friday"),
-    _("common.abbr.saturday"),
-    _("common.abbr.sunday"),
-]
 
 # Telegram bot stuff
 BOT_MODE_WEBHOOK = "webhook"
