@@ -4,7 +4,7 @@ from django_telegram.models import TelegramChat, TelegramUser, TelegramGroupMemb
 async def transfer_points(tg_chat, tg_sender, tg_receiver, num_points):
     """
     Persist points transfer in the database.
-    Returns sender_member, receiver_member ORM objects.
+    Returns sender_member, receiver_member group member objects from the ORM.
     """
     # TelegramChat ORM
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)

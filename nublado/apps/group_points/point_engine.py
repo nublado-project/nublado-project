@@ -1,7 +1,7 @@
 from .constants import DEFAULT_POINTS_MAP, PointTransferError
 
 
-class PointsEngine:
+class PointEngine:
     """
     A simple engine to parse point symbols, validate point transfers,
     and compute point values.
