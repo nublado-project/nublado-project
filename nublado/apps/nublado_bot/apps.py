@@ -25,6 +25,8 @@ class NubladoBotConfig(AppConfig):
         from django_telegram.handlers import LanguageHandler
         from django_telegram.constants import MIDDLEWARE_GROUP, HANDLER_GROUP
 
+        from reading_portal.handlers import bind_reading
+
         app = create_app()
         app.bot_data["language_resolver"] = resolve_chat_language
         registry.register(BOT_NAME, app)
@@ -53,6 +55,15 @@ class NubladoBotConfig(AppConfig):
             CommandHandler(
                 "set_bot_language",
                 with_policies(GroupOnly())(set_bot_language),
+            ),
+            group=HANDLER_GROUP,
+        )
+
+        # Reading Portal
+        app.add_handler(
+            CommandHandler(
+                "bind_reading",
+                with_policies(GroupOnly())(bind_reading),
             ),
             group=HANDLER_GROUP,
         )

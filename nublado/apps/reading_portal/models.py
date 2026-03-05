@@ -1,48 +1,66 @@
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from django_nublado_core.models import TimestampModel, ValidatedSaveModel, LanguageModel
-from django_telegram import TelegramUser, TelegramChat, TelegramGroupMember
+from django_telegram.models import TelegramChat, TelegramGroupMember
+
+from .managers import ReadingPortalManager
 
 
-class ReadingPortal(TimestampModel, ValidatedSaveModel):
+class ReadingPortal(TimestampModel):
     """
-    Represents a single Reading Portal session.
-
-    A Reading Portal session has:
-      - An English and Spanish text.
-      - Scheduling capabilities with opening and closing timestamps.
-      - A portal status to check its current state (e.g., open, closed, scheduled).
+    A Reading Portal session.
     """
+
+    REQUIRED_LANGUAGES = {"en", "es"}
 
     class PortalStatus(models.TextChoices):
+        DRAFT = "draft", _("Draft")
         SCHEDULED = "scheduled", _("Scheduled")
         OPEN = "open", _("Open")
         CLOSED = "closed", _("Closed")
 
+    chat = models.ForeignKey(
+        TelegramChat, on_delete=models.CASCADE, related_name="reading_portals"
+    )
     title = models.CharField(max_length=200)
-
-    # Reading texts,
-    text_en = models.TextField()
-    text_es = models.TextField()
-
-    # Lifecycle.
-    opens_at = models.DateTimeField()
-    closes_at = models.DateTimeField()
+    description = models.TextField(
+        blank=True,
+        help_text="Optional description shown in the portal intro message."
+    )
+    pinned_message_id = models.BigIntegerField(
+        null=True,
+        blank=True,
+        help_text="Telegram message id of the pinned portal intro message."
+    )
     portal_status = models.CharField(
         max_length=20,
         choices=PortalStatus,
-        default=PortalStatus.SCHEDULED,
+        default=PortalStatus.DRAFT,
     )
-    chat = models.ForeignKey(
-        TelegramChat,
-        on_delete=models.CASCADE,
-        related_name="reading_portals"
+    max_mistakes = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        help_text="Maximum number of corrections per submission."
     )
 
+    # Lifecycle.
+    opens_at = models.DateTimeField(null=True, blank=True)
+    closes_at = models.DateTimeField(null=True, blank=True)
+
+    objects = ReadingPortalManager()
+
     class Meta:
-        ordering = ["-opens_at"]
+        ordering = ["-date_created"]
+
+        models.UniqueConstraint(
+            fields=["chat"],
+            condition=Q(portal_status="open"),
+            name="only_one_open_portal_per_chat"
+        )
 
     def __str__(self):
         return f"Reading Portal: {self.title}"
@@ -50,125 +68,95 @@ class ReadingPortal(TimestampModel, ValidatedSaveModel):
     def clean(self):
         # Only one Reading Portal session may be open at a time.
         if self.portal_status == self.PortalStatus.OPEN:
-            existing_open = ReadingSession.objects.filter(status=self.PortalStatus.OPEN)
-
+            existing_open = ReadingPortal.objects.filter(
+                chat=self.chat, portal_status=self.PortalStatus.OPEN
+            )
             if self.pk:
                 existing_open = existing_open.exclude(pk=self.pk)
 
             if existing_open.exists():
                 # TODO: Redirect user to the curreently opened Reading Portal.
-                raise ValidationError(
-                    "There is already an open Reading Portal."
-                )
+                raise ValidationError("There is already an open Reading Portal.")
 
         # The opens_at timestamp must be before the closes_at timestamp.
-        if self.opens_at >= self.closes_at:
-            raise ValidationError(
-                "opens_at must be earlier than closes_at."
-            )
+        if self.opens_at and self.closes_at:
+            if self.opens_at >= self.closes_at:
+                raise ValidationError("opens_at must be earlier than closes_at.")
 
     @property
     def is_open(self):
         now = timezone.now()
-        return self.opens_at <= now <= self.closes_at
 
-    @classmethod
-    def get_current_portal(cls, portal_id=None):
-        """
-        Return specific portal if portal_id is provided.
-        Otherwise, return the currently open portal if it exists.
-        """
+        if not self.opens_at or not self.closes_at:
+            return False
 
-        if portal_id:
-            try:
-                return cls.objects.get(pk=portal_id)
-            except cls.DoesNotExist:
-                return None
+        return (
+            self.portal_status == self.PortalStatus.OPEN
+            and self.opens_at <= now <= self.closes_at
+        )
 
-        now = timezone.now()
+    async def open_portal(self):
+        if not await self.ahas_required_languages():
+            raise ValidationError(
+                "Portal must have exactly English and Spanish readings."
+            )
 
-        return cls.objects.filter(
-            portal_status=cls.PortalStatus.OPEN,
-            opens_at__lte=now,
-            closes_at__gte=now,
-        ).first()
+        self.portal_status = self.PortalStatus.OPEN
+        await self.asave(update_fields=["portal_status"])
 
+    async def ahas_required_languages(self):
+        existing = {
+            lang async for lang in
+            self.portal_readings.values_list("language", flat=True)
+        }
 
-    # def _submission_counts(self):
-    #     """
-    #     Helper: return dict mapping member_id -> distinct language count
-    #     for active members in this session.
-    #     """
-    #     submission_counts = (
-    #         self.reading_submissions
-    #         .filter(
-    #             member__is_active=True,
-    #             reading_status__in=self.ReadingSubmission.ReadingStatus.ACTIVE_READING_STATUSES,
-    #         )
-    #         .values("member")
-    #         .annotate(lang_count=Count("language", distinct=True))
-    #     )
-    #     return {entry["member"]: entry["lang_count"] for entry in submission_counts}
-
-
-    # def members_incomplete_readings(self):
-    #     """
-    #     Return readers who have not submitted readings in all required languages
-    #     for this Reading Portal session.
-
-    #     Note: This only accounts for active participants in the Reading Portal who have submitted
-    #     at least one reading.
-    #     """
-
-    #     required_count = len(ReadingSubmission.LanguageChoices)
-    #     counts = self._submission_counts()
-
-    #     partial_ids = [
-    #         member_id
-    #         for member_id, lang_count in counts.items()
-    #         if 0 < lang_count < required_count
-    #     ]
-    #     return TelegramGroupMember.objects.filter(id__in=partial_ids)
-
+        return existing == self.REQUIRED_LANGUAGES
 
     def members_incomplete_readings(self):
         """
-        Return member readers who submitted at least one reading but not in all languages.
+        Return member readers who submitted at least one reading but not in all languages
+        for this Reading Portal session.
         """
-        required_count = len(ReadingSubmission.LanguageChoices)
+        required_count = len(self.REQUIRED_LANGUAGES)
 
-        members = TelegramGroupMember.objects.filter(
-            chat=self.chat,
-            is_active=True,
-            reading_sessions__reading_portal=self
-        ).annotate(
-            submitted_count=Count(
-                "reading_submissions",
-                filter=Q(reading_submissions__reading_portal=self),
+        members = (
+            TelegramGroupMember.objects.filter(
+                chat=self.chat, is_active=True, reading_sessions__reading_portal=self
             )
-        ).filter(submitted_count__lt=required_count, submitted_count__gt=0)
+            .annotate(
+                submitted_count=Count(
+                    "reading_submissions",
+                    filter=Q(reading_submissions__reading_portal=self),
+                )
+            )
+            .filter(submitted_count__lt=required_count, submitted_count__gt=0)
+        )
 
         return members
 
     def members_complete_readings(self):
         """
-        Return readers who have submitted all required readings
+        Return member readers who have submitted all required readings
         for this Reading Portal session.
         """
-        required_count = len(ReadingSubmission.LanguageChoices)
+        required_count = len(self.REQUIRED_LANGUAGES)
 
-        members = TelegramGroupMember.objects.filter(
-            chat=self.chat,
-            is_active=True,
-            # Only consider members who have at least one submission in this portal.
-            reading_submissions__reading_portal=self
-        ).annotate(
-            submitted_count=Count(
-                "reading_submissions",
-                # Only count submissions that belong to this session.
-                filter=Q(reading_submissions__reading_portal=self),
+        members = (
+            TelegramGroupMember.objects.filter(
+                chat=self.chat,
+                is_active=True,
+                # Only consider members who have at least one submission in this portal.
+                reading_submissions__reading_portal=self,
             )
-        ).filter(submitted_count=required_count)
+            .annotate(
+                submitted_count=Count(
+                    "reading_submissions",
+                    # Only count submissions that belong to this session.
+                    filter=Q(reading_submissions__reading_portal=self),
+                )
+            )
+            .filter(submitted_count=required_count)
+        )
 
         return members
 
@@ -177,11 +165,8 @@ class ReadingPortal(TimestampModel, ValidatedSaveModel):
         Return active members who haven't submitted any readings for this Reading Portal session.
         """
         members = TelegramGroupMember.objects.filter(
-            chat=self.chat,
-            is_active=True
-        ).exclude(
-            readings__session=self
-        )
+            chat=self.chat, is_active=True
+        ).exclude(reading_submissions__reading_portal=self)
 
         return members
 
@@ -193,7 +178,7 @@ class ReadingPortal(TimestampModel, ValidatedSaveModel):
         return self.reading_submissions.filter(
             language=language,
             status=ReadingSubmission.ReadingStatus.PENDING,
-            member__is_active=True
+            member__is_active=True,
         ).order_by("submitted_at")
 
     def next_submission(self, language: str):
@@ -201,7 +186,7 @@ class ReadingPortal(TimestampModel, ValidatedSaveModel):
         Peek at the next pending submission in the queue for a language.
         """
         return self.pending_queue_for_language(language).first()
-    
+
     # def resubmit(self, submission: ReadingSubmission):
     #     """
     #     Handle resubmission:
@@ -211,12 +196,37 @@ class ReadingPortal(TimestampModel, ValidatedSaveModel):
     #     submission.delete()
 
 
-class ReadingSubmission(LanguageModel):
+class PortalReading(TimestampModel, LanguageModel):
+    """
+    A language-specific reading provided by a ReadingPortal.
+    """
+
+    reading_portal = models.ForeignKey(
+        ReadingPortal, related_name="portal_readings", on_delete=models.CASCADE
+    )
+    message_id = models.BigIntegerField(null=True, blank=True)
+    message_text = models.TextField(blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["reading_portal", "language"], name="unique_language_per_portal"
+            )
+        ]
+
+    def clean(self):
+        if not self.message_id and not self.message_text:
+            raise ValidationError(
+                "Either message_id or message_text must be provided."
+            )
+
+
+class ReadingSubmission(TimestampModel, LanguageModel):
     """
     A reading submission for a Reading Portal session.
     """
 
-    # Note: Superseded status = "This reading is old and doesn't count. 
+    # Note: Superseded status = "This reading is old and doesn't count.
     # A newer version has been submitted that supersedes this one."
     class ReadingStatus(models.TextChoices):
         PENDING = "pending", _("Pending")
@@ -239,8 +249,8 @@ class ReadingSubmission(LanguageModel):
     # Telegram message id of the reading.
     reading_message_id = models.BigIntegerField()
     reading_status = models.CharField(
-        max_length=40, 
-        choices=ReadingStatus, 
+        max_length=40,
+        choices=ReadingStatus,
         default=ReadingStatus.PENDING,
     )
     submitted_at = models.DateTimeField(auto_now_add=True)
@@ -252,8 +262,6 @@ class ReadingSubmission(LanguageModel):
         constraints = [
             models.UniqueConstraint(
                 fields=["reading_portal", "member", "language"],
-                # TODO: Use ReadingStatus.PENDING in there somehow
-                # instead of hardcoded "pending" value.
                 condition=models.Q(reading_status="pending"),
                 name="unique_pending_submission_per_lang_per_portal",
             )

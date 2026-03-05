@@ -8,8 +8,7 @@ class TelegramUserQuerySet(models.QuerySet):
     QuerySet for TelegramUserManager
     """
 
-
-class TelegramUserManagerBase(models.Manager):
+class TelegramUserManager(models.Manager.from_queryset(TelegramUserQuerySet)):
     """
     Manager for TelegramUser
     """
@@ -53,16 +52,13 @@ class TelegramUserManagerBase(models.Manager):
         return user
 
 
-TelegramUserManager = TelegramUserManagerBase.from_queryset(TelegramUserQuerySet)
-
-
 class TelegramChatQuerySet(models.QuerySet):
     """
     QuerySet for TelegramChatManager
     """
 
 
-class TelegramChatManagerBase(models.Manager):
+class TelegramChatManager(models.Manager.from_queryset(TelegramChatQuerySet)):
     """
     Manager for TelegramChat
     """
@@ -101,16 +97,13 @@ class TelegramChatManagerBase(models.Manager):
         return chat
 
 
-TelegramChatManager = TelegramChatManagerBase.from_queryset(TelegramChatQuerySet)
-
-
 class TelegramGroupMemberQuerySet(models.QuerySet):
     """
     QuerySet for TelegramGroupMemberManager
     """
 
 
-class TelegramGroupMemberManagerBase(models.Manager):
+class TelegramGroupMemberManager(models.Manager.from_queryset(TelegramGroupMemberQuerySet)):
     """
     Manager for TelegramGroupMember
     """
@@ -130,8 +123,3 @@ class TelegramGroupMemberManagerBase(models.Manager):
                 "left_at": None,
             },
         )
-
-
-TelegramGroupMemberManager = TelegramGroupMemberManagerBase.from_queryset(
-    TelegramGroupMemberQuerySet
-)

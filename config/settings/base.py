@@ -39,14 +39,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "django_nublado_core",
     "users.apps.UserConfig",
     "django_telegram.apps.DjangoTelegramConfig",
+    "reading_portal.apps.ReadingPortalConfig",
     "group_points.apps.GroupPointsConfig",
     "nublado_bot.apps.NubladoBotConfig",
     "project_app.apps.ProjectAppConfig",
-
     "import_export",
 ]
 
