@@ -10,6 +10,9 @@ from django_telegram.models import TelegramChat, TelegramGroupMember
 from .managers import ReadingPortalManager
 
 
+# A little "hack" to keep the name consistent in meta and in the enum.
+PORTAL_OPEN = "open"
+
 class ReadingPortal(TimestampModel):
     """
     A Reading Portal session.
@@ -20,7 +23,7 @@ class ReadingPortal(TimestampModel):
     class PortalStatus(models.TextChoices):
         DRAFT = "draft", _("Draft")
         SCHEDULED = "scheduled", _("Scheduled")
-        OPEN = "open", _("Open")
+        OPEN = PORTAL_OPEN, _("Open")
         CLOSED = "closed", _("Closed")
 
     chat = models.ForeignKey(
@@ -58,7 +61,7 @@ class ReadingPortal(TimestampModel):
 
         models.UniqueConstraint(
             fields=["chat"],
-            condition=Q(portal_status="open"),
+            condition=Q(portal_status=PORTAL_OPEN),
             name="only_one_open_portal_per_chat"
         )
 
@@ -221,6 +224,9 @@ class PortalReading(TimestampModel, LanguageModel):
             )
 
 
+READING_PENDING = "pending"
+
+
 class ReadingSubmission(TimestampModel, LanguageModel):
     """
     A reading submission for a Reading Portal session.
@@ -229,7 +235,7 @@ class ReadingSubmission(TimestampModel, LanguageModel):
     # Note: Superseded status = "This reading is old and doesn't count.
     # A newer version has been submitted that supersedes this one."
     class ReadingStatus(models.TextChoices):
-        PENDING = "pending", _("Pending")
+        PENDING = READING_PENDING, _("Pending")
         REVIEWED = "reviewed", _("Reviewed")
         SUPERSEDED = "superseded", _("Superseded")
 
@@ -262,7 +268,7 @@ class ReadingSubmission(TimestampModel, LanguageModel):
         constraints = [
             models.UniqueConstraint(
                 fields=["reading_portal", "member", "language"],
-                condition=models.Q(reading_status="pending"),
+                condition=models.Q(reading_status=READING_PENDING),
                 name="unique_pending_submission_per_lang_per_portal",
             )
         ]
