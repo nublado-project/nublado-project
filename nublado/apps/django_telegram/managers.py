@@ -1,4 +1,4 @@
-from telegram import User, Chat, ChatMember
+from telegram import User, Chat
 
 from django.db import models
 
@@ -7,6 +7,7 @@ class TelegramUserQuerySet(models.QuerySet):
     """
     QuerySet for TelegramUserManager
     """
+
 
 class TelegramUserManager(models.Manager.from_queryset(TelegramUserQuerySet)):
     """
@@ -103,12 +104,19 @@ class TelegramGroupMemberQuerySet(models.QuerySet):
     """
 
 
-class TelegramGroupMemberManager(models.Manager.from_queryset(TelegramGroupMemberQuerySet)):
+class TelegramGroupMemberManager(
+    models.Manager.from_queryset(TelegramGroupMemberQuerySet)
+):
     """
     Manager for TelegramGroupMember
     """
+
     async def aget_or_create_from_chat_member(self, tg_member, tg_chat):
-        from django_telegram.models import TelegramUser, TelegramChat, TelegramGroupMember
+        from django_telegram.models import (
+            TelegramUser,
+            TelegramChat,
+            TelegramGroupMember,
+        )
 
         role = tg_member.status
         is_active = True

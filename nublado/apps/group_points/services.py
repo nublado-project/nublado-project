@@ -1,4 +1,4 @@
-from django_telegram.models import TelegramChat, TelegramUser, TelegramGroupMember
+from django_telegram.models import TelegramGroupMember
 
 
 async def transfer_points(tg_chat, tg_member_sender, tg_member_receiver, num_points):

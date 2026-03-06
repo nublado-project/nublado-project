@@ -1,24 +1,20 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from django_telegram.models import TelegramChat
 from django_telegram.utils.helpers import safe_reply
-
-from .models import ReadingPortal
 
 from reading_portal.services.portals import (
     NoDraftPortal,
+    NoOpenPortal,
     OpenPortalExists,
-    open_next_draft_portal_service, 
-    close_portal_service
+    open_next_draft_portal_service,
+    close_open_portal_service,
 )
 
 
 async def open_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    tg_chat = update.effective_chat
-
     try:
-        await open_next_draft_portal_service(tg_chat, context.bot)
+        await open_next_draft_portal_service(update, context)
     except OpenPortalExists:
         await safe_reply(update, context, "A portal is aleady open.")
     except NoDraftPortal:
@@ -26,14 +22,9 @@ async def open_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def close_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    tg_chat = update.effective_chat
-    chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
-
     try:
-        portal = await ReadingPortal.objects.aget_open(chat=chat)
-        await close_portal_service(tg_chat, context.bot, portal)
-
-    except ReadingPortal.DoesNotExist:
+        await close_open_portal_service(update, context)
+    except NoOpenPortal:
         error_msg = "There is no portal currently open."
         await safe_reply(update, context, error_msg)
 

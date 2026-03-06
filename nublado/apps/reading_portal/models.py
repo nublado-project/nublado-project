@@ -4,14 +4,14 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from django_nublado_core.models import TimestampModel, ValidatedSaveModel, LanguageModel
+from django_nublado_core.models import TimestampModel, LanguageModel
 from django_telegram.models import TelegramChat, TelegramGroupMember
 
 from .managers import ReadingPortalManager
 
-
 # A little "hack" to keep the name consistent in meta and in the enum.
 PORTAL_OPEN = "open"
+
 
 class ReadingPortal(TimestampModel):
     """
@@ -34,16 +34,15 @@ class ReadingPortal(TimestampModel):
         max_length=250,
         unique=True,
         blank=True,
-        help_text="Human-readable unique identifier for the portal"
+        help_text="Human-readable unique identifier for the portal",
     )
     description = models.TextField(
-        blank=True,
-        help_text="Optional description shown in the portal intro message."
+        blank=True, help_text="Optional description shown in the portal intro message."
     )
     pinned_message_id = models.BigIntegerField(
         null=True,
         blank=True,
-        help_text="Telegram message id of the pinned portal intro message."
+        help_text="Telegram message id of the pinned portal intro message.",
     )
     portal_status = models.CharField(
         max_length=20,
@@ -51,9 +50,7 @@ class ReadingPortal(TimestampModel):
         default=PortalStatus.DRAFT,
     )
     max_mistakes = models.PositiveSmallIntegerField(
-        null=True,
-        blank=True,
-        help_text="Maximum number of corrections per submission."
+        null=True, blank=True, help_text="Maximum number of corrections per submission."
     )
 
     # Lifecycle.
@@ -65,12 +62,12 @@ class ReadingPortal(TimestampModel):
     class Meta:
         ordering = ["-date_created"]
         indexes = [
-            models.Index(fields=["slug"]), 
+            models.Index(fields=["slug"]),
         ]
         models.UniqueConstraint(
             fields=["chat"],
             condition=Q(portal_status=PORTAL_OPEN),
-            name="only_one_open_portal_per_chat"
+            name="only_one_open_portal_per_chat",
         )
 
     def __str__(self):
@@ -104,7 +101,7 @@ class ReadingPortal(TimestampModel):
                 slug = f"{base_slug}-{counter}"
                 counter += 1
             self.slug = slug
-        super().save(*args, **kwargs)      
+        super().save(*args, **kwargs)
 
     @property
     def is_open(self):
@@ -129,8 +126,8 @@ class ReadingPortal(TimestampModel):
 
     async def ahas_required_languages(self):
         existing = {
-            lang async for lang in
-            self.portal_readings.values_list("language", flat=True)
+            lang
+            async for lang in self.portal_readings.values_list("language", flat=True)
         }
 
         return existing == self.REQUIRED_LANGUAGES
@@ -239,9 +236,7 @@ class PortalReading(TimestampModel, LanguageModel):
 
     def clean(self):
         if not self.message_id and not self.message_text:
-            raise ValidationError(
-                "Either message_id or message_text must be provided."
-            )
+            raise ValidationError("Either message_id or message_text must be provided.")
 
 
 READING_PENDING = "pending"

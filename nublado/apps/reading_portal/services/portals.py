@@ -1,14 +1,19 @@
-from telegram import Bot, Chat
+from telegram import Update
+from telegram.ext import ContextTypes
 from telegram.error import BadRequest
 
 from django_telegram.models import TelegramChat
 
 from reading_portal.models import ReadingPortal
 
-from .formatting import format_portal_intro, format_reading, format_portal_closed
+from .formatting import format_portal_intro, format_portal_closed
 
 
 class NoDraftPortal(Exception):
+    pass
+
+
+class NoOpenPortal(Exception):
     pass
 
 
@@ -16,10 +21,14 @@ class OpenPortalExists(Exception):
     pass
 
 
-async def open_next_draft_portal_service(tg_chat: Chat, bot: Bot, notify: bool = False):
+async def open_next_draft_portal_service(
+    update: Update, context: ContextTypes.DEFAULT_TYPE, notify: bool = False
+):
     """
     Open the next draft portal for the given Telegram chat.
     """
+    tg_chat = update.effective_chat
+    bot = context.bot
 
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
 
@@ -44,7 +53,9 @@ async def open_next_draft_portal_service(tg_chat: Chat, bot: Bot, notify: bool =
         parse_mode="HTML",
     )
 
-    async for reading in portal.portal_readings.all():
+    readings_qs = portal.portal_readings.all().order_by("language")
+
+    async for reading in reading_qs:
 
         language_label = reading.language.upper()
         header = f"🌧 <b>Reading: {language_label}</b>"
@@ -73,7 +84,18 @@ async def open_next_draft_portal_service(tg_chat: Chat, bot: Bot, notify: bool =
     return portal
 
 
-async def close_portal_service(tg_chat: Chat, bot: Bot, portal: ReadingPortal, notify: bool = False):
+async def close_open_portal_service(
+    updae: Update, context: ContextTypes.DEFAULT_TYPE, notify: bool = False
+):
+    tg_chat = update.effective_chat
+    bot = context.bot
+
+    chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
+
+    try:
+        portal = await ReadingPortal.objects.aget_open(chat=chat)
+    except ReadingPortal.DoesNotExist:
+        raise NoOpenPortal()
 
     # Unpin intro message
     if portal.pinned_message_id:

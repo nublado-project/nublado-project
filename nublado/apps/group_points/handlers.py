@@ -66,9 +66,7 @@ def make_give_points_handler(
             return
 
         # Fetch ChatMember objects
-        tg_member_sender = await context.bot.get_chat_member(
-            tg_chat.id, tg_sender.id
-        )
+        tg_member_sender = await context.bot.get_chat_member(tg_chat.id, tg_sender.id)
 
         tg_member_receiver = await context.bot.get_chat_member(
             tg_chat.id, tg_receiver.id

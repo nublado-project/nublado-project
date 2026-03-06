@@ -7,11 +7,13 @@ class ReadingPortalQuerySet(models.QuerySet):
     """
     QuerySet for ReadingPortalManager
     """
+
     def drafts(self):
         return self.filter(portal_status=self.model.PortalStatus.DRAFT)
 
     def open(self):
         return self.filter(portal_status=self.model.PortalStatus.OPEN)
+
 
 class ReadingPortalManager(models.Manager.from_queryset(ReadingPortalQuerySet)):
     """
@@ -19,12 +21,7 @@ class ReadingPortalManager(models.Manager.from_queryset(ReadingPortalQuerySet)):
     """
 
     async def aget_open(self, chat: TelegramChat):
-        return await (
-            self.get_queryset()
-            .select_related("chat")
-            .open()
-            .aget(chat=chat)
-        )
+        return await self.get_queryset().select_related("chat").open().aget(chat=chat)
 
     async def anext_draft(self, chat: TelegramChat):
         return await (
