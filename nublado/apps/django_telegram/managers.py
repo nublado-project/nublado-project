@@ -1,4 +1,4 @@
-from telegram import User, Chat
+from telegram import User, Chat, ChatMember
 
 from django.db import models
 
@@ -107,6 +107,55 @@ class TelegramGroupMemberManager(models.Manager.from_queryset(TelegramGroupMembe
     """
     Manager for TelegramGroupMember
     """
+    async def aget_or_create_from_chat_member(self, tg_member, tg_chat):
+        from django_telegram.models import TelegramUser, TelegramChat, TelegramGroupMember
+
+        role = tg_member.status
+        is_active = True
+
+        if role not in TelegramGroupMember.GroupRole.values:
+            is_active = False
+            role = TelegramGroupMember.GroupRole.MEMBER
+
+        tg_user = tg_member.user
+
+        # This updates snapshot fields in the ORM.
+        user = await TelegramUser.objects.aget_or_create_from_telegram_user(tg_user)
+        chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
+
+        member, created = await self.aget_or_create(
+            user=user,
+            chat=chat,
+            defaults={
+                "role": role,
+                "is_active": is_active,
+            },
+        )
+
+        # Update snapshot fields.
+        if not created:
+            updated_fields = []
+
+            if member.role != role:
+                member.role = role
+                updated_fields.append("role")
+
+            if member.is_active != is_active:
+                member.is_active = is_active
+                updated_fields.append("is_active")
+
+                if not is_active and member.left_at is None:
+                    member.left_at = timezone.now()
+                    updated_fields.append("left_at")
+
+                if is_active:
+                    member.left_at = None
+                    updated_fields.append("left_at")
+
+            if updated_fields:
+                await member.asave(update_fields=updated_fields)
+
+        return member
 
     async def ensure_membership(
         self,

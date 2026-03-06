@@ -29,7 +29,13 @@ class ReadingPortal(TimestampModel):
     chat = models.ForeignKey(
         TelegramChat, on_delete=models.CASCADE, related_name="reading_portals"
     )
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(
+        max_length=250,
+        unique=True,
+        blank=True,
+        help_text="Human-readable unique identifier for the portal"
+    )
     description = models.TextField(
         blank=True,
         help_text="Optional description shown in the portal intro message."
@@ -58,7 +64,9 @@ class ReadingPortal(TimestampModel):
 
     class Meta:
         ordering = ["-date_created"]
-
+        indexes = [
+            models.Index(fields=["slug"]), 
+        ]
         models.UniqueConstraint(
             fields=["chat"],
             condition=Q(portal_status=PORTAL_OPEN),
@@ -85,6 +93,18 @@ class ReadingPortal(TimestampModel):
         if self.opens_at and self.closes_at:
             if self.opens_at >= self.closes_at:
                 raise ValidationError("opens_at must be earlier than closes_at.")
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            # ensure uniqueness
+            while ReadingPortal.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)      
 
     @property
     def is_open(self):

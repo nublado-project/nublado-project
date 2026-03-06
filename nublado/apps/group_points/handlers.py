@@ -65,11 +65,20 @@ def make_give_points_handler(
         if not num_points:
             return
 
+        # Fetch ChatMember objects
+        tg_member_sender = await context.bot.get_chat_member(
+            tg_chat.id, tg_sender.id
+        )
+
+        tg_member_receiver = await context.bot.get_chat_member(
+            tg_chat.id, tg_receiver.id
+        )
+
         # Persist point transferand return sender_member and receiver_member from db.
         sender_member, receiver_member = await transfer_points(
             tg_chat,
-            tg_sender,
-            tg_receiver,
+            tg_member_sender,
+            tg_member_receiver,
             num_points,
         )
 

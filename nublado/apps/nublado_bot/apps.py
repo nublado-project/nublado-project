@@ -18,14 +18,13 @@ class NubladoBotConfig(AppConfig):
 
     def ready(self):
         from django_telegram.policies import GroupOnly, PrivateOnly, with_policies
-        from .handlers.group_points import give_points, POINT_FILTER
-        from .handlers.misc import start, hello
-        from .handlers.group_settings import set_bot_language
         from django_telegram.utils.database import resolve_chat_language
         from django_telegram.handlers import LanguageHandler
         from django_telegram.constants import MIDDLEWARE_GROUP, HANDLER_GROUP
-
-        from reading_portal.handlers import bind_reading
+        from reading_portal.handlers import open_portal, close_portal
+        from .handlers.group_points import give_points, POINT_FILTER
+        from .handlers.misc import start, hello
+        from .handlers.group_settings import set_bot_language
 
         app = create_app()
         app.bot_data["language_resolver"] = resolve_chat_language
@@ -60,10 +59,24 @@ class NubladoBotConfig(AppConfig):
         )
 
         # Reading Portal
+        # app.add_handler(
+        #     CommandHandler(
+        #         "bind_reading",
+        #         with_policies(GroupOnly())(bind_reading),
+        #     ),
+        #     group=HANDLER_GROUP,
+        # )
         app.add_handler(
             CommandHandler(
-                "bind_reading",
-                with_policies(GroupOnly())(bind_reading),
+                "open_portal",
+                with_policies(GroupOnly())(open_portal),
+            ),
+            group=HANDLER_GROUP,
+        )
+        app.add_handler(
+            CommandHandler(
+                "close_portal",
+                with_policies(GroupOnly())(close_portal),
             ),
             group=HANDLER_GROUP,
         )
