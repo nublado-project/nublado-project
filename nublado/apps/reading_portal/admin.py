@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ReadingPortal, PortalReading
+from .models import ReadingPortal, PortalReading, ReadingSubmission
 
 
 @admin.register(ReadingPortal)
@@ -14,3 +14,8 @@ class ReadingPortalAdmin(admin.ModelAdmin):
 class PortalReadingAdmin(admin.ModelAdmin):
     list_display = ("reading_portal", "language", "message_id", "message_text")
     list_filter = ("language", "reading_portal")
+
+
+@admin.register(ReadingSubmission)
+class ReadingSubmissionAdmin(admin.ModelAdmin):
+    list_display = ("portal_reading", "message_id")

@@ -2,11 +2,11 @@ from abc import ABC, abstractmethod
 from functools import wraps
 
 from telegram import Update
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, ApplicationHandlerStop
 
 from django.utils.translation import gettext as _
 
-from .utils.helpers import _is_group, _is_private, safe_reply
+from .utils.helpers import _is_group, _is_private, _is_admin, _is_group_owner, safe_reply
 
 BOT_MESSAGES = {
     "bot_group_only": "bot.message.group_only",
@@ -67,66 +67,81 @@ class PrivateOnly(HandlerPolicy):
         return True
 
 
-def with_policies(*policies):
+class AdminOnly(HandlerPolicy):
+    async def check(
+        self,
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
+    ) -> bool:
+
+        tg_chat = update.effective_chat
+        tg_user = update.effective_user
+
+        if not tg_chat or not tg_user:
+            return False
+
+        try:
+            tg_member = await context.bot.get_chat_member(tg_chat.id, tg_user.id)
+        except Exception:
+            return await self._reply_and_block(
+                update, context, "Could not verify admin status."
+            )
+
+        if not _is_admin(tg_member):
+            return await self._reply_and_block(
+                update,
+                context,
+                "This command is admin-only.",
+            )
+
+        return True
+
+
+class GroupOwnerOnly(HandlerPolicy):
+    async def check(
+        self,
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
+    ) -> bool:
+
+        tg_chat = update.effective_chat
+        tg_user = update.effective_user
+
+        if not tg_chat or not tg_user:
+            return False
+
+        try:
+            tg_member = await context.bot.get_chat_member(tg_chat.id, tg_user.id)
+        except Exception:
+            return await self._reply_and_block(
+                update, context, "Could not verify owner status."
+            )
+
+        if not _is_group_owner(tg_member):
+            return await self._reply_and_block(
+                update,
+                context,
+                "This command is restricted to the group owner.",
+            )
+
+        return True
+
+
+def with_policies(*policy_classes):
     def decorator(callback):
+
+        policies = [p() for p in policy_classes]
+
         @wraps(callback)
         async def wrapped(update: Update, context: ContextTypes.DEFAULT_TYPE):
-            # Check policies.
+
             for policy in policies:
                 allowed = await policy.check(update, context)
                 if not allowed:
-                    # Stop further handlers from processing.
                     raise ApplicationHandlerStop
 
-            # Call original handler.
             return await callback(update, context)
 
         return wrapped
 
     return decorator
-
-
-# To do: Convert these into policies.
-# def admin_required(func):
-#     @wraps(func)
-#     async def wrapper(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-#         chat = update.effective_chat
-#         user = update.effective_user
-
-#         if not _is_group(chat):
-#             return
-
-#         member = await chat.get_member(user.id)
-#         if member.status not in {
-#             ChatMemberStatus.ADMINISTRATOR,
-#             ChatMemberStatus.OWNER,
-#         }:
-#             await update.effective_message.reply_text(
-#                 _("This command is for admins only.")
-#             )
-#             return
-
-#         return await func(self, update, context)
-
-#     return wrapper
-
-
-# def owner_required(func):
-#     @wraps(func)
-#     async def wrapper(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-#         chat = update.effective_chat
-#         user = update.effective_user
-
-#         if not _is_group(chat):
-#             return
-
-#         member = await chat.get_member(user.id)
-#         if member.status != ChatMemberStatus.OWNER:
-#             await update.effective_message.reply_text(
-#                 _("This command is for the group owner only.")
-#             )
-#             return
-
-#         return await func(self, update, context)
-
-#     return wrapper

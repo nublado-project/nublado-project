@@ -21,7 +21,13 @@ class ReadingPortalManager(models.Manager.from_queryset(ReadingPortalQuerySet)):
     """
 
     async def aget_open(self, chat: TelegramChat):
-        return await self.get_queryset().select_related("chat").open().aget(chat=chat)
+        return await (
+            self.get_queryset()
+            .select_related("chat")
+            .prefetch_related("portal_readings")
+            .open()
+            .aget(chat=chat)
+        )
 
     async def anext_draft(self, chat: TelegramChat):
         return await (

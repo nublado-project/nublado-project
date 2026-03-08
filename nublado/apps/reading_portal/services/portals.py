@@ -4,21 +4,9 @@ from telegram.error import BadRequest
 
 from django_telegram.models import TelegramChat
 
-from reading_portal.models import ReadingPortal
-
+from ..models import ReadingPortal
+from ..exceptions import NoDraftPortal, NoOpenPortal, OpenPortalExists
 from .formatting import format_portal_intro, format_portal_closed
-
-
-class NoDraftPortal(Exception):
-    pass
-
-
-class NoOpenPortal(Exception):
-    pass
-
-
-class OpenPortalExists(Exception):
-    pass
 
 
 async def open_next_draft_portal_service(
@@ -47,7 +35,7 @@ async def open_next_draft_portal_service(
 
     intro_text = format_portal_intro(portal)
 
-    intro_msg = await bot.send_message(
+    intro_message = await bot.send_message(
         chat_id=tg_chat.id,
         text=intro_text,
         parse_mode="HTML",
@@ -55,28 +43,28 @@ async def open_next_draft_portal_service(
 
     readings_qs = portal.portal_readings.all().order_by("language")
 
-    async for reading in reading_qs:
+    async for reading in readings_qs:
 
         language_label = reading.language.upper()
         header = f"🌧 <b>Reading: {language_label}</b>"
         reading_text = f"{header}\n\n{reading.message_text}"
 
-        reading_msg = await bot.send_message(
+        reading_message = await bot.send_message(
             chat_id=tg_chat.id,
             text=reading_text,
             parse_mode="HTML",
         )
 
-        reading.message_id = reading_msg.message_id
+        reading.message_id = reading_message.message_id
         await reading.asave(update_fields=["message_id"])
 
     await bot.pin_chat_message(
         chat_id=tg_chat.id,
-        message_id=intro_msg.message_id,
+        message_id=intro_message.message_id,
         disable_notification=not notify,
     )
 
-    portal.pinned_message_id = intro_msg.message_id
+    portal.pinned_message_id = intro_message.message_id
     portal.portal_status = ReadingPortal.PortalStatus.OPEN
 
     await portal.asave(update_fields=["portal_status", "pinned_message_id"])
@@ -85,7 +73,7 @@ async def open_next_draft_portal_service(
 
 
 async def close_open_portal_service(
-    updae: Update, context: ContextTypes.DEFAULT_TYPE, notify: bool = False
+    update: Update, context: ContextTypes.DEFAULT_TYPE, notify: bool = False
 ):
     tg_chat = update.effective_chat
     bot = context.bot
@@ -107,7 +95,7 @@ async def close_open_portal_service(
         except BadRequest:
             pass
 
-    closed_msg = await bot.send_message(
+    closed_message = await bot.send_message(
         chat_id=tg_chat.id,
         text=format_portal_closed(),
         parse_mode="HTML",
@@ -115,7 +103,7 @@ async def close_open_portal_service(
 
     await bot.pin_chat_message(
         chat_id=tg_chat.id,
-        message_id=closed_msg.message_id,
+        message_id=closed_message.message_id,
         disable_notification=not notify,
     )
 

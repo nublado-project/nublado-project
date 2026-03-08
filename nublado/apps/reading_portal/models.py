@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -64,11 +65,13 @@ class ReadingPortal(TimestampModel):
         indexes = [
             models.Index(fields=["slug"]),
         ]
-        models.UniqueConstraint(
-            fields=["chat"],
-            condition=Q(portal_status=PORTAL_OPEN),
-            name="only_one_open_portal_per_chat",
-        )
+        constraints = [
+            models.UniqueConstraint(
+                fields=["chat"],
+                condition=Q(portal_status=PORTAL_OPEN),
+                name="unique_open_portal_per_chat",
+            )
+        ]
 
     def __str__(self):
         return f"Reading Portal: {self.title}"
@@ -230,8 +233,14 @@ class PortalReading(TimestampModel, LanguageModel):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["reading_portal", "language"], name="unique_language_per_portal"
-            )
+                fields=["reading_portal", "language"],
+                name="unique_reading_per_language_per_portal",
+            ),
+            models.UniqueConstraint(
+                fields=["reading_portal", "message_id"],
+                condition=models.Q(message_id__isnull=False),
+                name="unique_message_id_per_reading_per_portal",
+            ),
         ]
 
     def clean(self):
@@ -242,7 +251,7 @@ class PortalReading(TimestampModel, LanguageModel):
 READING_PENDING = "pending"
 
 
-class ReadingSubmission(TimestampModel, LanguageModel):
+class ReadingSubmission(TimestampModel):
     """
     A reading submission for a Reading Portal session.
     """
@@ -256,8 +265,8 @@ class ReadingSubmission(TimestampModel, LanguageModel):
 
     ACTIVE_READING_STATUSES = [ReadingStatus.PENDING, ReadingStatus.REVIEWED]
 
-    reading_portal = models.ForeignKey(
-        ReadingPortal,
+    portal_reading = models.ForeignKey(
+        PortalReading,
         on_delete=models.CASCADE,
         related_name="reading_submissions",
     )
@@ -267,8 +276,12 @@ class ReadingSubmission(TimestampModel, LanguageModel):
         related_name="reading_submissions",
     )
 
-    # Telegram message id of the reading.
-    reading_message_id = models.BigIntegerField()
+    # Telegram message id of the reading submission.
+    message_id = models.BigIntegerField()
+
+    # Optional: message id of the reply message
+    # attached to the reading submission (e.g., a #pending tag).
+    reply_message_id = models.BigIntegerField(null=True, blank=True)
     reading_status = models.CharField(
         max_length=40,
         choices=ReadingStatus,
@@ -278,15 +291,18 @@ class ReadingSubmission(TimestampModel, LanguageModel):
 
     class Meta:
         ordering = ["submitted_at"]
-        # Only one pendng reading submission per user per language.
+        # Only one pending reading submission per user per language.
         # Superseded (resubmitted) reading submissions are the exception.
+        indexes = [
+            models.Index(fields=["portal_reading", "member"]),
+        ]
         constraints = [
             models.UniqueConstraint(
-                fields=["reading_portal", "member", "language"],
+                fields=["portal_reading", "member"],
                 condition=models.Q(reading_status=READING_PENDING),
-                name="unique_pending_submission_per_lang_per_portal",
+                name="unique_pending_submission_per_reading_per_member",
             )
         ]
 
     def __str__(self):
-        return f"{self.member.user} submission ({self.language}) for {self.reading_portal.title}"
+        return f"{self.member.user} for {self.portal_reading.reading_portal.title}"

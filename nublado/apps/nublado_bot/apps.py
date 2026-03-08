@@ -1,6 +1,6 @@
 import logging
 
-from telegram.ext import CommandHandler, MessageHandler
+from telegram.ext import CommandHandler, MessageHandler, filters
 
 from django.apps import AppConfig
 from django.conf import settings
@@ -17,11 +17,17 @@ class NubladoBotConfig(AppConfig):
     name = "nublado_bot"
 
     def ready(self):
-        from django_telegram.policies import GroupOnly, PrivateOnly, with_policies
+        from django_telegram.policies import (
+            GroupOnly,
+            PrivateOnly,
+            AdminOnly,
+            GroupOwnerOnly,
+            with_policies,
+        )
         from django_telegram.utils.database import resolve_chat_language
         from django_telegram.handlers import LanguageHandler
         from django_telegram.constants import MIDDLEWARE_GROUP, HANDLER_GROUP
-        from reading_portal.handlers import open_portal, close_portal
+        from reading_portal.handlers import open_portal, close_portal, handle_voice_submission
         from .handlers.group_points import give_points, POINT_FILTER
         from .handlers.misc import start, hello
         from .handlers.group_settings import set_bot_language
@@ -37,56 +43,51 @@ class NubladoBotConfig(AppConfig):
         app.add_handler(
             CommandHandler(
                 "start",
-                with_policies(PrivateOnly())(start),
+                with_policies(PrivateOnly)(start),
             ),
             group=HANDLER_GROUP,
         )
-
         app.add_handler(
             CommandHandler(
                 "hello",
-                with_policies(GroupOnly())(hello),
+                with_policies(GroupOnly)(hello),
             ),
             group=HANDLER_GROUP,
         )
-
         app.add_handler(
             CommandHandler(
                 "set_bot_language",
-                with_policies(GroupOnly())(set_bot_language),
+                with_policies(GroupOnly, AdminOnly)(set_bot_language),
             ),
             group=HANDLER_GROUP,
         )
-
-        # Reading Portal
-        # app.add_handler(
-        #     CommandHandler(
-        #         "bind_reading",
-        #         with_policies(GroupOnly())(bind_reading),
-        #     ),
-        #     group=HANDLER_GROUP,
-        # )
         app.add_handler(
             CommandHandler(
                 "open_portal",
-                with_policies(GroupOnly())(open_portal),
+                with_policies(GroupOnly, GroupOwnerOnly)(open_portal),
             ),
             group=HANDLER_GROUP,
         )
         app.add_handler(
             CommandHandler(
                 "close_portal",
-                with_policies(GroupOnly())(close_portal),
+                with_policies(GroupOnly, GroupOwnerOnly)(close_portal),
+            ),
+            group=HANDLER_GROUP,
+        )
+        app.add_handler(
+            MessageHandler(
+                filters.VOICE & filters.REPLY,
+                handle_voice_submission  
             ),
             group=HANDLER_GROUP,
         )
 
         # Message handlers.
-        group_give_points = with_policies(GroupOnly())(give_points)
         app.add_handler(
             MessageHandler(
                 POINT_FILTER,
-                group_give_points,
+                with_policies(GroupOnly)(give_points),
             ),
             group=HANDLER_GROUP,
         )
