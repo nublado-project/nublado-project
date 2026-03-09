@@ -1,7 +1,7 @@
 from telegram import Update, ReactionTypeEmoji
 from telegram.ext import ContextTypes
 
-from django_telegram.utils.helpers import safe_reply
+from django_telegram.utils.helpers import safe_reply, get_username_or_name
 
 from .exceptions import (
     NoDraftPortal,
@@ -10,7 +10,7 @@ from .exceptions import (
     NoReplyToAudio,
     NoAudioReplyToText,
     NoReplyToReading,
-    AlreadySubmitted,
+    EmptyPortal,
 )
 from .services.portals import (
     open_next_draft_portal_service,
@@ -30,6 +30,9 @@ async def open_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except NoDraftPortal:
         await safe_reply(update, context, "No draft portal found.")
         return
+    except EmptyPortal:
+        await safe_reply(update, context, "A Reading Portal can't be empty.")
+        return
 
 
 async def close_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -47,15 +50,11 @@ async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_
         return
     except NoReplyToReading:
         return
-    except AlreadySubmitted:
-        await update.effective_message.reply_text(
-            "You already submitted a reading for this text."
-        )
-        return
 
     if reading_submission:
+        tg_user = update.effective_user
         portal_reading = reading_submission.portal_reading
-        message = f"#pending_{portal_reading.language}"
+        message = f"#pending_{portal_reading.language} {get_username_or_name(tg_user)}"
 
         reply_message = await safe_reply(update, context, message)
 

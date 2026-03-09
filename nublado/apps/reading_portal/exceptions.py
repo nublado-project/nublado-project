@@ -27,6 +27,10 @@ class OpenPortalExists(ReadingPortalError):
     pass
 
 
+class EmptyPortal(ReadingPortalError):
+    pass
+
+
 class InvalidReadingLanguage(ReadingPortalError):
     pass
 

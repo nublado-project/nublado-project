@@ -10,7 +10,7 @@ from django_telegram.models import TelegramChat, TelegramGroupMember
 
 from .managers import ReadingPortalManager
 
-# A little "hack" to keep the name consistent in meta and in the enum.
+# Constant to keep the "open" value consistent in the meta constraint and in the choices enum.
 PORTAL_OPEN = "open"
 
 
@@ -18,8 +18,6 @@ class ReadingPortal(TimestampModel):
     """
     A Reading Portal session.
     """
-
-    REQUIRED_LANGUAGES = {"en", "es"}
 
     class PortalStatus(models.TextChoices):
         DRAFT = "draft", _("Draft")
@@ -68,6 +66,8 @@ class ReadingPortal(TimestampModel):
         constraints = [
             models.UniqueConstraint(
                 fields=["chat"],
+                # Using constant declared above since Meta can't access
+                # PortalStatus.
                 condition=Q(portal_status=PORTAL_OPEN),
                 name="unique_open_portal_per_chat",
             )
@@ -118,22 +118,19 @@ class ReadingPortal(TimestampModel):
             and self.opens_at <= now <= self.closes_at
         )
 
+    @property
+    def has_readings(self):
+        return self.portal_readings.exists()
+
     async def open_portal(self):
-        if not await self.ahas_required_languages():
+        if not self.has_readings:
             raise ValidationError(
-                "Portal must have exactly English and Spanish readings."
+                "A Reading Portal must have at least one reading."
             )
 
         self.portal_status = self.PortalStatus.OPEN
         await self.asave(update_fields=["portal_status"])
 
-    async def ahas_required_languages(self):
-        existing = {
-            lang
-            async for lang in self.portal_readings.values_list("language", flat=True)
-        }
-
-        return existing == self.REQUIRED_LANGUAGES
 
     def members_incomplete_readings(self):
         """

@@ -91,7 +91,7 @@ class AdminOnly(HandlerPolicy):
             return await self._reply_and_block(
                 update,
                 context,
-                "This command is admin-only.",
+                "This command is restricted to admins.",
             )
 
         return True

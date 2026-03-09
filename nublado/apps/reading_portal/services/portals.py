@@ -5,7 +5,7 @@ from telegram.error import BadRequest
 from django_telegram.models import TelegramChat
 
 from ..models import ReadingPortal
-from ..exceptions import NoDraftPortal, NoOpenPortal, OpenPortalExists
+from ..exceptions import NoDraftPortal, NoOpenPortal, OpenPortalExists, EmptyPortal
 from .formatting import format_portal_intro, format_portal_closed
 
 
@@ -32,6 +32,9 @@ async def open_next_draft_portal_service(
 
     if not portal:
         raise NoDraftPortal()
+
+    if not portal.has_readings:
+        raise EmptyPortal()
 
     intro_text = format_portal_intro(portal)
 
@@ -94,12 +97,21 @@ async def close_open_portal_service(
             )
         except BadRequest:
             pass
-
-    closed_message = await bot.send_message(
-        chat_id=tg_chat.id,
-        text=format_portal_closed(),
-        parse_mode="HTML",
-    )
+    
+        try:
+            closed_message = await bot.send_message(
+                chat_id=tg_chat.id,
+                text=format_portal_closed(),
+                reply_to_message_id=portal.pinned_message_id,
+                parse_mode="HTML",
+            )
+        except BadRequest:
+            # No reply
+            closed_message = await bot.send_message(
+                chat_id=tg_chat.id,
+                text=format_portal_closed(),
+                parse_mode="HTML",
+            )
 
     await bot.pin_chat_message(
         chat_id=tg_chat.id,
