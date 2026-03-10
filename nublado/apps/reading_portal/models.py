@@ -59,7 +59,7 @@ class ReadingPortal(TimestampModel):
     objects = ReadingPortalManager()
 
     class Meta:
-        ordering = ["-date_created"]
+        ordering = ["date_created"]
         indexes = [
             models.Index(fields=["slug"]),
         ]
