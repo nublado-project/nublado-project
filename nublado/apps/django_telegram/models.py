@@ -1,3 +1,4 @@
+from html import escape
 from telegram.constants import ChatType, ChatMemberStatus
 
 from django.db import models
@@ -26,7 +27,18 @@ class TelegramUser(TimestampModel):
     objects = TelegramUserManager()
 
     def __str__(self):
-        return self.username or self.first_name or str(self.telegram_id)
+        return f"{self.display_name} : {str(self.telegram_id)}"
+
+    @property
+    def display_name(self):
+        if self.username:
+            name =  f"@{self.username}"
+        else: 
+            if self.last_name:
+                name = f"{self.first_name} {self.last_name}"
+            else:
+                name = self.first_name
+        return name
 
 
 class TelegramChat(TimestampModel):
@@ -112,3 +124,8 @@ class TelegramGroupMember(TimestampModel):
 
     def __str__(self):
         return f"{self.user} in {self.chat} ({self.role})"
+
+    @property
+    def mention_html(self):
+        display_name = escape(self.user.display_name)
+        return f'<a href="tg://user?id={self.user.telegram_id}">{display_name}</a>'

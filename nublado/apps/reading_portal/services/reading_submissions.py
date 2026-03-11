@@ -90,6 +90,29 @@ async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_T
 
     return reading_submission
 
+
+async def get_pending_readings_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    tg_chat = update.effective_chat
+
+    chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
+
+    # Get reading submissions.
+    try:
+        portal = await ReadingPortal.objects.aget_open(chat=chat)
+    except ReadingPortal.DoesNotExist:
+        raise NoOpenPortal()
+
+    pending_readings = ( 
+        ReadingSubmission.objects.select_related(
+            "portal_reading__reading_portal",
+            "member__user"
+        )
+        .filter(portal_reading__reading_portal_id=portal.id)
+    )
+
+    return pending_readings
+
+
 # async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     tg_chat = update.effective_chat
 #     tg_message = update.effective_message

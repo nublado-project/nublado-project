@@ -1,7 +1,9 @@
+from collections import defaultdict
+
 from telegram import Update, ReactionTypeEmoji
 from telegram.ext import ContextTypes
 
-from django_telegram.utils.helpers import safe_reply, user_link
+from django_telegram.utils.helpers import safe_reply, user_display_name, message_link
 
 from .exceptions import (
     NoDraftPortal,
@@ -18,6 +20,7 @@ from .services.portals import (
 )
 from .services.reading_submissions import (
     submit_reading_service,
+    get_pending_readings_service
 )
 
 
@@ -43,6 +46,7 @@ async def close_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await safe_reply(update, context, error_message)
         return
 
+
 async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         reading_submission = await submit_reading_service(update, context)
@@ -54,7 +58,7 @@ async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_
     if reading_submission:
         tg_user = update.effective_user
         portal_reading = reading_submission.portal_reading
-        message = f"#pending_{portal_reading.language} : {user_link(tg_user)}"
+        message = f"#pending_{portal_reading.language} : {user_display_name(tg_user)}"
 
         reply_message = await safe_reply(update, context, message)
 
@@ -66,6 +70,35 @@ async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_
 
         reading_submission.reply_message_id = reply_message.message_id
         await reading_submission.asave(update_fields=["reply_message_id"])
+
+
+async def pending_readings(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        pending_readings = await get_pending_readings_service(update, context)
+    except NoOpenPortal:
+        return
+
+    if await pending_readings.aexists():
+        readings_by_member = defaultdict(list)
+
+        async for pending_reading in pending_readings:
+            readings_by_member[pending_reading.member].append(pending_reading)
+
+        message = ["Pending Readings:"]
+
+        for member, readings in readings_by_member.items():
+            language_links = []
+
+            for reading in readings:
+                link = message_link(update.effective_chat.id, reading.message_id)
+                language = reading.portal_reading.language.upper()
+
+                language_links.append(f'<a href="{link}">{language}</a>')
+
+            message.append(f"{member.mention_html}: {', '.join(language_links)}")
+
+        await safe_reply(update, context, "\n".join(message))
+
 
 # async def submit_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     try:
