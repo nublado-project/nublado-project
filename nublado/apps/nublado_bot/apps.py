@@ -1,29 +1,35 @@
 import logging
 
-from telegram.ext import CommandHandler, MessageHandler, filters
+from telegram.ext import Application, CommandHandler, Defaults, MessageHandler, filters
+from telegram.constants import ParseMode
 
 from django.apps import AppConfig
 from django.conf import settings
 
+from django_telegram.bot import create_app
 from django_telegram.bot_registry import registry
-
-from .bot import create_app
+from django_telegram.policies import (
+    GroupOnly,
+    PrivateOnly,
+    AdminOnly,
+    GroupOwnerOnly,
+    with_policies,
+)
 
 logger = logging.getLogger("django")
+
 BOT_NAME = settings.NUBLADO_BOT
+BOT_TOKEN = settings.NUBLADO_BOT_TOKEN
+
+
+async def post_init(application: Application):
+    logger.info(f"Bot {BOT_NAME} is running.")
 
 
 class NubladoBotConfig(AppConfig):
     name = "nublado_bot"
 
     def ready(self):
-        from django_telegram.policies import (
-            GroupOnly,
-            PrivateOnly,
-            AdminOnly,
-            GroupOwnerOnly,
-            with_policies,
-        )
         from django_telegram.utils.database import resolve_chat_language
         from django_telegram.handlers import LanguageHandler
         from django_telegram.constants import MIDDLEWARE_GROUP, HANDLER_GROUP
@@ -32,7 +38,11 @@ class NubladoBotConfig(AppConfig):
         from .handlers.misc import start, hello
         from .handlers.group_settings import set_bot_language
 
-        app = create_app()
+        defaults = Defaults(
+            parse_mode=ParseMode.HTML,
+        )
+
+        app = create_app(BOT_TOKEN, post_init=post_init, defaults=defaults)
         app.bot_data["language_resolver"] = resolve_chat_language
         registry.register(BOT_NAME, app)
 

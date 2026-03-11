@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes
 
 from django.utils.translation import gettext_lazy as _
 
-from django_telegram.utils.helpers import get_username_or_name, safe_reply
+from django_telegram.utils.helpers import get_username_or_name, user_link, safe_reply
 from group_points.handlers import make_give_points_handler
 from group_points.constants import PointTransferError
 
@@ -31,8 +31,8 @@ async def on_success(update: Update, context: ContextTypes.DEFAULT_TYPE, result)
     receiver_member = result["receiver_member"]
     num_points = result["num_points"]
 
-    sender_name = get_username_or_name(tg_sender)
-    receiver_name = get_username_or_name(tg_receiver)
+    sender_name = user_link(tg_sender)
+    receiver_name = user_link(tg_receiver)
 
     if num_points > 1:
         await safe_reply(

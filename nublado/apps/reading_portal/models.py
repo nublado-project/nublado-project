@@ -99,7 +99,8 @@ class ReadingPortal(TimestampModel):
             base_slug = slugify(self.title)
             slug = base_slug
             counter = 1
-            # ensure uniqueness
+            # Ensure uniqueness by appending a counter to the end of a slug if
+            # it already exists.
             while ReadingPortal.objects.filter(slug=slug).exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
@@ -156,10 +157,10 @@ class ReadingPortal(TimestampModel):
 
     def members_complete_readings(self):
         """
-        Return member readers who have submitted all required readings
+        Return members who have submitted all required readings
         for this Reading Portal session.
         """
-        required_count = len(self.REQUIRED_LANGUAGES)
+        required_count = self.portal_readings.count()
 
         members = (
             TelegramGroupMember.objects.filter(
@@ -182,7 +183,8 @@ class ReadingPortal(TimestampModel):
 
     def non_participants(self):
         """
-        Return active members who haven't submitted any readings for this Reading Portal session.
+        Return active members who haven't submitted any readings for 
+        this Reading Portal session.
         """
         members = TelegramGroupMember.objects.filter(
             chat=self.chat, is_active=True
@@ -191,9 +193,10 @@ class ReadingPortal(TimestampModel):
         return members
 
     # Queue helpers
-    def pending_queue_for_language(self, language: str):
+    def pending_readings(self, language: str):
         """
-        Return pending submissions for the given language, ordered by submission time.
+        Return pending reading submissions for the given language, 
+        ordered by submission time.
         """
         return self.reading_submissions.filter(
             language=language,
@@ -201,19 +204,11 @@ class ReadingPortal(TimestampModel):
             member__is_active=True,
         ).order_by("submitted_at")
 
-    def next_submission(self, language: str):
+    def next_pending_reading(self, language: str):
         """
         Peek at the next pending submission in the queue for a language.
         """
-        return self.pending_queue_for_language(language).first()
-
-    # def resubmit(self, submission: ReadingSubmission):
-    #     """
-    #     Handle resubmission:
-    #     - Remove old submission
-    #     - Member goes to the end of the queue
-    #     """
-    #     submission.delete()
+        return self.pending_readings(language).first()
 
 
 class PortalReading(TimestampModel, LanguageModel):
@@ -253,24 +248,24 @@ class ReadingSubmission(TimestampModel):
     A reading submission for a Reading Portal session.
     """
 
+    RELATED_NAME = "reading_submissions"
+
     # Note: Superseded status = "This reading is old and doesn't count.
     # A newer version has been submitted that supersedes this one."
     class ReadingStatus(models.TextChoices):
         PENDING = READING_PENDING, _("Pending")
         REVIEWED = "reviewed", _("Reviewed")
-        SUPERSEDED = "superseded", _("Superseded")
-
-    ACTIVE_READING_STATUSES = [ReadingStatus.PENDING, ReadingStatus.REVIEWED]
+        ARCHIVED = "archived", _("Archived")
 
     portal_reading = models.ForeignKey(
         PortalReading,
         on_delete=models.CASCADE,
-        related_name="reading_submissions",
+        related_name=RELATED_NAME,
     )
     member = models.ForeignKey(
         TelegramGroupMember,
         on_delete=models.CASCADE,
-        related_name="reading_submissions",
+        related_name=RELATED_NAME,
     )
 
     # Telegram message id of the reading submission.
@@ -288,11 +283,10 @@ class ReadingSubmission(TimestampModel):
 
     class Meta:
         ordering = ["submitted_at"]
-        # Only one pending reading submission per user per language.
-        # Superseded (resubmitted) reading submissions are the exception.
         indexes = [
             models.Index(fields=["portal_reading", "member"]),
         ]
+        # Only one pending reading submission per user per language.
         constraints = [
             models.UniqueConstraint(
                 fields=["portal_reading", "member"],

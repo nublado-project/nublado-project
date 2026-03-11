@@ -1,3 +1,5 @@
+from html import escape
+
 from telegram import Update, User, Chat, ChatMember
 from telegram.ext import ContextTypes
 from telegram.constants import ChatType, ChatMemberStatus
@@ -28,14 +30,37 @@ def _is_group_owner(tg_member: ChatMember):
     return tg_member.status == ChatMemberStatus.OWNER
 
 
-def get_username_or_name(user: User):
-    """Return user's username or first and last names."""
-    if user.username:
-        return user.username
-    elif user.last_name:
-        return f"{user.first_name} {user.last_name}"
+def get_username_or_name(user: User, prefer_username: bool = True):
+    """
+    Return user's @username or first and last names, if available.
+    """
+    # Display username with @ if preferred and user has a username.
+    if prefer_username and user.username:
+        display_name = f"@{user.username}"
     else:
-        return user.first_name
+        # Display the user's first and last names, if available, or fall back to 
+        # the user's first name.
+        if user.last_name:
+            display_name = f"{user.first_name} {user.last_name}"
+        else:
+            display_name = user.first_name
+
+    return display_name
+
+
+def user_link(user: User, prefer_username: bool = True, clickable: bool = True) -> str:
+    """
+    Return user's @username or first and last names, if available.
+    Format the display name as a link if clickable == True.
+    """
+
+    display_name = get_username_or_name(user=user, prefer_username=prefer_username)
+    display_name = escape(display_name)
+
+    if clickable:
+        return f'<a href="tg://user?id={user.id}">{display_name}</a>'
+
+    return display_name
 
 
 def get_context_language(context: ContextTypes.DEFAULT_TYPE):

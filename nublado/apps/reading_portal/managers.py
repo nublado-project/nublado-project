@@ -8,10 +8,10 @@ class ReadingPortalQuerySet(models.QuerySet):
     QuerySet for ReadingPortalManager
     """
 
-    def drafts(self):
+    def draft_status(self):
         return self.filter(portal_status=self.model.PortalStatus.DRAFT)
 
-    def open(self):
+    def open_status(self):
         return self.filter(portal_status=self.model.PortalStatus.OPEN)
 
 
@@ -25,7 +25,7 @@ class ReadingPortalManager(models.Manager.from_queryset(ReadingPortalQuerySet)):
             self.get_queryset()
             .select_related("chat")
             .prefetch_related("portal_readings")
-            .open()
+            .open_status()
             .aget(chat=chat)
         )
 
@@ -34,7 +34,8 @@ class ReadingPortalManager(models.Manager.from_queryset(ReadingPortalQuerySet)):
             self.get_queryset()
             .select_related("chat")
             .prefetch_related("portal_readings")
-            .drafts()
+            .draft_status()
             .filter(chat=chat)
+            .order_by("date_created")
             .afirst()
         )

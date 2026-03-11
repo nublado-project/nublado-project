@@ -1,7 +1,7 @@
 from telegram import Update, ReactionTypeEmoji
 from telegram.ext import ContextTypes
 
-from django_telegram.utils.helpers import safe_reply, get_username_or_name
+from django_telegram.utils.helpers import safe_reply, user_link
 
 from .exceptions import (
     NoDraftPortal,
@@ -54,7 +54,7 @@ async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_
     if reading_submission:
         tg_user = update.effective_user
         portal_reading = reading_submission.portal_reading
-        message = f"#pending_{portal_reading.language} {get_username_or_name(tg_user)}"
+        message = f"#pending_{portal_reading.language} : {user_link(tg_user)}"
 
         reply_message = await safe_reply(update, context, message)
 
