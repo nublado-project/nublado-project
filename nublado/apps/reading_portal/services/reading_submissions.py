@@ -5,7 +5,13 @@ from telegram.error import BadRequest
 from django_telegram.models import TelegramChat, TelegramGroupMember
 
 from ..models import ReadingPortal, PortalReading, ReadingSubmission
-from ..exceptions import NoOpenPortal, NoReplyToAudio, NoAudioReplyToText, NoReplyToReading
+from ..exceptions import (
+    NoOpenPortal,
+    NoReplyToAudio,
+    NoAudioReplyToText,
+    NoReplyToReading,
+    NoPendingReading,
+)
 
 
 async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -91,12 +97,51 @@ async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_T
     return reading_submission
 
 
+async def review_reading_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    tg_chat = update.effective_chat
+    tg_message = update.effective_message
+
+    chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
+
+    # Check if there is an open Reading Portal in the group.
+    try:
+        portal = await ReadingPortal.objects.aget_open(chat=chat)
+    except ReadingPortal.DoesNotExist:
+        raise NoOpenPortal()
+
+    if not tg_message or not tg_message.reply_to_message:
+        return None
+
+    voice_message = tg_message.reply_to_message
+
+    if not voice_message.voice:
+        return None
+
+    # Check if voice message is a pending reading submission. 
+    try:
+        reading_submission = await (
+            ReadingSubmission.objects.select_related("portal_reading__reading_portal", "member__user")
+            .aget(
+                portal_reading__reading_portal=portal,
+                message_id=voice_message.message_id,
+                reading_status=ReadingSubmission.ReadingStatus.PENDING
+            )
+        )
+    except ReadingSubmission.DoesNotExist:
+        raise NoPendingReading()
+
+    reading_submission.reading_status = ReadingSubmission.ReadingStatus.REVIEWED
+    await reading_submission.asave(update_fields=["reading_status"])
+
+    return reading_submission
+
+
 async def get_pending_readings_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tg_chat = update.effective_chat
 
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
 
-    # Get reading submissions.
+    # Get reading submissions from currently upen Reading Portal.
     try:
         portal = await ReadingPortal.objects.aget_open(chat=chat)
     except ReadingPortal.DoesNotExist:

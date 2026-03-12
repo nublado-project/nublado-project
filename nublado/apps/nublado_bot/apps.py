@@ -33,7 +33,13 @@ class NubladoBotConfig(AppConfig):
         from django_telegram.utils.database import resolve_chat_language
         from django_telegram.handlers import LanguageHandler
         from django_telegram.constants import MIDDLEWARE_GROUP, HANDLER_GROUP
-        from reading_portal.handlers import open_portal, close_portal, handle_voice_submission, pending_readings
+        from reading_portal.handlers import (
+            open_portal,
+            close_portal,
+            handle_voice_submission,
+            pending_readings,
+            review_reading,
+        )
         from .handlers.group_points import give_points, POINT_FILTER
         from .handlers.misc import start, hello
         from .handlers.group_settings import set_bot_language
@@ -82,6 +88,13 @@ class NubladoBotConfig(AppConfig):
             CommandHandler(
                 "close_portal",
                 with_policies(GroupOnly, GroupOwnerOnly)(close_portal),
+            ),
+            group=HANDLER_GROUP,
+        )
+        app.add_handler(
+            CommandHandler(
+                "reviewed",
+                with_policies(GroupOnly)(review_reading),
             ),
             group=HANDLER_GROUP,
         )

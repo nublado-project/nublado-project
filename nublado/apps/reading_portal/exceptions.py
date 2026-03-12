@@ -37,3 +37,7 @@ class InvalidReadingLanguage(ReadingPortalError):
 
 class AlreadySubmitted(ReadingPortalError):
     pass
+
+
+class NoPendingReading(ReadingPortalError):
+    pass

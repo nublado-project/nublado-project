@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from telegram import Update, ReactionTypeEmoji
+from telegram.error import BadRequest
 from telegram.ext import ContextTypes
 
 from django_telegram.utils.helpers import safe_reply, user_display_name, message_link
@@ -13,6 +14,7 @@ from .exceptions import (
     NoAudioReplyToText,
     NoReplyToReading,
     EmptyPortal,
+    NoPendingReading
 )
 from .services.portals import (
     open_next_draft_portal_service,
@@ -20,7 +22,8 @@ from .services.portals import (
 )
 from .services.reading_submissions import (
     submit_reading_service,
-    get_pending_readings_service
+    review_reading_service,
+    get_pending_readings_service,
 )
 
 
@@ -98,6 +101,36 @@ async def pending_readings(update: Update, context: ContextTypes.DEFAULT_TYPE):
             message.append(f"{member.mention_html}: {', '.join(language_links)}")
 
         await safe_reply(update, context, "\n".join(message))
+
+
+async def review_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        reading_submission = await review_reading_service(update, context)
+    except NoOpenPortal:
+        return
+    except NoPendingReading:
+        return
+
+    if reading_submission:  
+        tg_user = update.effective_user
+        portal_reading = reading_submission.portal_reading
+        message = f"Thank you, {user_display_name(tg_user)}, for reviewing the reading"
+        reply_message = await safe_reply(update, context, message)
+
+        await context.bot.set_message_reaction(
+            chat_id=update.effective_chat.id,
+            message_id=reading_submission.message_id,
+            reaction=[ReactionTypeEmoji("💯")]
+        )
+
+        if reading_submission.reply_message_id:
+            try:
+                await context.bot.delete_message(
+                    chat_id=update.effective_chat.id,
+                    message_id=reading_submission.reply_message_id
+                )
+            except BadRequest:
+                pass
 
 
 # async def submit_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
