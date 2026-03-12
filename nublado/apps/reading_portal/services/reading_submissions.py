@@ -152,7 +152,10 @@ async def get_pending_readings_service(update: Update, context: ContextTypes.DEF
             "portal_reading__reading_portal",
             "member__user"
         )
-        .filter(portal_reading__reading_portal_id=portal.id)
+        .filter(
+            portal_reading__reading_portal_id=portal.id,
+            reading_status=ReadingSubmission.ReadingStatus.PENDING
+        )
     )
 
     return pending_readings
