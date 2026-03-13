@@ -2,15 +2,30 @@ from telegram import Update
 from telegram.ext import ContextTypes
 from telegram.error import BadRequest
 
-from django_telegram.models import TelegramChat
+from django.utils.translation import gettext_lazy as _
 
-from ..models import ReadingPortal
+from django_telegram.models import TelegramChat
+from django_telegram.utils.helpers import safe_reply
+
+from ..models import ReadingPortal, PortalReading
 from ..exceptions import NoDraftPortal, NoOpenPortal, OpenPortalExists, EmptyPortal
 from .formatting import format_portal_intro, format_portal_closed
 
 
-async def open_next_draft_portal_service(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, notify: bool = False
+async def list_draft_portals_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    tg_chat = update.effective_chat
+
+    chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
+    portals = ReadingPortal.objects.draft().from_chat(chat)
+
+    return portals
+
+
+async def open_portal_service(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    slug: str = None,
+    notify: bool = False
 ):
     """
     Open the next draft portal for the given Telegram chat.
@@ -28,12 +43,19 @@ async def open_next_draft_portal_service(
     if existing_open:
         raise OpenPortalExists()
 
-    portal = await ReadingPortal.objects.anext_draft(chat=chat)
+    if slug:
+        try:
+            portal = await ReadingPortal.objects.draft().from_chat(chat).aget(slug=slug)
+        except ReadingPortal.DoesNotExist:
+            await safe_reply(update, context, _("reading_portal.error.portal_not_found"))
+            return
+    else:
+        portal = await ReadingPortal.objects.anext_draft(chat=chat)
 
     if not portal:
         raise NoDraftPortal()
 
-    if not portal.has_readings:
+    if not await portal.ahas_readings():
         raise EmptyPortal()
 
     intro_text = format_portal_intro(portal)
@@ -44,9 +66,9 @@ async def open_next_draft_portal_service(
         parse_mode="HTML",
     )
 
-    readings_qs = portal.portal_readings.all().order_by("language")
+    readings = PortalReading.objects.for_portal(portal)
 
-    async for reading in readings_qs:
+    async for reading in readings:
 
         language_label = reading.language.upper()
         header = f"🌧 <b>Reading: {language_label}</b>"

@@ -1,6 +1,13 @@
 import logging
 
-from telegram.ext import Application, CommandHandler, Defaults, MessageHandler, filters
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    Defaults,
+    MessageHandler,
+    CallbackQueryHandler,
+    filters
+)
 from telegram.constants import ParseMode
 
 from django.apps import AppConfig
@@ -35,7 +42,9 @@ class NubladoBotConfig(AppConfig):
         from django_telegram.constants import MIDDLEWARE_GROUP, HANDLER_GROUP
         from reading_portal.handlers import (
             open_portal,
+            open_portal_callback,
             close_portal,
+            list_draft_portals,
             handle_voice_submission,
             pending_readings,
             review_reading,
@@ -76,6 +85,20 @@ class NubladoBotConfig(AppConfig):
                 with_policies(GroupOnly, AdminOnly)(set_bot_language),
             ),
             group=HANDLER_GROUP,
+        )
+        app.add_handler(
+            CommandHandler(
+                "show_portals",
+                with_policies(GroupOnly, GroupOwnerOnly)(list_draft_portals),
+            ),
+            group=HANDLER_GROUP,
+        )
+        app.add_handler(
+            CallbackQueryHandler(
+                open_portal_callback,
+                pattern="^open_portal:",
+            ),
+            group=HANDLER_GROUP
         )
         app.add_handler(
             CommandHandler(

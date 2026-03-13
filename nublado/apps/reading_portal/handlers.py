@@ -1,24 +1,18 @@
 from collections import defaultdict
 
-from telegram import Update, ReactionTypeEmoji
+from telegram import Update, ReactionTypeEmoji, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import BadRequest
 from telegram.ext import ContextTypes
 
+from django.utils.translation import gettext_lazy as _
+
 from django_telegram.utils.helpers import safe_reply, user_display_name, message_link
 
-from .exceptions import (
-    NoDraftPortal,
-    NoOpenPortal,
-    OpenPortalExists,
-    NoReplyToAudio,
-    NoAudioReplyToText,
-    NoReplyToReading,
-    EmptyPortal,
-    NoPendingReading
-)
+from .exceptions import ReadingPortalError, NoPendingReading
 from .services.portals import (
-    open_next_draft_portal_service,
+    open_portal_service,
     close_open_portal_service,
+    list_draft_portals_service,
 )
 from .services.reading_submissions import (
     submit_reading_service,
@@ -28,34 +22,75 @@ from .services.reading_submissions import (
 
 
 async def open_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    slug = None
+
+    if context.args:
+        slug = context.args[0]
+
     try:
-        await open_next_draft_portal_service(update, context)
-    except OpenPortalExists:
-        await safe_reply(update, context, "A portal is aleady open.")
+        await open_portal_service(update, context, slug, True)
+    except ReadingPortalError as e:
+        await safe_reply(update, context, str(e))
         return
-    except NoDraftPortal:
-        await safe_reply(update, context, "No draft portal found.")
-        return
-    except EmptyPortal:
-        await safe_reply(update, context, "A Reading Portal can't be empty.")
-        return
+
+
+async def open_portal_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()  # <-- stops the “freezing” spinner
+    data = query.data
+
+    if data.startswith("open_portal:"):
+        slug = data.split(":", 1)[1]
+
+        try:
+            await open_portal_service(update, context, slug=slug)
+            # Remove the buttons after opening
+            await query.message.delete()
+        except ReadingPortalError as e:
+            # Reply in chat if something goes wrong
+            await query.message.reply_text(str(e))
 
 
 async def close_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         await close_open_portal_service(update, context)
-    except NoOpenPortal:
-        error_message = "There is no portal currently open."
-        await safe_reply(update, context, error_message)
+    except ReadingPortalError as e:
+        await safe_reply(update, context, str(e))
         return
+
+
+async def list_draft_portals(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    portals = await list_draft_portals_service(update, context)
+
+    if not await portals.aexists():
+        await safe_reply(update, context, _("reading_portal.error.no_draft_portal"))
+        return
+
+    message = "READING PORTALS:\n"
+    buttons = []
+
+    async for portal in portals:
+        buttons.append([
+            InlineKeyboardButton(
+                f"{portal.title}",
+                callback_data=f"open_portal:{portal.slug}",
+            )
+        ])
+
+    keyboard = InlineKeyboardMarkup(buttons)
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=message,
+        reply_markup=keyboard,
+    )
 
 
 async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         reading_submission = await submit_reading_service(update, context)
-    except NoOpenPortal:
-        return
-    except NoReplyToReading:
+    except ReadingPortalError as e:
+        await safe_reply(update, context, str(e))
         return
 
     if reading_submission:
@@ -78,37 +113,43 @@ async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_
 async def pending_readings(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         pending_readings = await get_pending_readings_service(update, context)
-    except NoOpenPortal:
+    except ReadingPortalError as e:
+        await safe_reply(update, context, str(e))
         return
 
-    if await pending_readings.aexists():
-        readings_by_member = defaultdict(list)
+    if not await pending_readings.aexists():
+        await safe_reply(update, context, _("reading_portal.error.no_pending_readings"))
+        return
 
-        async for pending_reading in pending_readings:
-            readings_by_member[pending_reading.member].append(pending_reading)
+    readings_by_member = defaultdict(list)
 
-        message = ["Pending Readings:"]
+    async for pending_reading in pending_readings:
+        readings_by_member[pending_reading.member].append(pending_reading)
 
-        for member, readings in readings_by_member.items():
-            language_links = []
+    message = ["Pending Readings:"]
 
-            for reading in readings:
-                link = message_link(update.effective_chat.id, reading.message_id)
-                language = reading.portal_reading.language.upper()
+    for member, readings in readings_by_member.items():
+        language_links = []
+        tg_chat_id = update.effective_chat.id
 
-                language_links.append(f'<a href="{link}">{language}</a>')
+        for reading in readings:
+            link = message_link(tg_chat_id, reading.message_id)
+            language = reading.portal_reading.language.upper()
+            language_links.append(f'<a href="{link}">{language}</a>')
 
-            message.append(f"{member.mention_html}: {', '.join(language_links)}")
+        message.append(f"{member.mention_html}: {', '.join(language_links)}")
 
-        await safe_reply(update, context, "\n".join(message))
+    await safe_reply(update, context, "\n".join(message))
 
 
 async def review_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         reading_submission = await review_reading_service(update, context)
-    except NoOpenPortal:
-        return
     except NoPendingReading:
+        await safe_reply(update, context, _("reading_portal.error.review_no_pending_reading"))
+        return
+    except ReadingPortalError as e:
+        await safe_reply(update, context, str(e))
         return
 
     if reading_submission:  
@@ -131,88 +172,3 @@ async def review_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 )
             except BadRequest:
                 pass
-
-
-# async def submit_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     try:
-#         reading_submission = await submit_reading_service(update, context)
-#     except NoOpenPortal:
-#         error_message = "There is no portal currently open."
-#         await safe_reply(update, context, error_message)
-#         return
-#     except NoReplyToAudio:
-#         error_message = "The command must be a reply to a voice message."
-#         await safe_reply(update, context, error_message)
-#         return
-#     except NoAudioReplyToText:
-#         error_message = "The reading voice message must be a reply to a text message."
-#         await safe_reply(update, context, error_message)
-#         return
-#     except NoReplyToReading:
-#         error_message = "The reading voice message must be a reply to a portal reading text."
-#         await safe_reply(update, context, error_message)
-#         return
-
-#     await safe_reply(update, context, "Thank you for submitting your reading.")
-
-
-# async def bind_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     if not update.message.reply_to_message:
-#         error_message = _("reading_portal.validation.reply_to_reading_text")
-#         await safe_reply(update, context, error_message)
-#         return
-
-#     reply_to_message = update.message.reply_to_message
-
-#     if not reply_to_message.text:
-#         error_message = _("reading_portal.validation.reply_to_text_message")
-#         await safe_reply(update, context, error_message)
-#         return
-
-#     if not context.args:
-#         # "Usage: /bind_reading <en|es>"
-#         error_message = _("reading_portal.validation.bing_reading_usage")
-#         await safe_reply(update, context, error_message)
-#         return
-
-#     language = context.args[0].lower()
-
-#     if language not in ReadingPortal.REQUIRED_LANGUAGES:
-#         error_message = _("reading_portal.validation.invalid_language {language} {valid_languages}")
-#         await safe_reply(
-#             update,
-#             context,
-#             error_message,
-#             language=language,
-#             valid_languages=ReadingPortal.REQUIRED_LANGUAGES
-#         )
-#         return
-
-#     tg_chat = update.effective_chat
-
-#     # ORM async
-#     chat = TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
-#     portal, created = await ReadingPortal.objects.aget_or_create(
-#         chat=chat,
-#         portal_status=ReadingPortal.PortalStatus.DRAFT,
-#         defaults={
-#             "title": "New Reading Portal",
-#             "opens_at": timezone.now(),
-#             "closes_at": timezone.now() + timedelta(days=7),
-#         }
-#     )
-#     reading = await PortalReading.objects.aupdate_or_create(
-#         reading_portal=portal,
-#         language=language,
-#         defaults={
-#             "message_id": reply_to_message.message_id,
-#             "message_text": reply_to_message.text
-#         }
-#     )
-#     confirmation_message = _("reading_portal.bind_reading.success {language}")
-#     await safe_reply(
-#         update,
-#         context,
-#         confirmation_message,
-#         language=language.upper()
-#     )

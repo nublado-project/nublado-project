@@ -17,6 +17,8 @@ from ..exceptions import (
 async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Submit a reading to the Reading Portal.
+
+    Returns: A ReadingSubmission object, or None.
     """
     tg_chat = update.effective_chat
     tg_message = update.effective_message
@@ -43,7 +45,7 @@ async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_T
         raise NoOpenPortal()
 
     try:
-        reading = await PortalReading.objects.select_related("reading_portal").aget(
+        reading = await PortalReading.objects.with_portal().aget(
             reading_portal=portal, 
             message_id=text_message.message_id,
         )
@@ -56,11 +58,15 @@ async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_T
     )
 
     # Delete old reading submission if this is a resubmission.
-    old_submission = await ReadingSubmission.objects.filter(
-        portal_reading=reading,
-        member=member,
-        reading_status=ReadingSubmission.ReadingStatus.PENDING,
-    ).afirst()
+    old_submission = await (
+        ReadingSubmission.objects
+        .pending()
+        .filter(
+            portal_reading=reading,
+            member=member,
+        )
+        .afirst()
+    )
 
     if old_submission:
         # Delete the old voice message
@@ -120,11 +126,12 @@ async def review_reading_service(update: Update, context: ContextTypes.DEFAULT_T
     # Check if voice message is a pending reading submission. 
     try:
         reading_submission = await (
-            ReadingSubmission.objects.select_related("portal_reading__reading_portal", "member__user")
+            ReadingSubmission.objects
+            .with_user()
+            .pending()
+            .for_portal(portal)
             .aget(
-                portal_reading__reading_portal=portal,
                 message_id=voice_message.message_id,
-                reading_status=ReadingSubmission.ReadingStatus.PENDING
             )
         )
     except ReadingSubmission.DoesNotExist:
@@ -137,6 +144,10 @@ async def review_reading_service(update: Update, context: ContextTypes.DEFAULT_T
 
 
 async def get_pending_readings_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Return pending reading submissions for the currently open
+    Reading Portal.
+    """
     tg_chat = update.effective_chat
 
     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
@@ -148,68 +159,13 @@ async def get_pending_readings_service(update: Update, context: ContextTypes.DEF
         raise NoOpenPortal()
 
     pending_readings = ( 
-        ReadingSubmission.objects.select_related(
-            "portal_reading__reading_portal",
-            "member__user"
-        )
+        ReadingSubmission.objects
+        .with_portal()
+        .with_user()
+        .pending()
         .filter(
-            portal_reading__reading_portal_id=portal.id,
-            reading_status=ReadingSubmission.ReadingStatus.PENDING
+            portal_reading__reading_portal_id=portal.id
         )
     )
 
     return pending_readings
-
-
-# async def submit_reading_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     tg_chat = update.effective_chat
-#     tg_message = update.effective_message
-#     bot = context.bot
-
-#     chat = await TelegramChat.objects.aget_or_create_from_telegram_chat(tg_chat)
-
-#     # Make sure there is an open portal to submit readings to.
-#     try:
-#         portal = await ReadingPortal.objects.aget_open(chat=chat)
-#     except ReadingPortal.DoesNotExist:
-#         raise NoOpenPortal()
-
-#     # Make sure /submit_reading (or whatever the command) is a reply to voice message.
-#     voice_message = tg_message.reply_to_message if tg_message else None
-
-#     if not voice_message or not voice_message.voice:
-#         raise NoReplyToAudio()
-
-#     # Can't do reply_to_message.reply_to_message, so fetch
-#     # the voice message from chat, then check if it's a reply.abs
-
-#     voice_message = await bot.get_message(chat_id=tg_chat.id, message_id=voice_message.message_id)
-
-#     print(voice_message)
-
-#     # Is the voice message a reply to a text message?
-#     if not text_message or not text_message.text:
-#         raise NoAudioReplyToText()
-
-#     # Is the text message one of the portal readings?
-#     try:
-#         reading = await PortalReading.objects.select_related("reading_portal").aget(
-#             reading_portal=portal, 
-#             message_id=text_message.message_id,
-#         )
-#     except PortalReading.DoesNotExist:
-#         raise NoReplyToReading()
-
-#     # get TelegramGroupMember
-#     tg_member = await bot.get_chat_member(tg_chat.id, update.effective_user.id)
-#     member = await TelegramGroupMember.objects.aget_or_create_from_chat_member(
-#         tg_member, tg_chat
-#     )
-#     reading_submission = await ReadingSubmission.objects.acreate(
-#         portal_reading=reading,
-#         member=member,
-#         message_id=voice_message.message_id,
-#         reading_status=ReadingSubmission.ReadingStatus.PENDING,
-#     )
-
-#     return reading_submission
