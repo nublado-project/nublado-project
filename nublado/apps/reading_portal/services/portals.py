@@ -110,12 +110,21 @@ async def close_open_portal_service(
     except ReadingPortal.DoesNotExist:
         raise NoOpenPortal()
 
-    # Unpin intro message
-    if portal.pinned_message_id:
+    # A copy of the old pinned message id.
+    old_pin = portal.pinned_message_id
+
+    portal.portal_status = portal.PortalStatus.CLOSED
+    portal.pinned_message_id = None
+    await portal.asave(update_fields=["portal_status", "pinned_message_id"])
+
+    closed_message = None
+
+    # Unpin intro message if it exists.
+    if old_pin:
         try:
             await bot.unpin_chat_message(
                 chat_id=tg_chat.id,
-                message_id=portal.pinned_message_id,
+                message_id=old_pin,
             )
         except BadRequest:
             pass
@@ -124,16 +133,16 @@ async def close_open_portal_service(
             closed_message = await bot.send_message(
                 chat_id=tg_chat.id,
                 text=format_portal_closed(),
-                reply_to_message_id=portal.pinned_message_id,
-                parse_mode="HTML",
+                reply_to_message_id=old_pin,
             )
         except BadRequest:
-            # No reply
-            closed_message = await bot.send_message(
-                chat_id=tg_chat.id,
-                text=format_portal_closed(),
-                parse_mode="HTML",
-            )
+            pass
+
+    if not closed_message:
+        closed_message = await bot.send_message(
+            chat_id=tg_chat.id,
+            text=format_portal_closed(),
+        )
 
     await bot.pin_chat_message(
         chat_id=tg_chat.id,
@@ -141,7 +150,3 @@ async def close_open_portal_service(
         disable_notification=not notify,
     )
 
-    portal.portal_status = portal.PortalStatus.CLOSED
-    portal.pinned_message_id = None
-
-    await portal.asave(update_fields=["portal_status", "pinned_message_id"])

@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 
 from django.utils.translation import gettext_lazy as _
 
-from django_telegram.utils.helpers import safe_reply, user_display_name, message_link
+from django_telegram.utils.helpers import safe_reply, user_display_name, message_link, delete_command
 
 from .exceptions import ReadingPortalError, NoPendingReading
 from .services.portals import (
@@ -33,6 +33,9 @@ async def open_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await safe_reply(update, context, str(e))
         return
 
+    # Delete the lingering command in the chat.
+    await delete_command(update)
+
 
 async def open_portal_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -57,6 +60,9 @@ async def close_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except ReadingPortalError as e:
         await safe_reply(update, context, str(e))
         return
+
+    # Delete the lingering command in the chat.
+    await delete_command(update)
 
 
 async def list_draft_portals(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -84,6 +90,9 @@ async def list_draft_portals(update: Update, context: ContextTypes.DEFAULT_TYPE)
         text=message,
         reply_markup=keyboard,
     )
+
+    # Delete the lingering command in the chat.
+    await delete_command(update)
 
 
 async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -141,6 +150,9 @@ async def pending_readings(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await safe_reply(update, context, "\n".join(message))
 
+    # Delete the lingering command in the chat.
+    await delete_command(update)
+
 
 async def review_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
@@ -154,21 +166,31 @@ async def review_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if reading_submission:  
         tg_user = update.effective_user
+        tg_chat = update.effective_chat
         portal_reading = reading_submission.portal_reading
-        message = f"Thank you, {user_display_name(tg_user)}, for reviewing the reading"
-        reply_message = await safe_reply(update, context, message)
 
         await context.bot.set_message_reaction(
-            chat_id=update.effective_chat.id,
+            chat_id=tg_chat.id,
             message_id=reading_submission.message_id,
             reaction=[ReactionTypeEmoji("💯")]
+        )
+       
+        message = f"✨ Reviewed by {user_display_name(tg_user)}."
+
+        await context.bot.send_message(
+            chat_id=tg_chat.id,
+            text=message,
+            reply_to_message_id=reading_submission.message_id
         )
 
         if reading_submission.reply_message_id:
             try:
                 await context.bot.delete_message(
-                    chat_id=update.effective_chat.id,
+                    chat_id=tg_chat.id,
                     message_id=reading_submission.reply_message_id
                 )
             except BadRequest:
                 pass
+
+    # Delete the lingering command in the chat.
+    await delete_command(update)

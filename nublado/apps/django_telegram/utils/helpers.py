@@ -3,6 +3,7 @@ from html import escape
 from telegram import Update, User, Chat, ChatMember, Message
 from telegram.ext import ContextTypes
 from telegram.constants import ChatType, ChatMemberStatus
+from telegram.error import BadRequest
 
 from django.utils.translation import override
 from django.conf import settings
@@ -28,24 +29,6 @@ def _is_admin(tg_member: ChatMember):
 
 def _is_group_owner(tg_member: ChatMember):
     return tg_member.status == ChatMemberStatus.OWNER
-
-
-# def get_username_or_name(tg_user: User, prefer_username: bool = True):
-#     """
-#     Return user's @username or first and last names, if available.
-#     """
-#     # Display username with @ if preferred and user has a username.
-#     if prefer_username and tg_user.username:
-#         display_name = f"@{tg_user.username}"
-#     else:
-#         # Display the user's first and last names, if available, or fall back to 
-#         # the user's first name.
-#         if tg_user.last_name:
-#             display_name = f"{tg_user.first_name} {tg_user.last_name}"
-#         else:
-#             display_name = tg_user.first_name
-
-#     return display_name
 
 
 def user_display_name(tg_user: User, prefer_username: bool = True, clickable: bool = True) -> str:
@@ -113,3 +96,15 @@ async def safe_reply(
         with override(language_code):
            reply_message = await message.reply_text(str(text).format(**kwargs))
         return reply_message
+
+
+async def delete_command(update: Update):
+    """
+    Delete the command message (e.g, /some_command in the chat).
+    This is typically called at the  end of a handler once it has done it's work.
+    and the lingering command isn't desired in the chat.
+    """
+    try:
+        await update.effective_message.delete()
+    except BadRequest:
+        pass
