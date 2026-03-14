@@ -67,7 +67,11 @@ async def close_portal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await delete_command(update)
 
 
+@with_language
 async def list_draft_portals(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    tg_chat = update.effective_chat
+    init_message = update.effective_message
+
     portals = await list_draft_portals_service(update, context)
 
     if not await portals.aexists():
@@ -87,14 +91,20 @@ async def list_draft_portals(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     keyboard = InlineKeyboardMarkup(buttons)
 
-    await context.bot.send_message(
+    portals_message = await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=message,
         reply_markup=keyboard,
     )
 
-    # Delete the lingering command in the chat.
-    await delete_command(update)
+    context.job_queue.run_once(
+        delete_message_job,
+        30,
+        data={
+            "chat_id": tg_chat.id,
+            "message_ids": [init_message.message_id, portals_message.message_id],
+        }
+    )
 
 
 async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_TYPE):
