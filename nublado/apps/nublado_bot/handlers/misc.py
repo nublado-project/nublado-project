@@ -28,7 +28,6 @@ async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
     hello_message = await context.bot.send_message(
         chat_id=tg_chat.id,
         text=str(BOT_MESSAGES["bot_hello"]),
-        reply_to_message_id=command_message.message_id
     )
 
     context.job_queue.run_once(
