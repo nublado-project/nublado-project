@@ -7,6 +7,8 @@ from telegram.ext import ContextTypes
 from django.utils.translation import gettext_lazy as _
 
 from django_telegram.utils.helpers import safe_reply, user_display_name, message_link, delete_command
+from django_telegram.utils.decorators import with_language
+from django_telegram.utils.jobs import delete_message_job 
 
 from .exceptions import ReadingPortalError, NoPendingReading
 from .services.portals import (
@@ -118,8 +120,11 @@ async def handle_voice_submission(update: Update, context: ContextTypes.DEFAULT_
         reading_submission.reply_message_id = reply_message.message_id
         await reading_submission.asave(update_fields=["reply_message_id"])
 
-
+@with_language
 async def pending_readings(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    init_message = update.effective_message
+    tg_chat = update.effective_chat
+
     try:
         pending_readings = await get_pending_readings_service(update, context)
     except ReadingPortalError as e:
@@ -135,20 +140,31 @@ async def pending_readings(update: Update, context: ContextTypes.DEFAULT_TYPE):
     async for pending_reading in pending_readings:
         readings_by_member[pending_reading.member].append(pending_reading)
 
-    message = ["Pending Readings:"]
+    readings_list = ["Pending Readings:"]
 
     for member, readings in readings_by_member.items():
         language_links = []
-        tg_chat_id = update.effective_chat.id
 
         for reading in readings:
-            link = message_link(tg_chat_id, reading.message_id)
+            link = message_link(tg_chat.id, reading.message_id)
             language = reading.portal_reading.language.upper()
             language_links.append(f'<a href="{link}">{language}</a>')
 
-        message.append(f"{member.mention_html}: {', '.join(language_links)}")
+        readings_list.append(f"{member.mention_html}: {', '.join(language_links)}")
 
-    await safe_reply(update, context, "\n".join(message))
+    readings_message = await context.bot.send_message(
+        chat_id=tg_chat.id,
+        text="\n".join(readings_list),
+    )
+
+    context.job_queue.run_once(
+        delete_message_job,
+        30,
+        data={
+            "chat_id": tg_chat.id,
+            "message_ids": [init_message.message_id, readings_message.message_id],
+        }
+    )
 
 
 async def review_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
