@@ -45,7 +45,7 @@ class BotRegistry:
             if name not in self._initialized:
                 app = self._apps[name]
                 await app.initialize()
-                # await app.start()
+                await app.start()
                 self._initialized.add(name)
 
 

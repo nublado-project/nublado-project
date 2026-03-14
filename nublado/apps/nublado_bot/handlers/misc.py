@@ -33,7 +33,7 @@ async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     context.job_queue.run_once(
         delete_message_job,
-        20,
+        10,
         data={
             "chat_id": tg_chat.id,
             "message_ids": [command_message.message_id, hello_message.message_id],
