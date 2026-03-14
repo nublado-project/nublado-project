@@ -150,9 +150,6 @@ async def pending_readings(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await safe_reply(update, context, "\n".join(message))
 
-    # Delete the lingering command in the chat.
-    await delete_command(update)
-
 
 async def review_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:

@@ -89,7 +89,7 @@ class NubladoBotConfig(AppConfig):
         app.add_handler(
             CommandHandler(
                 "show_portals",
-                with_policies(GroupOnly, GroupOwnerOnly)(list_draft_portals),
+                with_policies(GroupOnly)(list_draft_portals),
             ),
             group=HANDLER_GROUP,
         )
@@ -103,7 +103,7 @@ class NubladoBotConfig(AppConfig):
         app.add_handler(
             CommandHandler(
                 "open_portal",
-                with_policies(GroupOnly, GroupOwnerOnly)(open_portal),
+                with_policies(GroupOnly)(open_portal),
             ),
             group=HANDLER_GROUP,
         )
