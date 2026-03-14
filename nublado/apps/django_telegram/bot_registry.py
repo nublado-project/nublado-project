@@ -43,7 +43,9 @@ class BotRegistry:
 
         async with self._locks[name]:
             if name not in self._initialized:
-                await self._apps[name].initialize()
+                app = self._apps[name]
+                await app.initialize()
+                await app.start()
                 self._initialized.add(name)
 
 
