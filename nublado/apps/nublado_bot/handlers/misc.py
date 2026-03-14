@@ -23,7 +23,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 @with_language
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tg_chat = update.effective_chat
-    command_message = update.effective_message
+    init_message = update.effective_message
 
     hello_message = await context.bot.send_message(
         chat_id=tg_chat.id,
@@ -33,9 +33,9 @@ async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     context.job_queue.run_once(
         delete_message_job,
-        10,
+        30,
         data={
             "chat_id": tg_chat.id,
-            "message_ids": [command_message.message_id, hello_message.message_id],
+            "message_ids": [init_message.message_id, hello_message.message_id],
         }
     )
